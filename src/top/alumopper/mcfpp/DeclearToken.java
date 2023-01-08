@@ -1,6 +1,6 @@
 package top.alumopper.mcfpp;
 
-import java.util.ArrayList;
+import top.alumopper.mcfpp.tokens.Token;
 
 /**
  * 声明语句
@@ -13,14 +13,14 @@ public class DeclearToken extends Token {
 
     public DeclearToken(String code){
         super(code);
-        text = analysis(code);
+        tokenStrings = analysis(code);
         type = Type.DECLEAR;
         order();
     }
 
     public DeclearToken(Token token){
         super(token.getCode());
-        text = analysis(code);
+        tokenStrings = analysis(code);
         type = Type.DECLEAR;
         order();
     }
@@ -34,24 +34,24 @@ public class DeclearToken extends Token {
 
     public void order(){
         //整理表达式和变量名
-        while(text.get(1).endsWith(" ")){
-            text.set(1, 
-                text.get(1).substring(0,text.get(1).length() - 2)
+        while(tokenStrings.get(1).endsWith(" ")){
+            tokenStrings.set(1,
+                tokenStrings.get(1).substring(0, tokenStrings.get(1).length() - 2)
             );
         }
-        while(text.get(2).endsWith(" ")){
-            text.set(2, 
-                text.get(2).substring(0,text.get(2).length() - 2)
+        while(tokenStrings.get(2).endsWith(" ")){
+            tokenStrings.set(2,
+                tokenStrings.get(2).substring(0, tokenStrings.get(2).length() - 2)
             );
         }
-        while(text.get(1).startsWith(" ")){
-            text.set(1, 
-                text.get(1).substring(1)
+        while(tokenStrings.get(1).startsWith(" ")){
+            tokenStrings.set(1,
+                tokenStrings.get(1).substring(1)
             );
         }
-        while(text.get(2).startsWith(" ")){
-            text.set(2, 
-                text.get(2).substring(1)
+        while(tokenStrings.get(2).startsWith(" ")){
+            tokenStrings.set(2,
+                tokenStrings.get(2).substring(1)
             );
         }
     }

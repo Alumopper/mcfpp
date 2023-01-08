@@ -1,0 +1,11 @@
+func qwq{
+    /say hi
+}
+
+
+
+func a(int i){
+    i++;
+    tellraw(i);
+    a(i);
+}
