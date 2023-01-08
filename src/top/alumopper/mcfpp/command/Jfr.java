@@ -1,7 +1,9 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
-import mcsharp.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
+
+import java.util.Arrays;
+import java.util.List;
 
 /** 
  使用Java FlightRecorder分析数据和某些自定义事件。
@@ -13,15 +15,14 @@ public class Jfr extends Command
 {
 	private String start_stop;
 
-	private static String[] ss = new String[] {"start", "stop"};
+	private static List<String> ss = Arrays.asList("start", "stop");
 
 	/** 
 	 jfr (start|stop)
 	 
 	 @exception ArgumentNotMatchException
 	*/
-	public Jfr(String start_stop)
-	{
+	public Jfr(String start_stop) throws ArgumentNotMatchException {
 		if (!ss.contains(start_stop))
 		{
 			throw new ArgumentNotMatchException("参数错误:" + start_stop + "。应当为\"start\"和\"stop\"");

@@ -1,6 +1,5 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.*;
 
 /** 
  停止服务端。

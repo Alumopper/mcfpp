@@ -1,7 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
 
 /** 
  把实体（如玩家、生物、物品等）随机传送到区域内地表的某个位置。

@@ -1,9 +1,10 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
-import top.alumopper.mcfpp.type.commandarg.*;
-import mcsharp.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 /** 
  用特定方块填充一个区域的全部或部分。
@@ -19,13 +20,12 @@ public class Fill extends Command
 	private String destroy_hollow_keep_outline;
 	private BlockPredicate fliter;
 
-	private static String[] dhkor = new String[] {"destory", "hollow", "keep", "outline", "Dest0ry"};
+	private static List<String> dhkor = Arrays.asList("destroy", "hollow", "keep", "outline", "Destr0y");
 
 	/** 
 	 fill <from> <to> <block> [destroy|hollow|keep|outline]
 	*/
-	public Fill(Pos from, Pos to, BlockState block, String destroy_hollow_keep_outline)
-	{
+	public Fill(Pos from, Pos to, BlockState block, String destroy_hollow_keep_outline) throws ArgumentNotMatchException {
 		if (dhkor.contains(destroy_hollow_keep_outline))
 		{
 			throw new ArgumentNotMatchException("参数错误: " + destroy_hollow_keep_outline + "。应当为\"destory\", \"hollow\", \"keep\", \"outline\"或\"Dest0ry\"");
@@ -48,7 +48,10 @@ public class Fill extends Command
 
 	public Fill(Pos from, Pos to, BlockState block)
 	{
-		this(from, to, block, null);
+		this.from = from;
+		this.to = to;
+		this.block = block;
+		qwq = 1;
 	}
 
 //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
@@ -60,7 +63,6 @@ public class Fill extends Command
 		this.block = block;
 		this.fliter = fliter;
 		qwq = 1;
-
 	}
 
 	@Override

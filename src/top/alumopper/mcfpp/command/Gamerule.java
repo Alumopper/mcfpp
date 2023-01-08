@@ -1,15 +1,15 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
-import mcsharp.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 
-/** 
+import java.util.Arrays;
+import java.util.List;
+
+/**
  设置或查询游戏规则
 */
 public class Gamerule extends Command
 {
-//C# TO JAVA CONVERTER TASK: There is no preprocessor in Java:
-		///
 	/** 
 	 是否在聊天框中公告玩家进度的达成
 	*/
@@ -185,7 +185,7 @@ public class Gamerule extends Command
 //C# TO JAVA CONVERTER TASK: There is no preprocessor in Java:
 		///#endregion
 
-	private String[] rules = new String[] {"announceAdvancements", "commandBlockOutput", "disableElytraMovementCheck", "disableRaids", "doDaylightCycle", "doEntityDrops", "doFireTick", "doLimitedCrafting", "doMobLoot", "doMobSpawning", "doPatrolSpawning", "doTileDrops", "doTraderSpawning", "doWeatherCycle", "drowningDamage", "fallDamage", "fireDamage", "forgiveDeadPlayers", "keepInventory", "logAdminCommands", "maxCommandChainLength", "maxEntityCramming", "mobGriefing", "naturalRegeneration", "randomTickSpeed", "reducedDebugInfo", "sendCommandFeedback", "showDeathMessages", "spectatorsGenerateChunks", "universalAnger", "blockExplosionDropDecay", "globalSoundEvents", "lavaSourceConversion", "mobExplosionDropDecay", "snowAccumulationHeight", "tntExplosionDropDecay", "waterSourceConversion"};
+	private List<String> rules = Arrays.asList("announceAdvancements", "commandBlockOutput", "disableElytraMovementCheck", "disableRaids", "doDaylightCycle", "doEntityDrops", "doFireTick", "doLimitedCrafting", "doMobLoot", "doMobSpawning", "doPatrolSpawning", "doTileDrops", "doTraderSpawning", "doWeatherCycle", "drowningDamage", "fallDamage", "fireDamage", "forgiveDeadPlayers", "keepInventory", "logAdminCommands", "maxCommandChainLength", "maxEntityCramming", "mobGriefing", "naturalRegeneration", "randomTickSpeed", "reducedDebugInfo", "sendCommandFeedback", "showDeathMessages", "spectatorsGenerateChunks", "universalAnger", "blockExplosionDropDecay", "globalSoundEvents", "lavaSourceConversion", "mobExplosionDropDecay", "snowAccumulationHeight", "tntExplosionDropDecay", "waterSourceConversion");
 
 	private String gamerule;
 	private Object value;
@@ -193,8 +193,7 @@ public class Gamerule extends Command
 	/** 
 	 gamerule <gamerule> [value]
 	*/
-	public Gamerule(String gamerule, Object value)
-	{
+	public Gamerule(String gamerule, Object value) throws ArgumentNotMatchException {
 		if (!rules.contains(gamerule))
 		{
 			throw new ArgumentNotMatchException("参数错误: " + gamerule + "不存在的游戏规则");

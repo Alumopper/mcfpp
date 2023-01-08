@@ -1,8 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.util.*;
-import mcsharp.*;
 
 /** 
  停止声音播放。
@@ -46,14 +44,6 @@ public class Stopsound extends Command
 		}
 	}
 
-	/** 
-	 stopsound <targets> [<source>] [<sound>]]]
-	 
-	 @param targets 指定目标。
-	 @param source 指定声音来源。
-	 @param sound 指定声音。
-	*/
-
 	public Stopsound(Selector targets, Source source)
 	{
 		this(targets, source, null);
@@ -64,8 +54,14 @@ public class Stopsound extends Command
 		this(targets, null, null);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Stopsound(Selector targets, System.Nullable<Source> source = null, ID sound = null)
+
+	/**
+	 stopsound <targets> [<source>] [<sound>]]]
+
+	 @param targets 指定目标。
+	 @param source 指定声音来源。
+	 @param sound 指定声音。
+	 */
 	public Stopsound(Selector targets, Source source, ID sound)
 	{
 		this.targets = targets;
@@ -76,6 +72,6 @@ public class Stopsound extends Command
 	@Override
 	public String toString()
 	{
-		return "stopsound " + targets.toString() + " " + (Tools.GetEnumString(source).equals("all") ? "*" : Tools.GetEnumString(source)) + " " + (sound == null ? "" : sound.toString());
+		return "stopsound " + targets.toString() + " " + (source.name().equals("all") ? "*" : source.name()) + " " + (sound == null ? "" : sound.toString());
 	}
 }

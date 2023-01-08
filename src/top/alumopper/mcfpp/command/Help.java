@@ -1,8 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.*;
-
-/** 
+/**
  获取可用命令列表或单个命令的帮助信息。
  <code>
  help

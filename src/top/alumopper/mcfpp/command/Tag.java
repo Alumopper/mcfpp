@@ -1,8 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.util.*;
-import mcsharp.*;
 
 /** 
  管理单个实体的记分板标签
@@ -65,7 +63,7 @@ public class Tag extends Command
 	{
 		if (name != null)
 		{
-			return "tag " + targets + " " + Tools.GetEnumString(add_remove) + " " + name;
+			return "tag " + targets + " " + add_remove.name() + " " + name;
 		}
 		else
 		{

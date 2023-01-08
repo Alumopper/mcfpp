@@ -1,8 +1,10 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 /** 
  强制使区块不断加载
@@ -21,15 +23,14 @@ public class Forceload extends Command
 	private Pos pos;
 	private boolean qwq;
 
-	private static String[] ar = new String[] {"add", "remove"};
+	private static List<String> ar = Arrays.asList("add", "remove");
 
 	/** 
 	 forceload （add|remove) <from> [<to>]
 	 
 	 @exception ArgumentNotMatchException
 	*/
-	public Forceload(String add_remove, Pos from, Pos to)
-	{
+	public Forceload(String add_remove, Pos from, Pos to) throws ArgumentNotMatchException {
 		if (!ar.contains(add_remove))
 		{
 			throw new ArgumentNotMatchException("参数错误:" + add_remove + "。应当为\"add\"或\"remove\"");

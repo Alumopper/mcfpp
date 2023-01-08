@@ -1,6 +1,7 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
+import top.alumopper.mcfpp.exception.ExecuteCommandListEndException;
 import top.alumopper.mcfpp.type.*;
 
 import java.util.*;
@@ -8,20 +9,18 @@ import java.util.List;
 
 public class Execute extends Command
 {
-    //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region ChildCommand 子命令
     public abstract static class ExecuteChildCommand
     {
     }
 
     public static class Align extends ExecuteChildCommand
     {
-        private String axe;
+        private final String axe;
 
         public Align(String axe) throws ArgumentNotMatchException {
             for (char c : axe.toCharArray())
             {
-                if ('x' < c || c > 'z')
+                if ('x' > c || c > 'z')
                 {
                     throw new ArgumentNotMatchException("参数错误:" + axe + "。只能为xyz的组合");
                 }
@@ -38,9 +37,9 @@ public class Execute extends Command
 
     public static class Anchored extends ExecuteChildCommand
     {
-        private String anchor;
+        private final String anchor;
 
-        private static List<String> ef = Arrays.asList("eyes", "feet");
+        private static final List<String> ef = Arrays.asList("eyes", "feet");
 
         public Anchored(String eyes_feet) throws ArgumentNotMatchException {
             if (!ef.contains(eyes_feet))
@@ -59,7 +58,7 @@ public class Execute extends Command
 
     public static class As extends ExecuteChildCommand
     {
-        private Selector targets;
+        private final Selector targets;
 
         public As(Selector targets)
         {
@@ -75,7 +74,7 @@ public class Execute extends Command
 
     public static class At extends ExecuteChildCommand
     {
-        private Selector targets;
+        private final Selector targets;
 
         public At(Selector targets)
         {
@@ -273,7 +272,7 @@ public class Execute extends Command
          store (result|success) [block|storage|entity] &lt;target> &lt;path> &lt;type> &lt;scale> -> execute
 
          @param result_success
-         @param targetPos 需要将数据存储到的目标方块的坐标。
+         @param target 需要将数据存储到的目标方块的坐标。
          @param path 需要持有结果的NBTTag标签的位置。
          @param type 被存储的数据的类型。
          @param scale 存储值的倍率。
@@ -311,7 +310,7 @@ public class Execute extends Command
          @param target 修改此分数持有者（可以是实体、选择器甚至不存在的玩家）的分数
          @param objective 记分项。
          */
-        public Store(rs result_success, Selector target, SbObject objective)
+        public Store(rs result_success, IDataArg target, SbObject objective)
         {
             this.result_success = result_success;
             this.target = target;
@@ -322,14 +321,14 @@ public class Execute extends Command
         @Override
         public String toString()
         {
-            String re = "store " + Tools.GetEnumString(result_success);
+            String re = "store " + result_success.name();
             switch (qwq)
             {
                 case 0:
-                    re += getTypeString(target) + " " + target + " " + path + " " + Tools.GetEnumString(type) + " " + scale;
+                    re += getTypeString(target) + " " + target + " " + path + " " + type.name() + " " + scale;
                     break;
                 case 1:
-                    re += " bossbar " + id + " " + Tools.GetEnumString(value_max);
+                    re += " bossbar " + id + " " + value_max.name();
                     break;
                 case 3:
                     re += " score " + target + " " + objective;
@@ -447,8 +446,7 @@ public class Execute extends Command
          @param path
          @exception ArgumentNotMatchException
          */
-        public If(Pos pos, String path)
-        {
+        public If(Pos pos, String path) throws ArgumentNotMatchException {
             this.pos = pos;
             if (!NBTTag.IsLegalPath(path))
             {
@@ -465,8 +463,7 @@ public class Execute extends Command
          @param path
          @exception ArgumentNotMatchException
          */
-        public If(Selector target, String path)
-        {
+        public If(Selector target, String path) throws ArgumentNotMatchException {
             this.target = target;
             if (!NBTTag.IsLegalPath(path))
             {
@@ -483,8 +480,7 @@ public class Execute extends Command
          @param path
          @exception ArgumentNotMatchException
          */
-        public If(ID source, String path)
-        {
+        public If(ID source, String path) throws ArgumentNotMatchException {
             this.source = source;
             if (!NBTTag.IsLegalPath(path))
             {
@@ -563,7 +559,7 @@ public class Execute extends Command
                     re = "if block " + pos + block;
                     break;
                 case 2:
-                    re = "if blocks " + start + " " + end + " " + destination + " " + Tools.GetEnumString(all_masked);
+                    re = "if blocks " + start + " " + end + " " + destination + " " + all_masked.name();
                     break;
                 case 3:
                     re = "if data block " + pos + " " + path;

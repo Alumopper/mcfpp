@@ -1,7 +1,9 @@
 package top.alumopper.mcfpp.command;
 
+import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
+
+import java.util.logging.Level;
 
 /** 
  以指定位置为生成原点，放置地物、拼图、结构或结构模板。
@@ -63,20 +65,18 @@ public class Place extends Command
 		}
 	}
 
-	/** 
-	 place feature <feature> [<pos>]
-	 
-	 @param feature 指定要放置的可用地物（包含数据包内的自定义地物）的命名空间ID。
-	 @param pos 指定要尝试放置的原点位置。
-	*/
-
 	public Place(ID feature)
 	{
 		this(feature, null);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Place(ID feature, Pos pos = null)
+
+	/**
+	 place feature <feature> [<pos>]
+
+	 @param feature 指定要放置的可用地物（包含数据包内的自定义地物）的命名空间ID。
+	 @param pos 指定要尝试放置的原点位置。
+	 */
 	public Place(ID feature, Pos pos)
 	{
 		this.res = feature;
@@ -84,22 +84,20 @@ public class Place extends Command
 		type = 0;
 	}
 
-	/** 
-	 place jigsaw <pool> <target> <max_depth> [<position>]
-	 
-	 @param pool 指定要开始生成结构的模板池。
-	 @param target 指定结构从目标池中生成时要对接的拼图方块。
-	 @param max_depth 指定放置期间要遍历的拼图对接数最大值。必须为32位整型数值。且必须在1和7（含）之间。
-	 @param pos 指定要尝试放置的原点位置。
-	*/
 
 	public Place(ID pool, ID target, int max_depth)
 	{
 		this(pool, target, max_depth, null);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Place(ID pool, ID target, int max_depth, Pos pos = null)
+	/**
+	 place jigsaw <pool> <target> <max_depth> [<position>]
+
+	 @param pool 指定要开始生成结构的模板池。
+	 @param target 指定结构从目标池中生成时要对接的拼图方块。
+	 @param max_depth 指定放置期间要遍历的拼图对接数最大值。必须为32位整型数值。且必须在1和7（含）之间。
+	 @param pos 指定要尝试放置的原点位置。
+	 */
 	public Place(ID pool, ID target, int max_depth, Pos pos)
 	{
 		this.res = pool;
@@ -108,12 +106,12 @@ public class Place extends Command
 		if (max_depth < 1)
 		{
 			max_depth = 1;
-			Project.logger.log(Level.ERROR, max_depth + "必须在1和7（含）之间");
+			Project.logger.log(Level.SEVERE, max_depth + "必须在1和7（含）之间");
 		}
 		if (max_depth > 7)
 		{
 			max_depth = 7;
-			Project.logger.log(Level.ERROR, max_depth + "必须在1和7（含）之间");
+			Project.logger.log(Level.SEVERE, max_depth + "必须在1和7（含）之间");
 		}
 		this.pos = pos;
 		type = 1;
@@ -133,44 +131,22 @@ public class Place extends Command
 		type = 2;
 	}
 
-	/** 
-	 place template <template> [<pos>] [<rotation>] [<mirror>] [<integrity>] [<seed>]
-	 
-	 @param template 指定要放置的模板（结构文件）。
-	 @param pos 指定要尝试放置的原点位置。
-	 @param rot 指定放置模板时应当旋转的角度，旋转方向以Y轴俯视角为基准。可用值如下：none（默认值）：不旋转。clockwise_90：顺时针旋转90°。180：旋转180°。counterclockwise_90：逆时针旋转90°。
-	 @param mirror 指定放置模板时应当采取的镜像方式。可用值如下：none（默认值）：不镜像。front_back：前后翻转。left_right：左右翻转。
-	 @param integrity 指定被放置结构的完整度。必须为单精度浮点数。且必须在0和1（含）之间。默认值为1。
-	 @param seed 指定要被用于结构完整度的种子。如不指定，则使用随机种子。
-	*/
 
 	public Place(ID template, Pos pos, Rot rot, Mirror mirror, float integrity)
 	{
 		this(template, pos, rot, mirror, integrity, null);
 	}
 
-	public Place(ID template, Pos pos, Rot rot, Mirror mirror)
-	{
-		this(template, pos, rot, mirror, 1.0f, null);
-	}
+	/**
+	 place template <template> [<pos>] [<rotation>] [<mirror>] [<integrity>] [<seed>]
 
-	public Place(ID template, Pos pos, Rot rot)
-	{
-		this(template, pos, rot, Mirror.none, 1.0f, null);
-	}
-
-	public Place(ID template, Pos pos)
-	{
-		this(template, pos, Rot._none, Mirror.none, 1.0f, null);
-	}
-
-	public Place(ID template)
-	{
-		this(template, null, Rot._none, Mirror.none, 1.0f, null);
-	}
-
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Place(ID template, Pos pos = null, Rot rot = Rot._none, Mirror mirror = Mirror.none, float integrity = 1.0f, System.Nullable<long> seed = null)
+	 @param template 指定要放置的模板（结构文件）。
+	 @param pos 指定要尝试放置的原点位置。
+	 @param rot 指定放置模板时应当旋转的角度，旋转方向以Y轴俯视角为基准。可用值如下：none（默认值）：不旋转。clockwise_90：顺时针旋转90°。180：旋转180°。counterclockwise_90：逆时针旋转90°。
+	 @param mirror 指定放置模板时应当采取的镜像方式。可用值如下：none（默认值）：不镜像。front_back：前后翻转。left_right：左右翻转。
+	 @param integrity 指定被放置结构的完整度。必须为单精度浮点数。且必须在0和1（含）之间。默认值为1。
+	 @param seed 指定要被用于结构完整度的种子。如不指定，则使用随机种子。
+	 */
 	public Place(ID template, Pos pos, Rot rot, Mirror mirror, float integrity, Long seed)
 	{
 		this.res = template;
@@ -193,27 +169,22 @@ public class Place extends Command
 	public String toString()
 	{
 		String re = "#place喵";
-		switch (type)
-		{
-			case 0:
-			{
-					re = "place feature " + res + (pos == null ? "" : (" " + pos));
-					break;
+		switch (type) {
+			case 0 -> {
+				re = "place feature " + res + (pos == null ? "" : (" " + pos));
+				break;
 			}
-			case 1:
-			{
-					re = "place jigsaw " + res + " " + target + " " + max_depth + (pos == null ? "" : (" " + pos));
-					break;
+			case 1 -> {
+				re = "place jigsaw " + res + " " + target + " " + max_depth + (pos == null ? "" : (" " + pos));
+				break;
 			}
-			case 2:
-			{
-					re = "place structure " + res + (pos == null ? "" : (" " + pos));
-					break;
+			case 2 -> {
+				re = "place structure " + res + (pos == null ? "" : (" " + pos));
+				break;
 			}
-			case 3:
-			{
-					re = "place template " + res + " " + pos + " " + Rot.forValue(rot).name() + " " + Mirror.forValue(mirror).name() + " " + integrity + (seed == null ? "" : (" " + seed.longValue()));
-					break;
+			case 3 -> {
+				re = "place template " + res + " " + pos + " " + rot.name() + " " + mirror.name() + " " + integrity + (seed == null ? "" : (" " + seed.longValue()));
+				break;
 			}
 		}
 		return re;

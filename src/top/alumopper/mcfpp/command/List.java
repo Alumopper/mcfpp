@@ -1,6 +1,5 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.*;
 
 /** 
  列出在服务器上的玩家。
@@ -13,12 +12,6 @@ public class List extends Command
 {
 	private Object o;
 
-	/** 
-	 <p> list </p>
-	 list uuids
-	 
-	 @param o 随便填啥。只要不是null就是list uuids
-	*/
 
 	public List()
 	{
@@ -27,6 +20,13 @@ public class List extends Command
 
 //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public List(object o = null)
+
+	/**
+	 <p> list </p>
+	 list uuids
+
+	 @param o 随便填啥。只要不是null就是list uuids
+	 */
 	public List(Object o)
 	{
 		this.o = o;

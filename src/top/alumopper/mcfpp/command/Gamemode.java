@@ -1,11 +1,7 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
-import top.alumopper.mcfpp.type.commandarg.*;
-import mcsharp.util.*;
-import mcsharp.*;
-
 /** 
  设置玩家的游戏模式
  gamemode (adventure|creative|spectator|survival) [<target>]
@@ -26,8 +22,6 @@ public class Gamemode extends Command
 		this(gamemode, null);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Gamemode(Gamemodes gamemode, Selector target = null)
 	public Gamemode(Gamemodes gamemode, Selector target)
 	{
 		mode = gamemode;
@@ -37,6 +31,6 @@ public class Gamemode extends Command
 	@Override
 	public String toString()
 	{
-		return "gamemode " + Tools.GetEnumString(mode) + (target == null ? "" : " " + target);
+		return "gamemode " + mode.name() + (target == null ? "" : " " + target);
 	}
 }

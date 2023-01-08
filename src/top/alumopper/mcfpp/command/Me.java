@@ -1,6 +1,5 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.*;
 
 /** 
  显示一条关于你自己的信息。

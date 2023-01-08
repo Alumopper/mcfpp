@@ -1,7 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
 
 /** 
  给予实体一种指定数量的物品。

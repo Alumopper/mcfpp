@@ -1,9 +1,11 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
-import mcsharp.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 
-/** 
+import java.util.Arrays;
+import java.util.List;
+
+/**
  记录并保存性能分析数据。
  <code>
  perf (start|stop)
@@ -13,7 +15,7 @@ public class Perf extends Command
 {
 	private String start_stop;
 
-	private static String[] ss = {"start", "stop"};
+	private static List<String> ss = Arrays.asList("start", "stop");
 
 	/** 
 	 perf (start|stop)

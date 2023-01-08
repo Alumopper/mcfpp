@@ -1,8 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
-
 /** 
  为特定玩家设置出生点，可在任意维度使用。
  <code>
@@ -15,13 +13,6 @@ public class Spawnpoint extends Command
 	private Pos pos;
 	private Rotation angle;
 
-	/** 
-	 spawnpoint [<player>] [<pos>] [<angle>]
-	 
-	 @param player 指定玩家的名称。
-	 @param pos 指定出生点的位置。
-	 @param angle 指定出生点的朝向。
-	*/
 
 	public Spawnpoint(Selector player, Pos pos)
 	{
@@ -38,8 +29,13 @@ public class Spawnpoint extends Command
 		this(null, null, null);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Spawnpoint(Selector player = null, Pos pos = null, Rotation angle = null)
+	/**
+	 spawnpoint [<player>] [<pos>] [<angle>]
+
+	 @param player 指定玩家的名称。
+	 @param pos 指定出生点的位置。
+	 @param angle 指定出生点的朝向。
+	 */
 	public Spawnpoint(Selector player, Pos pos, Rotation angle)
 	{
 		this.player = player;

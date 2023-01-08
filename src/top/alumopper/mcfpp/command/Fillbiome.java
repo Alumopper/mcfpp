@@ -1,7 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
 
 /** 
  设置指定区域的生物群系。
@@ -33,11 +32,9 @@ public class Fillbiome extends Command
 
 	public Fillbiome()
 	{
-		this(null, null, null);
+		this((Pos) null, null, null);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Fillbiome(Pos from = null, Pos to = null, ID biome = null)
 	public Fillbiome(Pos from, Pos to, ID biome)
 	{
 		this.from = from;
@@ -66,8 +63,6 @@ public class Fillbiome extends Command
 		this(replace, null, null, null, null);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Fillbiome(String replace, Pos from = null, Pos to = null, ID biome = null, ID fliter = null)
 	public Fillbiome(String replace, Pos from, Pos to, ID biome, ID fliter)
 	{
 		this.from = from;

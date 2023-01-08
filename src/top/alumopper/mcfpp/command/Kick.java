@@ -1,7 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
 
 /** 
  将一位玩家踢出服务器。

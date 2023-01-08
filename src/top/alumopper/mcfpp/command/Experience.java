@@ -1,9 +1,10 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
-import static mcsharp.util.Log;
-import mcsharp.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 /** 
  <code>
@@ -20,16 +21,15 @@ public class Experience extends Command
 	private String levels_points;
 	private boolean qwq;
 
-	public static String[] lp = new String[] {"levels", "points"};
-	public static String[] as = new String[] {"add", "set"};
+	public static List<String> lp =  Arrays.asList("levels", "points");
+	public static List<String> as = Arrays.asList("add", "set");
 
 	/** 
 	 experience (add|set) <targets> <amount> [levels|points]
 	 
 	 @exception ArgumentNotMatchException
 	*/
-	public Experience(String add_set, Selector targets, int amount, String levels_points)
-	{
+	public Experience(String add_set, Selector targets, int amount, String levels_points) throws ArgumentNotMatchException {
 		if (!as.contains(add_set))
 		{
 			throw new ArgumentNotMatchException("参数错误:" + add_set + "。应当为\"add\"或\"set\"");
@@ -50,8 +50,7 @@ public class Experience extends Command
 	 
 	 @exception ArgumentNotMatchException
 	*/
-	public Experience(Selector targets, String levels_points)
-	{
+	public Experience(Selector targets, String levels_points) throws ArgumentNotMatchException {
 		qwq = false;
 		this.targets = targets;
 		if (!lp.contains(levels_points))

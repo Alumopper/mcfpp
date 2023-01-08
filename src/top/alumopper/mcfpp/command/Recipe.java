@@ -1,9 +1,7 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
-import mcsharp.util.*;
-import mcsharp.*;
 
 /** 
  给予或剥夺（解锁或锁定）玩家的合成配方。
@@ -35,22 +33,20 @@ public class Recipe extends Command
 		}
 	}
 
-	/** 
-	 recipe (give|take) <targets> (<recipe>|*)
-	 
-	 @param give_take 若为give，则对玩家给予（解锁）指定的合成配方；若为take，则对玩家剥夺（锁定）指定的合成配方。
-	 @param targets 指定给予或剥夺合成配方的对象。
-	 @param recipe 合成配方的物品ID。若指定为null，则表示*，玩家会被给予或剥夺全部合成配方。
-	 @exception ArgumentNotMatchException
-	*/
-
 	public Recipe(gt give_take, Selector targets)
 	{
 		this(give_take, targets, null);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Recipe(gt give_take, Selector targets, ID recipe = null)
+
+	/**
+	 recipe (give|take) <targets> (<recipe>|*)
+
+	 @param give_take 若为give，则对玩家给予（解锁）指定的合成配方；若为take，则对玩家剥夺（锁定）指定的合成配方。
+	 @param targets 指定给予或剥夺合成配方的对象。
+	 @param recipe 合成配方的物品ID。若指定为null，则表示*，玩家会被给予或剥夺全部合成配方。
+	 @exception ArgumentNotMatchException
+	 */
 	public Recipe(gt give_take, Selector targets, ID recipe)
 	{
 		this.give_take = give_take;
@@ -65,6 +61,6 @@ public class Recipe extends Command
 	@Override
 	public String toString()
 	{
-		return "recipe " + Tools.GetEnumString(give_take) + " " + targets + " " + (recipe == null ? "*" : recipe.toString());
+		return "recipe " + give_take.name() + " " + targets + " " + (recipe == null ? "*" : recipe.toString());
 	}
 }

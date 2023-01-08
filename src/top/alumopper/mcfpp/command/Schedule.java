@@ -1,11 +1,11 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
-import mcsharp.util.*;
-import mcsharp.*;
 
-/** 
+import java.util.regex.Pattern;
+
+/**
  在Java版中，在经过指定的时间后执行函数。
  <code>
  schedule function <function> <time> [append|replace]
@@ -48,7 +48,7 @@ public class Schedule extends Command
 	public Schedule(ID function, String time, ar append_replace)
 	{
 		this.function = function;
-		if (!Pattern.matches(time, "^[0-9]+[dst]?$"))
+		if (!Pattern.matches("^[0-9]+[dst]?$",time))
 		{
 			throw new ArgumentNotMatchException("非法的时间参数: " + time);
 		}
@@ -75,7 +75,7 @@ public class Schedule extends Command
 		}
 		else
 		{
-			return "schedule function " + function + " " + time + " " + Tools.GetEnumString(append_replace);
+			return "schedule function " + function + " " + time + " " + append_replace.name();
 		}
 	}
 }

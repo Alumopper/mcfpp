@@ -1,7 +1,5 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.*;
-
 /** 
  显示世界种子。
  <code>

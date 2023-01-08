@@ -1,7 +1,5 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.*;
-
 /** 
  设置踢出空闲不动玩家的时间。
  <code>

@@ -9,7 +9,11 @@ import java.util.regex.Pattern;
 */
 public class Color
 {
-	/** 
+    public Color() {
+
+    }
+
+    /**
 	 聊天栏颜色枚举
 	*/
 	public enum Colors

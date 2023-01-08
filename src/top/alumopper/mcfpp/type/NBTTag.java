@@ -120,7 +120,7 @@ public class NBTTag
     /**
      属性的穷尽字符串数组
      */
-    public static String[] attributes = new String[] {"generic.max_health", "generic.follow_range", "generic.knockback_resistance", "generic.movement_speed", "generic.attack_damage", "generic.attack_knockback", "generic.armor", "generic.armor_toughness"};
+    public static List<String> attributes = Arrays.asList("generic.max_health", "generic.follow_range", "generic.knockback_resistance", "generic.movement_speed", "generic.attack_damage", "generic.attack_knockback", "generic.armor", "generic.armor_toughness");
 
     /**
      检查一个nbt路径是否合法

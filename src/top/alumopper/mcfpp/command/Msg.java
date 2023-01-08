@@ -1,7 +1,6 @@
 ﻿package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
 
 /** 
  将一条私聊消息发送给一个或多个玩家。

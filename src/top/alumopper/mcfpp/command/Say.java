@@ -1,7 +1,5 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.*;
-
 /** 
  通过聊天框向多个玩家发送消息。
  <code>

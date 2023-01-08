@@ -1,7 +1,11 @@
 ﻿package top.alumopper.mcfpp.command;
 
+import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
+
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 /** 
  从黑名单上移除对象
@@ -19,9 +23,9 @@ public class Pardon extends Command
 	*/
 	public Pardon(String player)
 	{
-		if (!Pattern.matches(player, "^[a-zA-Z0-9_]+$"))
+		if (!Pattern.matches("^[a-zA-Z0-9_]+$",player))
 		{
-			Project.logger.log(Level.ERROR, "玩家名称只能包含数字字母或下划线");
+			Project.logger.log(Level.SEVERE, "玩家名称只能包含数字字母或下划线");
 		}
 		this.player = player;
 	}

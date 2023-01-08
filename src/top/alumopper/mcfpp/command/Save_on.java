@@ -1,7 +1,5 @@
 ﻿package top.alumopper.mcfpp.command;
 
-import mcsharp.*;
-
 /** 
  启用服务器的自动保存。
  <code>

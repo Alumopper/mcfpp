@@ -1,8 +1,6 @@
 package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.util.*;
-import mcsharp.*;
 
 /** 
  将指定的战利品放入物品栏或世界。
@@ -74,21 +72,19 @@ public class Loot
 			this.target = target;
 		}
 
-		/** 
-		 replace entity <目标> <起始槽位> [<数量>]
-		 
-		 @param target
-		 @param slot
-		 @param count
-		*/
 
 		public Target(Selector target, Slot slot)
 		{
 			this(target, slot, null);
 		}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Target(Selector target, Slot slot, System.Nullable<int> count = null)
+		/**
+		 replace entity <目标> <起始槽位> [<数量>]
+
+		 @param target
+		 @param slot
+		 @param count
+		 */
 		public Target(Selector target, Slot slot, Integer count)
 		{
 			this.target = target;
@@ -122,7 +118,7 @@ public class Loot
 		{
 			if (spawn_insert != null)
 			{
-				return Tools.GetEnumString(spawn_insert) + " " + pos;
+				return spawn_insert.name() + " " + pos;
 			}
 			else if (slot != null)
 			{

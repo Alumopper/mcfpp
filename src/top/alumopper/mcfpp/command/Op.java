@@ -1,7 +1,6 @@
 package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
 
 /** 
  给予一位玩家管理员身份。
