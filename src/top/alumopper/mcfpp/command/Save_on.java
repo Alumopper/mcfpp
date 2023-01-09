@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 /** 
  启用服务器的自动保存。

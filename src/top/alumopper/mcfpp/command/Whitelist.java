@@ -1,8 +1,6 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.util.*;
-import mcsharp.*;
 
 /** 
  此命令用于管理服务器中白名单。
@@ -83,11 +81,11 @@ public class Whitelist extends Command
 	{
 		if (targets != null)
 		{
-			return "whitelist " + Tools.GetEnumString(add_remove) + " " + targets;
+			return "whitelist " + add_remove.name() + " " + targets;
 		}
 		else
 		{
-			return "whitelist " + Tools.GetEnumString(list_on_off_reload);
+			return "whitelist " + list_on_off_reload.name();
 		}
 	}
 }

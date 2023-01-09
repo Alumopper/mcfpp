@@ -1,7 +1,5 @@
 package top.alumopper.mcfpp.type;
 
-import top.alumopper.mcfpp.command.Commands;
-
 /**
  一个计分板对象。
  */
@@ -41,8 +39,6 @@ public class SbObject
         this.name = name.toLowerCase();
         this.rule = rule.toLowerCase();
         this.display = display;
-        //命令执行
-        Commands.SbObjectAdd(this, this.rule, display);
     }
 
     @Override

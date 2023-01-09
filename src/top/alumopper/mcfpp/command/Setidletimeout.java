@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 /** 
  设置踢出空闲不动玩家的时间。

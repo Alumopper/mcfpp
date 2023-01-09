@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.type.*;
@@ -35,7 +35,7 @@ public class Enchant extends Command
 		if (level < 1)
 		{
 			level = 1;
-			Project.logger.log(Level.WARNING, "level应当至少为1，但是传入了" + level);
+			Project.logger.warn( "level应当至少为1，但是传入了" + level);
 		}
 		this.level = level;
 	}

@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 /** 
  mcfunction特有的注释
 */

@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 /** 
  通过聊天框向多个玩家发送消息。

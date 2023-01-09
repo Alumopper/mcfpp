@@ -1,10 +1,10 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
-import mcsharp.util.*;
-import mcsharp.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 
-/** 
+import java.util.regex.Pattern;
+
+/**
  更改或查询世界的游戏时间。
  <code>
  time (add|query|set) <时间>
@@ -60,7 +60,6 @@ public class Time extends Command
 	 time add <time[t/s/d]>
 	 
 	 @param time
-	 @param type
 	*/
 	public Time(String time)
 	{
@@ -110,11 +109,11 @@ public class Time extends Command
 		}
 		else if (timeType != null)
 		{
-			return "time query " + Tools.GetEnumString(timeType);
+			return "time query " + timeType.name();
 		}
 		else if (spec != null)
 		{
-			return "time set " + Tools.GetEnumString(spec);
+			return "time set " + spec.name();
 		}
 		else
 		{

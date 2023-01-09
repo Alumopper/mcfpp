@@ -70,7 +70,7 @@ public class Attribute extends Command
 		}
 		else
 		{
-			Project.logger.log(Level.WARNING, "未知属性" + attribute);
+			Project.logger.warn( "未知属性" + attribute);
 		}
 		if (!gs.contains(get_set))
 		{
@@ -102,12 +102,12 @@ public class Attribute extends Command
 		}
 		else
 		{
-			Project.logger.log(Level.WARNING, "未知属性" + attribute);
+			Project.logger.warn( "未知属性" + attribute);
 		}
 		this.uuid = uuid;
 		if (!ID.IsLegal(name))
 		{
-			Project.logger.log(Level.WARNING, "不是合法的命名空间id:" + name);
+			Project.logger.warn( "不是合法的命名空间id:" + name);
 		}
 		this.name = name;
 		this.value = value;
@@ -134,7 +134,7 @@ public class Attribute extends Command
 		}
 		else
 		{
-			Project.logger.log(Level.WARNING, "未知属性" + attribute);
+			Project.logger.warn( "未知属性" + attribute);
 		}
 		this.uuid = uuid;
 		this.type = 5;
@@ -155,7 +155,7 @@ public class Attribute extends Command
 		}
 		else
 		{
-			Project.logger.log(Level.WARNING, "未知属性" + attribute);
+			Project.logger.warn( "未知属性" + attribute);
 		}
 		this.uuid = uuid;
 		this.scale = scale;

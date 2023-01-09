@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.type.*;
@@ -34,7 +34,7 @@ public class Clear extends Command
 		this.item = item;
 		if (maxCount < 0)
 		{
-			Project.logger.log(Level.SEVERE, "maxCount(" + maxCount + ")必须为非负数");
+			Project.logger.error( "maxCount(" + maxCount + ")必须为非负数");
 			this.maxCount = 0;
 		}
 		else

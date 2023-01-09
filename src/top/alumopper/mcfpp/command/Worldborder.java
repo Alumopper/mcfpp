@@ -1,8 +1,6 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
-
 /** 
  此命令控制世界边界。
  <code>
@@ -59,21 +57,19 @@ public class Worldborder extends Command
 		}
 	}
 
-	/** 
-	 worldborder (add|set) <distance> [<time>]
-	 
-	 @param add_set
-	 @param distance
-	 @param time
-	*/
 
 	public Worldborder(As add_set, double distance)
 	{
 		this(add_set, distance, 0);
 	}
 
-//C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public Worldborder(As add_set, double distance, int time = 0)
+	/**
+	 worldborder (add|set) <distance> [<time>]
+
+	 @param add_set
+	 @param distance
+	 @param time
+	 */
 	public Worldborder(As add_set, double distance, int time)
 	{
 		this.add_set = add_set;

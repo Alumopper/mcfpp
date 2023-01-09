@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.exception.ExecuteCommandListEndException;
@@ -448,10 +448,6 @@ public class Execute extends Command
          */
         public If(Pos pos, String path) throws ArgumentNotMatchException {
             this.pos = pos;
-            if (!NBTTag.IsLegalPath(path))
-            {
-                throw new ArgumentNotMatchException("参数错误:" + path + "。不是合法的NBTTag路径");
-            }
             this.path = path;
             type = 3;
         }
@@ -465,10 +461,6 @@ public class Execute extends Command
          */
         public If(Selector target, String path) throws ArgumentNotMatchException {
             this.target = target;
-            if (!NBTTag.IsLegalPath(path))
-            {
-                throw new ArgumentNotMatchException("参数错误:" + path + "。不是合法的NBTTag路径");
-            }
             this.path = path;
             type = 4;
         }
@@ -482,10 +474,6 @@ public class Execute extends Command
          */
         public If(ID source, String path) throws ArgumentNotMatchException {
             this.source = source;
-            if (!NBTTag.IsLegalPath(path))
-            {
-                throw new ArgumentNotMatchException("参数错误:" + path + "。不是合法的NBTTag路径");
-            }
             this.path = path;
             type = 5;
         }

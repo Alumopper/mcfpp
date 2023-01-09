@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.Project;
 
@@ -32,7 +32,7 @@ public class Ban_ip extends Command
 			this.id = id_ip;
 			if (!Pattern.matches(id_ip, "[a-zA-Z0-9_]*"))
 			{
-				Project.logger.log(Level.WARNING, "玩家名称应该只包含数字或下划线:" + id);
+				Project.logger.warn( "玩家名称应该只包含数字或下划线:" + id);
 			}
 		}
 		if (reason.length != 0)
@@ -40,7 +40,7 @@ public class Ban_ip extends Command
 			this.reason = reason[0];
 			if (reason.length > 1)
 			{
-				Project.logger.log(Level.WARNING, "过多的参数:" + reason[1] + "等");
+				Project.logger.warn( "过多的参数:" + reason[1] + "等");
 			}
 		}
 	}

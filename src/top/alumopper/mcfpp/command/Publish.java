@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.type.*;
@@ -45,11 +45,11 @@ public class Publish extends Command
 		this.gamemode = gamemode;
 		if (port < 1024)
 		{
-			Project.logger.log(Level.WARNING, "端口应介于1024和65535之间，实际为:" + port);
+			Project.logger.warn( "端口应介于1024和65535之间，实际为:" + port);
 		}
 		if (port > 65535)
 		{
-			Project.logger.log(Level.WARNING, "端口应介于1024和65535之间，实际为:" + port);
+			Project.logger.warn( "端口应介于1024和65535之间，实际为:" + port);
 		}
 		this.port = port;
 	}

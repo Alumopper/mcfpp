@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.type.*;
@@ -25,7 +25,7 @@ public class Pardon extends Command
 	{
 		if (!Pattern.matches("^[a-zA-Z0-9_]+$",player))
 		{
-			Project.logger.log(Level.SEVERE, "玩家名称只能包含数字字母或下划线");
+			Project.logger.error( "玩家名称只能包含数字字母或下划线");
 		}
 		this.player = player;
 	}

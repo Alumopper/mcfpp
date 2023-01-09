@@ -59,7 +59,7 @@ public class Slot
 			if (i < 0)
 			{
 				i = 0;
-				Project.logger.log(Level.WARNING, "索引应当大于1，但是传入了:" + i);
+				Project.logger.warn( "索引应当大于1，但是传入了:" + i);
 			}
 			return new Slot("container", i);
 		}
@@ -74,7 +74,7 @@ public class Slot
 			if (i < 0)
 			{
 				i = 0;
-				Project.logger.log(Level.WARNING, "索引应当大于1，但是传入了:" + i);
+				Project.logger.warn( "索引应当大于1，但是传入了:" + i);
 			}
 			return new Slot("enderchest", i);
 		}
@@ -89,7 +89,7 @@ public class Slot
 			if (i < 0)
 			{
 				i = 0;
-				Project.logger.log(Level.WARNING, "索引应当大于1，但是传入了:" + i);
+				Project.logger.warn( "索引应当大于1，但是传入了:" + i);
 			}
 			return new Slot("hotbar", i);
 		}
@@ -111,7 +111,7 @@ public class Slot
 			if (i < 0)
 			{
 				i = 0;
-				Project.logger.log(Level.WARNING, "索引应当大于1，但是传入了:" + i);
+				Project.logger.warn( "索引应当大于1，但是传入了:" + i);
 			}
 			return new Slot("horse", i);
 		}
@@ -126,7 +126,7 @@ public class Slot
 			if (i < 0)
 			{
 				i = 0;
-				Project.logger.log(Level.WARNING, "索引应当大于1，但是传入了:" + i);
+				Project.logger.warn( "索引应当大于1，但是传入了:" + i);
 			}
 			return new Slot("villager", i);
 		}

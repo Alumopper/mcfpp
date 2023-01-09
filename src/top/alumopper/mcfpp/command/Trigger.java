@@ -1,7 +1,6 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
 
 /** 
  修改一个准则为"触发器”的记分板目标。一般配合原始JSON文本使用，使无命令执行权限的玩家能够激活管理员或地图制作者设计的系统。

@@ -49,7 +49,7 @@ public class ItemStack
 				throw new IllegalFormatException("无法解析字符串" + item_stack + "为item_stack");
 			}
 			this.id = a;
-			this.nbt = NBTTag.Prase(null, b); //尝试
+			this.nbt = NBTTag.Prase(null); //尝试
 		}
 		else
 		{

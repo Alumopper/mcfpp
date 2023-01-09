@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 
 import top.alumopper.mcfpp.Project;
@@ -25,7 +25,7 @@ public class Deop extends Command
 	{
 		if (!Pattern.matches( "^[a-zA-Z0-9_]+$", player))
 		{
-			Project.logger.log(Level.WARNING, "非法的玩家名:" + player);
+			Project.logger.warn( "非法的玩家名:" + player);
 		}
 		this.player = player;
 	}

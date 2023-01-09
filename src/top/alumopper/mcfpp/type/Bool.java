@@ -7,7 +7,7 @@ public class Bool extends Number {
         super(id);
         value = b;
     }
-    public Bool(boolean b){
+    public Bool(Bool b){
         super(b.identifier);
         value = b.value;
     }

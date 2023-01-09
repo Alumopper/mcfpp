@@ -28,14 +28,14 @@ public class Ban extends Command
 		this.id = id;
 		if (!Pattern.matches("[a-zA-Z0-9_]*",id))
 		{
-			Project.logger.log(Level.WARNING, "玩家名称应该只包含数字或下划线:" + id);
+			Project.logger.warn( "玩家名称应该只包含数字或下划线:" + id);
 		}
 		if (reason.length != 0)
 		{
 			this.reason = reason[0];
 			if (reason.length > 1)
 			{
-				Project.logger.log(Level.WARNING, "过多的参数:" + reason[1] + "等");
+				Project.logger.warn( "过多的参数:" + reason[1] + "等");
 			}
 		}
 	}
@@ -51,7 +51,7 @@ public class Ban extends Command
 			this.reason = reason[0];
 			if (reason.length > 1)
 			{
-				Project.logger.log(Level.WARNING, "过多的参数:" + reason[1] + "等");
+				Project.logger.warn( "过多的参数:" + reason[1] + "等");
 			}
 		}
 	}

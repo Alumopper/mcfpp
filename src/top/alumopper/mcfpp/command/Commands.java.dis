@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
@@ -10,71 +10,59 @@ import java.util.*;
  */
 public class Commands
 {
-    public static Advancement AdvancementGrankEveryThing(Selector target) throws ArgumentNotMatchException {
-        return AdvancementGrankEveryThing(target, true);
+    public static Advancement AdvancementGrantEveryThing(Selector target) {
+        return AdvancementGrantEveryThing(target, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementGrankEveryThing(Selector target, bool serialize = true)
-    public static Advancement AdvancementGrankEveryThing(Selector target, boolean serialize) throws ArgumentNotMatchException {
+    public static Advancement AdvancementGrantEveryThing(Selector target, boolean serialize) {
         return new Advancement("grant", target, "everything");
     }
 
 
-    public static Advancement AdvancementGrankOnly(Selector target, String advancement) throws ArgumentNotMatchException {
-        return AdvancementGrankOnly(target, advancement, true);
+    public static Advancement AdvancementGrantOnly(Selector target, String advancement) {
+        return AdvancementGrantOnly(target, advancement, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementGrankOnly(Selector target, string advancement, bool serialize = true)
-    public static Advancement AdvancementGrankOnly(Selector target, String advancement, boolean serialize) throws ArgumentNotMatchException {
+    public static Advancement AdvancementGrantOnly(Selector target, String advancement, boolean serialize) {
         return new Advancement("grant", target, "only", advancement);
     }
 
 
-    public static Advancement AdvancementGrankOnly(Selector target, String advancement, String criterion) throws ArgumentNotMatchException {
-        return AdvancementGrankOnly(target, advancement, criterion, true);
+    public static Advancement AdvancementGrantOnly(Selector target, String advancement, String criterion) {
+        return AdvancementGrantOnly(target, advancement, criterion, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementGrankOnly(Selector target, string advancement, string criterion, bool serialize = true)
-    public static Advancement AdvancementGrankOnly(Selector target, String advancement, String criterion, boolean serialize) throws ArgumentNotMatchException {
+    public static Advancement AdvancementGrantOnly(Selector target, String advancement, String criterion, boolean serialize) {
         return new Advancement("grant", target, "only", advancement, criterion);
     }
 
 
-    public static Advancement AdvancementGrankFrom(Selector target, String advancement) throws ArgumentNotMatchException {
-        return AdvancementGrankFrom(target, advancement, true);
+    public static Advancement AdvancementGrantFrom(Selector target, String advancement) {
+        return AdvancementGrantFrom(target, advancement, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementGrankFrom(Selector target, string advancement, bool serialize = true)
-    public static Advancement AdvancementGrankFrom(Selector target, String advancement, boolean serialize) throws ArgumentNotMatchException {
+    public static Advancement AdvancementGrantFrom(Selector target, String advancement, boolean serialize) {
 
         return new Advancement("grant", target, "from", advancement);
     }
 
 
-    public static Advancement AdvancementGrankThrough(Selector target, String advancement) throws ArgumentNotMatchException {
-        return AdvancementGrankThrough(target, advancement, true);
+    public static Advancement AdvancementGrantThrough(Selector target, String advancement) {
+        return AdvancementGrantThrough(target, advancement, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementGrankThrough(Selector target, string advancement, bool serialize = true)
-    public static Advancement AdvancementGrankThrough(Selector target, String advancement, boolean serialize) throws ArgumentNotMatchException {
+    public static Advancement AdvancementGrantThrough(Selector target, String advancement, boolean serialize) {
 
         return new Advancement("grant", target, "through", advancement);
     }
 
 
-    public static Advancement AdvancementGrankUntil(Selector target, String advancement)
+    public static Advancement AdvancementGrantUntil(Selector target, String advancement)
     {
-        return AdvancementGrankUntil(target, advancement, true);
+        return AdvancementGrantUntil(target, advancement, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementGrankUntil(Selector target, string advancement, bool serialize = true)
-    public static Advancement AdvancementGrankUntil(Selector target, String advancement, boolean serialize)
+    public static Advancement AdvancementGrantUntil(Selector target, String advancement, boolean serialize)
     {
 
         return new Advancement("grant", target, "until", advancement);
@@ -86,8 +74,6 @@ public class Commands
         return AdvancementRevokeEverything(target, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementRevokeEverything(Selector target, bool serialize = true)
     public static Advancement AdvancementRevokeEverything(Selector target, boolean serialize)
     {
 
@@ -100,30 +86,21 @@ public class Commands
         return AdvancementRevokeOnly(target, advancement, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementRevokeOnly(Selector target, string advancement, bool serialize = true)
     public static Advancement AdvancementRevokeOnly(Selector target, String advancement, boolean serialize)
     {
-        
-        Advancement advancement1 = new Advancement("revoke", target, "only", advancement);
-        
-        return advancement1;
-    }
 
+        return new Advancement("revoke", target, "only", advancement);
+    }
 
     public static Advancement AdvancementRevokeOnly(Selector target, String advancement, String criterion)
     {
         return AdvancementRevokeOnly(target, advancement, criterion, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementRevokeOnly(Selector target, string advancement, string criterion, bool serialize = true)
     public static Advancement AdvancementRevokeOnly(Selector target, String advancement, String criterion, boolean serialize)
     {
-        
-        Advancement advancement1 = new Advancement("revoke", target, "only", advancement, criterion);
-        
-        return advancement1;
+
+        return new Advancement("revoke", target, "only", advancement, criterion);
     }
 
 
@@ -132,14 +109,10 @@ public class Commands
         return AdvancementRevokeFrom(target, advancement, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementRevokeFrom(Selector target, string advancement, bool serialize = true)
     public static Advancement AdvancementRevokeFrom(Selector target, String advancement, boolean serialize)
     {
-        
-        Advancement advancement1 = new Advancement("revoke", target, "from", advancement);
-        
-        return advancement1;
+
+        return new Advancement("revoke", target, "from", advancement);
     }
 
 
@@ -148,14 +121,10 @@ public class Commands
         return AdvancementRevokeThrough(target, advancement, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementRevokeThrough(Selector target, string advancement, bool serialize = true)
     public static Advancement AdvancementRevokeThrough(Selector target, String advancement, boolean serialize)
     {
-        
-        Advancement advancement1 = new Advancement("revoke", target, "through", advancement);
-        
-        return advancement1;
+
+        return new Advancement("revoke", target, "through", advancement);
     }
 
 
@@ -164,43 +133,27 @@ public class Commands
         return AdvancementRevokeUntil(target, advancement, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Advancement AdvancementRevokeUntil(Selector target, string advancement, bool serialize = true)
     public static Advancement AdvancementRevokeUntil(Selector target, String advancement, boolean serialize)
     {
-        
-        Advancement advancement1 = new Advancement("revoke", target, "until", advancement);
-        
-        return advancement1;
+
+        return new Advancement("revoke", target, "until", advancement);
     }
 
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region attribute
-
-
-    public static Attribute AttributeGet(Selector entity, String attrubute, double scale)
+    public static Attribute AttributeGet(Selector entity, String attribute, double scale)
     {
-        return AttributeGet(entity, attrubute, scale, true);
+        return AttributeGet(entity, attribute, scale, true);
     }
 
-    public static Attribute AttributeGet(Selector entity, String attrubute)
+    public static Attribute AttributeGet(Selector entity, String attribute)
     {
-        return AttributeGet(entity, attrubute, 1.0, true);
+        return AttributeGet(entity, attribute, 1.0, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Attribute AttributeGet(Selector entity, string attrubute, double scale = 1.0, bool serialize = true)
-    public static Attribute AttributeGet(Selector entity, String attrubute, double scale, boolean serialize)
+    public static Attribute AttributeGet(Selector entity, String attribute, double scale, boolean serialize)
     {
-        
-        Attribute attribute = new Attribute(entity, attrubute, scale);
-        
-        return attribute;
-    }
 
+        return new Attribute(entity, attribute, scale);
+    }
 
     public static Attribute AttributeGetBase(Selector entity, String attribute, double scale)
     {
@@ -212,14 +165,10 @@ public class Commands
         return AttributeGetBase(entity, attribute, 1.0, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Attribute AttributeGetBase(Selector entity, string attribute, double scale = 1.0, bool serialize = true)
     public static Attribute AttributeGetBase(Selector entity, String attribute, double scale, boolean serialize)
     {
-        
-        Attribute attribute1 = new Attribute(entity, attribute, "get", scale);
-        
-        return attribute1;
+
+        return new Attribute(entity, attribute, "get", scale);
     }
 
 
@@ -228,14 +177,10 @@ public class Commands
         return AttributeSetBase(entity, attribute, value, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Attribute AttributeSetBase(Selector entity, string attribute, double value, bool serialize = true)
     public static Attribute AttributeSetBase(Selector entity, String attribute, double value, boolean serialize)
     {
-        
-        Attribute attribute1 = new Attribute(entity, attribute, "set", value);
-        
-        return attribute1;
+
+        return new Attribute(entity, attribute, "set", value);
     }
 
 
@@ -244,14 +189,10 @@ public class Commands
         return AttributeAddModifier(target, attribute, uuid, name, value, add__multiply__multiply_base, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Attribute AttributeAddModifier(Selector target, string attribute, UUID uuid, string name, double value, string add__multiply__multiply_base, bool serialize = true)
     public static Attribute AttributeAddModifier(Selector target, String attribute, UUID uuid, String name, double value, String add__multiply__multiply_base, boolean serialize)
     {
-        
-        Attribute attribute1 = new Attribute(target, attribute, uuid, name, value, add__multiply__multiply_base);
-        
-        return attribute1;
+
+        return new Attribute(target, attribute, uuid, name, value, add__multiply__multiply_base);
     }
 
 
@@ -260,14 +201,10 @@ public class Commands
         return AttributeRemoveModifier(target, attribute, uuid, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Attribute AttributeRemoveModifier(Selector target, string attribute, UUID uuid, bool serialize = true)
     public static Attribute AttributeRemoveModifier(Selector target, String attribute, UUID uuid, boolean serialize)
     {
-        
-        Attribute attribute1 = new Attribute(target, attribute, uuid);
-        
-        return attribute1;
+
+        return new Attribute(target, attribute, uuid);
     }
 
 
@@ -281,22 +218,11 @@ public class Commands
         return AttributeGetModifier(target, attribute, uuid, 1.0, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Attribute AttributeGetModifier(Selector target, string attribute, UUID uuid, double scale = 1.0, bool serialize = true)
     public static Attribute AttributeGetModifier(Selector target, String attribute, UUID uuid, double scale, boolean serialize)
     {
-        
-        Attribute attribute1 = new Attribute(target, attribute, uuid, scale);
-        
-        return attribute1;
+
+        return new Attribute(target, attribute, uuid, scale);
     }
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region ban
-
     public static Ban BanPlayer(String player, String reason)
     {
         return BanPlayer(player, reason, true);
@@ -307,20 +233,10 @@ public class Commands
         return BanPlayer(player, null, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Ban BanPlayer(string player, string reason = null, bool serialize = true)
     public static Ban BanPlayer(String player, String reason, boolean serialize)
     {
-        
-        Ban ban = new Ban(player, reason);
-        
-        return ban;
+        return new Ban(player, reason);
     }
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region ban-ip
 
     public static Ban_ip BanIp(String ip, String reason)
     {
@@ -332,34 +248,19 @@ public class Commands
         return BanIp(ip, null, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Ban_ip BanIp(string ip, string reason = null, bool serialize = true)
     public static Ban_ip BanIp(String ip, String reason, boolean serialize)
     {
-        
-        Ban_ip ban_Ip = new Ban_ip(ip, reason);
-        
-        return ban_Ip;
+        return new Ban_ip(ip, reason);
     }
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region banlist
 
     public static Banlist BanlistPlayers()
     {
         return BanlistPlayers(true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Banlist BanlistPlayers(bool serialize = true)
     public static Banlist BanlistPlayers(boolean serialize)
     {
-        
-        Banlist banlist = new Banlist("players");
-        
-        return banlist;
+        return new Banlist("players");
     }
 
 
@@ -368,34 +269,21 @@ public class Commands
         return BanlistIps(true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Banlist BanlistIps(bool serialize = true)
     public static Banlist BanlistIps(boolean serialize)
     {
-        
-        Banlist banlist = new Banlist("ips");
-        
-        return banlist;
-    }
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
 
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region bossbar
+        return new Banlist("ips");
+    }
 
     public static Bossbar BossbarAdd(ID id, String name)
     {
         return BossbarAdd(id, name, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarAdd(ID id, string name, bool serialize = true)
     public static Bossbar BossbarAdd(ID id, String name, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, name);
-        
-        return bossbar;
+
+        return new Bossbar(id, name);
     }
 
 
@@ -404,30 +292,19 @@ public class Commands
         return BossbarRemove(id, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarRemove(ID id, bool serialize = true)
     public static Bossbar BossbarRemove(ID id, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id);
-        
-        return bossbar;
+        return new Bossbar(id);
     }
-
 
     public static Bossbar BossbarGetValue(ID id, String value)
     {
         return BossbarGetValue(id, value, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarGetValue(ID id, string value, bool serialize = true)
     public static Bossbar BossbarGetValue(ID id, String value, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, value);
-        
-        return bossbar;
+        return new Bossbar(id, value);
     }
 
 
@@ -436,14 +313,9 @@ public class Commands
         return BossbarGetPlayers(id, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarGetPlayers(ID id, bool serialize = true)
     public static Bossbar BossbarGetPlayers(ID id, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, "players");
-        
-        return bossbar;
+        return new Bossbar(id, "players");
     }
 
 
@@ -452,14 +324,9 @@ public class Commands
         return BossbarGetMax(id, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarGetMax(ID id, bool serialize = true)
     public static Bossbar BossbarGetMax(ID id, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, "max");
-        
-        return bossbar;
+        return new Bossbar(id, "max");
     }
 
 
@@ -468,30 +335,20 @@ public class Commands
         return BossbarGetVisible(id, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarGetVisible(ID id, bool serialize = true)
     public static Bossbar BossbarGetVisible(ID id, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, "visible");
-        
-        return bossbar;
+        return new Bossbar(id, "visible");
     }
 
 
-    public static Bossbar BossbarSetColor(ID id, java.lang.Class.Bossbar.Color color)
+    public static Bossbar BossbarSetColor(ID id, top.alumopper.mcfpp.type.Bossbar.Color color)
     {
         return BossbarSetColor(id, color, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarSetColor(ID id, Type.Bossbar.Color color, bool serialize = true)
-    public static Bossbar BossbarSetColor(ID id, java.lang.Class.Bossbar.Color color, boolean serialize)
+    public static Bossbar BossbarSetColor(ID id, top.alumopper.mcfpp.type.Bossbar.Color color, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, color);
-        
-        return bossbar;
+        return new Bossbar(id, color);
     }
 
 
@@ -500,14 +357,9 @@ public class Commands
         return BossbarSetMax(id, max, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarSetMax(ID id, int max, bool serialize = true)
     public static Bossbar BossbarSetMax(ID id, int max, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, "max", max);
-        
-        return bossbar;
+        return new Bossbar(id, "max", max);
     }
 
 
@@ -516,14 +368,9 @@ public class Commands
         return BossbarSetValue(id, value, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarSetValue(ID id, int value, bool serialize = true)
     public static Bossbar BossbarSetValue(ID id, int value, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, "value", value);
-        
-        return bossbar;
+        return new Bossbar(id, "value", value);
     }
 
 
@@ -532,46 +379,30 @@ public class Commands
         return BossbarSetName(id, name, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarSetName(ID id, JsonText name, bool serialize = true)
     public static Bossbar BossbarSetName(ID id, JsonText name, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, name);
-        
-        return bossbar;
+        return new Bossbar(id, name);
     }
 
 
-    public static Bossbar BossbarSetStyle(ID id, Style style)
+    public static Bossbar BossbarSetStyle(ID id, top.alumopper.mcfpp.type.Bossbar.Style style)
     {
         return BossbarSetStyle(id, style, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarSetStyle(ID id, Style style, bool serialize = true)
-    public static Bossbar BossbarSetStyle(ID id, Style style, boolean serialize)
+    public static Bossbar BossbarSetStyle(ID id, top.alumopper.mcfpp.type.Bossbar.Style style, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, style);
-        
-        return bossbar;
+        return new Bossbar(id, style);
     }
-
 
     public static Bossbar BossbarSetVisible(ID id, boolean visible)
     {
         return BossbarSetVisible(id, visible, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarSetVisible(ID id, bool visible, bool serialize = true)
     public static Bossbar BossbarSetVisible(ID id, boolean visible, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, visible);
-        
-        return bossbar;
+        return new Bossbar(id, visible);
     }
 
 
@@ -580,23 +411,12 @@ public class Commands
         return BossbarAddPlayer(id, selector, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Bossbar BossbarAddPlayer(ID id, Selector selector, bool serialize = true)
     public static Bossbar BossbarAddPlayer(ID id, Selector selector, boolean serialize)
     {
-        
-        Bossbar bossbar = new Bossbar(id, "set", selector);
-        
-        return bossbar;
+        return new Bossbar(id, "set", selector);
     }
 
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region clear
-
-    public static Clear Clear(Selector target, ItemStack itemStack, java.util.Optional<Integer> count)
+    public static Clear Clear(Selector target, ItemStack itemStack, Integer count)
     {
         return Clear(target, itemStack, count, true);
     }
@@ -611,43 +431,31 @@ public class Commands
         return Clear(target, null, null, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clear Clear(Selector target, ItemStack itemStack = null, Nullable<int> count = null, bool serialize = true)
-    public static Clear Clear(Selector target, ItemStack itemStack, java.util.Optional<Integer> count, boolean serialize)
+    public static Clear Clear(Selector target, ItemStack itemStack, Integer count, boolean serialize)
     {
         
         Clear clear;
-        if (count.isPresent())
+        if (count == null)
         {
             clear = new Clear(target, itemStack);
         }
         else
         {
-            clear = new Clear(target, itemStack, count.get());
+            clear = new Clear(target, itemStack, count);
         }
         
         return clear;
     }
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region clone
 
     public static Clone CloneReplaceForce(Pos begin, Pos end, Pos destination)
     {
         return CloneReplaceForce(begin, end, destination, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneReplaceForce(Pos begin, Pos end, Pos destination, bool serialize = true)
     public static Clone CloneReplaceForce(Pos begin, Pos end, Pos destination, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, "replace", "force");
-        
-        return clone;
+
+        return new Clone(begin, end, destination, "replace", "force");
     }
 
 
@@ -656,14 +464,9 @@ public class Commands
         return CloneReplaceMove(begin, end, destination, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneReplaceMove(Pos begin, Pos end, Pos destination, bool serialize = true)
     public static Clone CloneReplaceMove(Pos begin, Pos end, Pos destination, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, "replace", "move");
-        
-        return clone;
+        return new Clone(begin, end, destination, "replace", "move");
     }
 
 
@@ -672,14 +475,9 @@ public class Commands
         return CloneReplaceNormal(begin, end, destination, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneReplaceNormal(Pos begin, Pos end, Pos destination, bool serialize = true)
     public static Clone CloneReplaceNormal(Pos begin, Pos end, Pos destination, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, "replace", "normal");
-        
-        return clone;
+        return new Clone(begin, end, destination, "replace", "normal");
     }
 
 
@@ -688,14 +486,9 @@ public class Commands
         return CloneMaskedForce(begin, end, destination, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneMaskedForce(Pos begin, Pos end, Pos destination, bool serialize = true)
     public static Clone CloneMaskedForce(Pos begin, Pos end, Pos destination, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, "masked", "force");
-        
-        return clone;
+        return new Clone(begin, end, destination, "masked", "force");
     }
 
 
@@ -704,14 +497,9 @@ public class Commands
         return CloneMaskedMove(begin, end, destination, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneMaskedMove(Pos begin, Pos end, Pos destination, bool serialize = true)
     public static Clone CloneMaskedMove(Pos begin, Pos end, Pos destination, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, "masked", "move");
-        
-        return clone;
+        return new Clone(begin, end, destination, "masked", "move");
     }
 
 
@@ -720,14 +508,9 @@ public class Commands
         return CloneMaskedNormal(begin, end, destination, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneMaskedNormal(Pos begin, Pos end, Pos destination, bool serialize = true)
     public static Clone CloneMaskedNormal(Pos begin, Pos end, Pos destination, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, "masked", "normal");
-        
-        return clone;
+        return new Clone(begin, end, destination, "masked", "normal");
     }
 
 
@@ -736,14 +519,9 @@ public class Commands
         return CloneFilteredForce(begin, end, destination, filter, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneFilteredForce(Pos begin, Pos end, Pos destination, BlockPredicate filter, bool serialize = true)
     public static Clone CloneFilteredForce(Pos begin, Pos end, Pos destination, BlockPredicate filter, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, filter, "force");
-        
-        return clone;
+        return new Clone(begin, end, destination, filter, "force");
     }
 
 
@@ -752,14 +530,9 @@ public class Commands
         return CloneFilteredMove(begin, end, destination, filter, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneFilteredMove(Pos begin, Pos end, Pos destination, BlockPredicate filter, bool serialize = true)
     public static Clone CloneFilteredMove(Pos begin, Pos end, Pos destination, BlockPredicate filter, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, filter, "move");
-        
-        return clone;
+        return new Clone(begin, end, destination, filter, "move");
     }
 
 
@@ -769,23 +542,12 @@ public class Commands
         return CloneFilteredNormal(begin, end, destination, filter, true);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Clone CloneFilteredNormal(Pos begin, Pos end, Pos destination, BlockPredicate filter, bool serialize = true)
     public static Clone CloneFilteredNormal(Pos begin, Pos end, Pos destination, BlockPredicate filter, boolean serialize)
     {
-        
-        Clone clone = new Clone(begin, end, destination, filter, "normal");
-        
-        return clone;
+        return new Clone(begin, end, destination, filter, "normal");
     }
 
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region data
-
-    public static Data DataGet(NBTTag target, java.util.Optional<Double> scale)
+    public static Data DataGet(NBTTag target, Double scale)
     {
         return DataGet(target, scale, true);
     }
@@ -797,7 +559,7 @@ public class Commands
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Data DataGet(NBTTag target, Nullable<double> scale = null, bool serialize = true)
-    public static Data DataGet(NBTTag target, java.util.Optional<Double> scale, boolean serialize)
+    public static Data DataGet(NBTTag target, Double scale, boolean serialize)
     {
         
         Data data = new Data(target.Container, target.Path, scale);

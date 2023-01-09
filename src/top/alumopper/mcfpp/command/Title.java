@@ -1,7 +1,6 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
 
 /** 
  控制屏幕标题。屏幕标题会以一行粗体大号文字的形式出现在玩家屏幕的中央，并且可以附加第二行作为副标题。标题和副标题均可使用原始JSON文本组件。屏幕标题可以设置为淡入淡出过渡，而显示持续时间同样可以设定。屏幕标题的大小取决于界面尺寸设置，而过长的标题不会自动换行（只会溢出屏幕之外）。

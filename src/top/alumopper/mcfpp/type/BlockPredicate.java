@@ -1,6 +1,10 @@
 package top.alumopper.mcfpp.type;
 
-/** 
+import top.alumopper.mcfpp.exception.IllegalFormatException;
+
+import java.util.regex.Pattern;
+
+/**
  代表世界中某类方块的判据。
  检查方块状态属性和（方块实体）NBTTag数据。允许用方块标签筛选方块类型。
  <p>
@@ -33,7 +37,7 @@ public class BlockPredicate
 	*/
 	public BlockPredicate(String pre, NBTTag nbt)
 	{
-		if (!Regex.IsMatch(pre, "^[#]?([a-z0-9_]+|([a-z0-9_]+[:][a-z0-9_]+))+([\\[][a-z0-9_]+[=][a-z0-9_]+[\\]])*$"))
+		if (!Pattern.matches( "^[#]?([a-z0-9_]+|([a-z0-9_]+[:][a-z0-9_]+))+([\\[][a-z0-9_]+[=][a-z0-9_]+[\\]])*$",pre))
 		{
 			throw new IllegalFormatException("无法解析字符串" + pre + "为方块谓词");
 		}

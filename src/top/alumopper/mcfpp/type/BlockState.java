@@ -1,8 +1,8 @@
 package top.alumopper.mcfpp.type;
 
-import mcsharp.exception.*;
-import mcsharp.*;
-import mcsharp.type.*;
+import top.alumopper.mcfpp.exception.IllegalFormatException;
+
+import java.util.regex.Pattern;
 
 /** 
  代表某类方块状态的判据。
@@ -28,7 +28,7 @@ public class BlockState
 
 	public BlockState(String pre, NBTTag nbt)
 	{
-		if (!Regex.IsMatch(pre, "^([a-z0-9_]+|([a-z0-9_]+[:][a-z0-9_]+))+([\\[][a-z0-9_]+[=][a-z0-9_]+[\\]])*$"))
+		if (!Pattern.matches("^([a-z0-9_]+|([a-z0-9_]+[:][a-z0-9_]+))+([\\[][a-z0-9_]+[=][a-z0-9_]+[\\]])*$",pre))
 		{
 			throw new IllegalFormatException("无法解析字符串" + pre + "为方块状态");
 		}

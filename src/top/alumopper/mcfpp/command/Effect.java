@@ -1,4 +1,4 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
@@ -79,23 +79,23 @@ public class Effect extends Command
 		if (seconds < 0)
 		{
 			seconds = 0;
-			Project.logger.log(Level.WARNING, "参数需在0~1000000之间，却传入了" + seconds);
+			Project.logger.warn( "参数需在0~1000000之间，却传入了" + seconds);
 		}
 		if (seconds > 1000000)
 		{
 			seconds = 1000000;
-			Project.logger.log(Level.WARNING, "参数需在0~1000000之间，却传入了" + seconds);
+			Project.logger.warn( "参数需在0~1000000之间，却传入了" + seconds);
 		}
 		this.seconds = seconds;
 		if (amplifier < 0)
 		{
 			amplifier = 0;
-			Project.logger.log(Level.WARNING, "参数需在0~255之间，却传入了" + amplifier);
+			Project.logger.warn( "参数需在0~255之间，却传入了" + amplifier);
 		}
 		if (amplifier > 255)
 		{
 			amplifier = 255;
-			Project.logger.log(Level.WARNING, "参数需在0~255，却传入了" + amplifier);
+			Project.logger.warn( "参数需在0~255，却传入了" + amplifier);
 		}
 		this.seconds = amplifier;
 		this.hideParticles = hideParticles;

@@ -1,8 +1,6 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.type.*;
-import mcsharp.util.*;
-import mcsharp.*;
 
 /** 
  传送实体（玩家、生物等）到指定的地点，并修改其旋转角度。
@@ -79,7 +77,7 @@ public class Teleport extends Command
 
 	public Teleport(Selector targets, Pos location)
 	{
-		this(targets, location, null);
+		this(targets, location, (Rotation) null);
 	}
 
 //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
@@ -152,7 +150,7 @@ public class Teleport extends Command
 				}
 				else if (facingEntity != null)
 				{
-					return "teleport " + targets + " " + location + " facing entity " + facingEntity + " " + Tools.GetEnumString(facingAnchor);
+					return "teleport " + targets + " " + location + " facing entity " + facingEntity + " " + facingAnchor.name();
 				}
 				else
 				{

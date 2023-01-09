@@ -1,8 +1,10 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
-import mcsharp.exception.*;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
-import mcsharp.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 /** 
  <code>
@@ -19,8 +21,8 @@ public class Xp extends Command
 	private String levels_points;
 	private boolean qwq;
 
-	public static String[] lp = new String[] {"levels", "points"};
-	public static String[] as = new String[] {"add", "set"};
+	public static List<String> lp = Arrays.asList("levels", "points");
+	public static List<String> as = Arrays.asList("add", "set");
 
 	/** 
 	 xp (add|set) <targets> <amount> [levels|points]

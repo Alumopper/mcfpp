@@ -1,18 +1,23 @@
 package top.alumopper.mcfpp;
 
-import org.json.*;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.Buffer;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
  * 一个工程
  */
 public class Project {
-    public static Logger logger = Logger.getLogger("mcfpp");
+    public static Logger logger = Logger.getLogger("qwq");
+    static {
+        PropertyConfigurator.configure("log4j.properties");
+    }
 
     /**
      * 工程包含的所有文件
@@ -36,27 +41,38 @@ public class Project {
     public Project(String path){
         //工程信息读取
         try{
+            logger.debug("Reading project from file \"" + path + "\"");
             BufferedReader reader = new BufferedReader(new FileReader(path));
             StringBuilder json = new StringBuilder();
             String line;
             while((line = reader.readLine()) != null){
                 json.append(line);
             }
-            JSONObject jsonObject = new JSONObject(json.toString());
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(json.toString());
             files = new ArrayList<>();
             JSONArray filesJson = jsonObject.getJSONArray("files");
-            for (int i = 0; i < filesJson.length(); i++) {
-                files.add(filesJson.getString(i));
+            if(filesJson == null){
+                logger.error("Missing key \"files\" in project json file");
+            }else {
+                for (int i = 0; i < filesJson.size(); i++) {
+                    files.add(filesJson.getString(i));
+                }
             }
             version = jsonObject.getString("version");
             includes = new ArrayList<>();
             JSONArray includesJson = jsonObject.getJSONArray("includes");
-            for (int i = 0; i < includesJson.length(); i++) {
-                includes.add(includesJson.getString(i));
+            if(includesJson != null){
+                for (int i = 0; i < includesJson.size(); i++) {
+                    includes.add(includesJson.getString(i));
+                }
             }
-        }catch (Exception ignored){}
+        }catch (Exception e){
+            logger.error("Error while reading project from file \"" + path + "\"");
+            e.printStackTrace();
+        }
         //工程文件编译
         for (String file : files) {
+            logger.debug("Compiling mcfpp code in \"" + file + "\"");
             try{
                 McfppCodeReader reader = new McfppCodeReader(file);
             }catch (Exception ignored){}

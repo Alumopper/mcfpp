@@ -48,7 +48,7 @@ public class Datapack extends Command
 				count = 2;
 				if (args.length > 2)
 				{
-					Project.logger.log(Level.WARNING, "过多的参数:" + args[2] + "等");
+					Project.logger.warn( "过多的参数:" + args[2] + "等");
 				}
 			}
 			else if (args[0].equals("enable"))

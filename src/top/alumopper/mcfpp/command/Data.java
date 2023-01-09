@@ -1,10 +1,11 @@
-﻿package top.alumopper.mcfpp.command;
+package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * {@code data}命令允许执行者获取、合并、修改或是移除方块、实体或命令存储的NBT数据。
@@ -206,7 +207,7 @@ public class Data extends Command
 		{
 			return "entity";
 		}
-		else if (o instanceof Storage)
+		else if (o instanceof Objects)
 		{
 			return "storage";
 		}

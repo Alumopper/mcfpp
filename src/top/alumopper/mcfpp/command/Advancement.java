@@ -48,14 +48,14 @@ public class Advancement extends Command
 			{
 				if (args.length > 2)
 				{
-					Project.logger.log(Level.WARNING, "过多的参数:\"" + args[2] + "等");
+					Project.logger.warn( "过多的参数:\"" + args[2] + "等");
 				}
 			}
 			else
 			{
 				if (args.length > 3)
 				{
-					Project.logger.log(Level.WARNING, "过多的参数:\"" + args[3] + "等");
+					Project.logger.warn( "过多的参数:\"" + args[3] + "等");
 				}
 			}
 		}

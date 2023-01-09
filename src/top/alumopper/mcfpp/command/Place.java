@@ -106,12 +106,12 @@ public class Place extends Command
 		if (max_depth < 1)
 		{
 			max_depth = 1;
-			Project.logger.log(Level.SEVERE, max_depth + "必须在1和7（含）之间");
+			Project.logger.error( max_depth + "必须在1和7（含）之间");
 		}
 		if (max_depth > 7)
 		{
 			max_depth = 7;
-			Project.logger.log(Level.SEVERE, max_depth + "必须在1和7（含）之间");
+			Project.logger.error( max_depth + "必须在1和7（含）之间");
 		}
 		this.pos = pos;
 		type = 1;
