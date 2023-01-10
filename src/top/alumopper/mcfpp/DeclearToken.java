@@ -11,19 +11,6 @@ import top.alumopper.mcfpp.tokens.Token;
  */
 public class DeclearToken extends Token {
 
-    public DeclearToken(String code){
-        super(code);
-        tokenStrings = analysis(code);
-        type = Type.DECLEAR;
-        order();
-    }
-
-    public DeclearToken(Token token){
-        super(token.getCode());
-        tokenStrings = analysis(code);
-        type = Type.DECLEAR;
-        order();
-    }
     /*
     public ArrayList<String> trans(String projectname){
         //翻译
