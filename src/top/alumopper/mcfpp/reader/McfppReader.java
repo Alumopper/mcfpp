@@ -15,9 +15,14 @@ public abstract class McfppReader {
     public int line;
 
     /**
-     * 对应的文件路径
+     * 对应的文件绝对路径
      */
     public String path;
+
+    /**
+     * 文件相对根目录的路径
+     */
+    public String rpath;
 
     /**
      * 解析

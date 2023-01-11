@@ -13,58 +13,28 @@ public class ID {
      */
     public String id;
 
-    /// <summary>
-    /// 命名空间id的id部分
-    /// </summary>
+    /**
+     * 名字
+     */
     public String name;
 
-    /// <summary>
-    /// 命名空间id的命名空间部分
-    /// </summary>
+
+    /**
+     * 命名空间
+     */
     public String namespace;
 
-    /// <summary>
-    /// 是否是标签。如果是标签，在调用toString方法时会在前面加上"#"
-    /// </summary>
+    /**
+     * 是否是命令标签
+     */
     public boolean isTag;
 
-    /// <summary>
-    /// 根据一个命名空间的字符串创建一个命名空间id。字符串的标准格式为xxx:xxx或#xxx:xxx。若未执行命名空间，则默认命名空间为minecraft
-    /// </summary>
-    /// <param name="id"></param>
-    /// <exception cref="IllegalFunctionNameException"></exception>
-    public ID(String id) throws IllegalFunctionNameException {
-        if (IsLegal(id))
-        {
-            if (id.startsWith("#"))
-            {
-                isTag = true;
-                id.substring(1);
-            }
-            if (id.contains(":"))
-            {
-                this.id = id;
-                this.namespace = id.split(":")[0];
-                this.name = id.split(":")[1];
-            }
-            else
-            {
-                this.namespace = "minecraft";
-                this.name = id;
-                this.id = namespace + ":" + name;
-            }
-        }
-        else
-        {
-            throw new IllegalFunctionNameException("错误的函数命名空间id:" + id);
-        }
-    }
 
-    /// <summary>
-    /// 根据指定的命名空间和名称创建新的命名空间id
-    /// </summary>
-    /// <param name="namespace"></param>
-    /// <param name="name"></param>
+    /**
+     * 创建一个命名空间id
+     * @param namespace 命名空间
+     * @param name 名字
+     */
     public ID(String namespace, String name)
     {
         this.namespace = namespace;
@@ -72,9 +42,18 @@ public class ID {
         this.id = namespace + ":" + name;
     }
 
-    public static boolean IsLegal(String str)
+    /**
+     * 创建一个命名空间id
+     * @param namespace 命名空间
+     * @param name 名字
+     * @param isTag 是否是标签
+     */
+    public ID(String namespace, String name, boolean isTag)
     {
-        return Pattern.matches("(^#?[a-z0-9_]+:[a-z0-9_]+(/[a-z0-p_]+)*$)|(^[a-z0-9_]+$)",str);
+        this.namespace = namespace;
+        this.name = name;
+        this.id = namespace + ":" + name;
+        this.isTag = isTag;
     }
 
     @Override

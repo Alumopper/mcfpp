@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import top.alumopper.mcfpp.reader.McfppFileReader;
+import top.alumopper.mcfpp.tokens.FunctionToken;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,33 +24,33 @@ public class Project {
     /**
      * 工程的根目录
      */
-    File root;
+    public static File root;
 
     /**
-     * 工程包含的所有文件
+     * 工程包含的所有文件。以绝对路径保存
      */
-    ArrayList<String> files;
+    static ArrayList<String> files;
 
     /**
      * 工程对应的mc版本
      */
-    String version;
+    static String version;
 
     /**
      *  工程包含的所有引用
      */
-    ArrayList<String> includes;
+    static ArrayList<String> includes;
 
     /**
      * 读取工程
      * @param path 工程的json文件的路径
      */
-    public Project(String path){
+    public static void readProject(String path){
         //工程信息读取
         try{
             logger.debug("Reading project from file \"" + path + "\"");
             BufferedReader reader = new BufferedReader(new FileReader(path));
-            this.root = new File(path).getParentFile();
+            root = new File(path).getParentFile();
             StringBuilder json = new StringBuilder();
             String line;
             while((line = reader.readLine()) != null){
@@ -97,6 +98,7 @@ public class Project {
     public void compile(){
         //工程文件编译
         assert files != null;
+        //解析文件
         for (String file : files) {
             logger.debug("Compiling mcfpp code in \"" + file + "\"");
             try{
@@ -105,6 +107,10 @@ public class Project {
                 logger.error("Error while compiling file \"" + file + "\"");
                 e.printStackTrace();
             }
+        }
+        //解析函数
+        for(FunctionToken function : Cache.functions.values()){
+            logger.debug("Compiling mcfpp function \"" + function.name + "\"");
         }
     }
 
