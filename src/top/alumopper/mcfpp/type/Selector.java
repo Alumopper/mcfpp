@@ -1,4 +1,4 @@
 package top.alumopper.mcfpp.type;
 
-public class Selector extends Type{
+public class Selector extends Var{
 }

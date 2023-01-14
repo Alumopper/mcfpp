@@ -49,22 +49,4 @@ public class FunctionToken extends Token{
      * 读取此函数用的reader
      */
     public McfppFunctionReader reader;
-
-    /**
-     * 解析这个函数中的语句
-     */
-    public void analyse() throws IOException {
-        ByteArrayInputStream inputStream = null;
-        if (funcs != null && !"".equals(funcs.trim())) {
-            try {
-                inputStream = new ByteArrayInputStream(funcs.getBytes(StandardCharsets.UTF_8));
-            } catch (Exception e) {
-                Project.logger.error("Error while analyse function \"" + name + "\"");
-                e.printStackTrace();
-                return;
-            }
-            this.reader.reader = new BufferedReader(new InputStreamReader(inputStream));
-            reader.analyze();
-        }
-    }
 }

@@ -1,7 +1,7 @@
 package top.alumopper.mcfpp.command;
 
-import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.type.*;
+import top.alumopper.mcfpp.type.Number;
 
 import java.util.*;
 
@@ -546,7 +546,8 @@ public class Commands
     {
         return new Clone(begin, end, destination, filter, "normal");
     }
-
+    //TODO:DATA
+/*
     public static Data DataGet(NBTTag target, Double scale)
     {
         return DataGet(target, scale, true);
@@ -824,7 +825,7 @@ public class Commands
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
-
+*/
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#region datapack
 
@@ -1074,7 +1075,7 @@ public class Commands
     ///#region difficulty
 
 
-    public static Difficulty DifficultySet(java.util.Optional<Difficulties> difficulty)
+    public static Difficulty DifficultySet(Difficulties difficulty)
     {
         return DifficultySet(difficulty, true);
     }
@@ -1086,7 +1087,7 @@ public class Commands
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Difficulty DifficultySet(Nullable<Difficulties> difficulty = null, bool serialize = true)
-    public static Difficulty DifficultySet(java.util.Optional<Difficulties> difficulty, boolean serialize)
+    public static Difficulty DifficultySet(Difficulties difficulty, boolean serialize)
     {
         
         Difficulty difficulty1 = new Difficulty(difficulty);
@@ -1754,10 +1755,8 @@ public class Commands
 //ORIGINAL LINE: public static Jfr JfrStart(bool serialize = true)
     public static Jfr JfrStart(boolean serialize)
     {
-        
-        Jfr jfr = new Jfr("start");
-        
-        return jfr;
+
+        return new Jfr("start");
     }
 
 
@@ -1770,10 +1769,8 @@ public class Commands
 //ORIGINAL LINE: public static Jfr JfrStop(bool serialize = true)
     public static Jfr JfrStop(boolean serialize)
     {
-        
-        Jfr jfr = new Jfr("stop");
-        
-        return jfr;
+
+        return new Jfr("stop");
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -1795,10 +1792,8 @@ public class Commands
 //ORIGINAL LINE: public static Kick Kick(Selector target, string reason = null, bool serialize = true)
     public static Kick Kick(Selector target, String reason, boolean serialize)
     {
-        
-        Kick kick = new Kick(target, reason);
-        
-        return kick;
+
+        return new Kick(target, reason);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -1815,10 +1810,8 @@ public class Commands
 //ORIGINAL LINE: public static Kill Kill(Selector target, bool serialize = true)
     public static Kill Kill(Selector target, boolean serialize)
     {
-        
-        Kill kill = new Kill(target);
-        
-        return kill;
+
+        return new Kill(target);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -1826,35 +1819,31 @@ public class Commands
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#region list
 
-    public static java.util.ArrayList List()
+    public static List List()
     {
         return List(true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static List List(bool serialize = true)
-    public static ArrayList List(boolean serialize)
+    public static List List(boolean serialize)
     {
-        
-        ArrayList list = new List(null);
-        
-        return list;
+
+        return new List(null);
     }
 
 
-    public static java.util.ArrayList ListUUID()
+    public static List ListUUID()
     {
         return ListUUID(true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static List ListUUID(bool serialize = true)
-    public static ArrayList ListUUID(boolean serialize)
+    public static List ListUUID(boolean serialize)
     {
-        
-        ArrayList list = new List(114514);
-        
-        return list;
+
+        return new List(114514);
     }
 
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
@@ -1872,10 +1861,8 @@ public class Commands
 //ORIGINAL LINE: public static Locate LocateBiome(ID biome, bool serialize = true)
     public static Locate LocateBiome(ID biome, boolean serialize)
     {
-        
-        Locate locate = new Locate("biome", biome);
-        
-        return locate;
+
+        return new Locate("biome", biome);
     }
 
 
@@ -1888,10 +1875,8 @@ public class Commands
 //ORIGINAL LINE: public static Locate LocatePoi(ID poi, bool serialize = true)
     public static Locate LocatePoi(ID poi, boolean serialize)
     {
-        
-        Locate locate = new Locate("poi", poi);
-        
-        return locate;
+
+        return new Locate("poi", poi);
     }
 
 
@@ -1904,10 +1889,8 @@ public class Commands
 //ORIGINAL LINE: public static Locate LocateStructure(ID structure, bool serialize = true)
     public static Locate LocateStructure(ID structure, boolean serialize)
     {
-        
-        Locate locate = new Locate("structure", structure);
-        
-        return locate;
+
+        return new Locate("structure", structure);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -1924,10 +1907,8 @@ public class Commands
 //ORIGINAL LINE: public static Me Me(string action, bool serialize = true)
     public static Me Me(String action, boolean serialize)
     {
-        
-        Me me = new Me(action);
-        
-        return me;
+
+        return new Me(action);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -1944,10 +1925,8 @@ public class Commands
 //ORIGINAL LINE: public static Msg Msg(Selector player, string message, bool serialize = true)
     public static Msg Msg(Selector player, String message, boolean serialize)
     {
-        
-        Msg msg = new Msg(player, message);
-        
-        return msg;
+
+        return new Msg(player, message);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -1964,10 +1943,8 @@ public class Commands
 //ORIGINAL LINE: public static Op Op(Selector player, bool serialize = true)
     public static Op Op(Selector player, boolean serialize)
     {
-        
-        Op op = new Op(player);
-        
-        return op;
+
+        return new Op(player);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -1984,10 +1961,8 @@ public class Commands
 //ORIGINAL LINE: public static Pardon Pardon(string name, bool serialize = true)
     public static Pardon Pardon(String name, boolean serialize)
     {
-        
-        Pardon pardon = new Pardon(name);
-        
-        return pardon;
+
+        return new Pardon(name);
     }
 
 
@@ -2000,10 +1975,8 @@ public class Commands
 //ORIGINAL LINE: public static Pardon PardonUUID(UUID uuid, bool serialize = true)
     public static Pardon PardonUUID(UUID uuid, boolean serialize)
     {
-        
-        Pardon pardon = new Pardon(uuid);
-        
-        return pardon;
+
+        return new Pardon(uuid);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -2020,10 +1993,8 @@ public class Commands
 //ORIGINAL LINE: public static Pardon_ip Pardon_ip(string ip, bool serialize = true)
     public static Pardon_ip Pardon_ip(String ip, boolean serialize)
     {
-        
-        Pardon_ip pardon_ip = new Pardon_ip(ip);
-        
-        return pardon_ip;
+
+        return new Pardon_ip(ip);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -2045,10 +2016,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle(ID particle, Pos pos = null, bool serialize = true)
     public static Particle Particle(ID particle, Pos pos, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(particle, pos);
-        
-        return particle1;
+
+        return new Particle(particle, pos);
     }
 
 
@@ -2071,104 +2040,94 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle(ID particle, Pos pos, Vector3<float> delta, float speed, int count, bool force = false, Selector viewers = null, bool serialize = true)
     public static Particle Particle(ID particle, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(particle, pos, delta, speed, count, force ? "force" : "normal", viewers);
-        
-        return particle1;
+
+        return new Particle(particle, pos, delta, speed, count, force ? "force" : "normal", viewers);
     }
 
 
-    public static Particle Particle_dust(java.lang.Class.Color color, float size, Pos pos)
+    public static Particle Particle_dust(Color color, float size, Pos pos)
     {
         return Particle_dust(color, size, pos, true);
     }
 
-    public static Particle Particle_dust(java.lang.Class.Color color, float size)
+    public static Particle Particle_dust(Color color, float size)
     {
         return Particle_dust(color, size, null, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Particle Particle_dust(Type.Color color, float size, Pos pos = null, bool serialize = true)
-    public static Particle Particle_dust(java.lang.Class.Color color, float size, Pos pos, boolean serialize)
+    public static Particle Particle_dust(Color color, float size, Pos pos, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(color, size, pos);
-        
-        return particle1;
+
+        return new Particle(color, size, pos);
     }
 
 
-    public static Particle Particle_dust(java.lang.Class.Color color, float size, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers)
+    public static Particle Particle_dust(Color color, float size, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers)
     {
         return Particle_dust(color, size, pos, delta, speed, count, force, viewers, true);
     }
 
-    public static Particle Particle_dust(java.lang.Class.Color color, float size, Pos pos, Vector3<Float> delta, float speed, int count, boolean force)
+    public static Particle Particle_dust(Color color, float size, Pos pos, Vector3<Float> delta, float speed, int count, boolean force)
     {
         return Particle_dust(color, size, pos, delta, speed, count, force, null, true);
     }
 
-    public static Particle Particle_dust(java.lang.Class.Color color, float size, Pos pos, Vector3<Float> delta, float speed, int count)
+    public static Particle Particle_dust(Color color, float size, Pos pos, Vector3<Float> delta, float speed, int count)
     {
         return Particle_dust(color, size, pos, delta, speed, count, false, null, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Particle Particle_dust(Type.Color color, float size, Pos pos, Vector3<float> delta, float speed, int count, bool force = false, Selector viewers = null, bool serialize = true)
-    public static Particle Particle_dust(java.lang.Class.Color color, float size, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
+    public static Particle Particle_dust(Color color, float size, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(color, size, pos, delta, speed, count, force ? "force" : "normal", viewers);
-        
-        return particle1;
+
+        return new Particle(color, size, pos, delta, speed, count, force ? "force" : "normal", viewers);
     }
 
 
-    public static Particle Particle_dust_color_transition(java.lang.Class.Color color1, float size, java.lang.Class.Color color2, Pos pos)
+    public static Particle Particle_dust_color_transition(Color color1, float size, Color color2, Pos pos)
     {
         return Particle_dust_color_transition(color1, size, color2, pos, true);
     }
 
-    public static Particle Particle_dust_color_transition(java.lang.Class.Color color1, float size, java.lang.Class.Color color2)
+    public static Particle Particle_dust_color_transition(Color color1, float size, Color color2)
     {
         return Particle_dust_color_transition(color1, size, color2, null, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Particle Particle_dust_color_transition(Type.Color color1, float size, Type.Color color2, Pos pos = null, bool serialize = true)
-    public static Particle Particle_dust_color_transition(java.lang.Class.Color color1, float size, java.lang.Class.Color color2, Pos pos, boolean serialize)
+    public static Particle Particle_dust_color_transition(Color color1, float size, Color color2, Pos pos, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(color1, size, color2, pos);
-        
-        return particle1;
+
+        return new Particle(color1, size, color2, pos);
     }
 
 
-    public static Particle Particle_dust_color_transition(java.lang.Class.Color color1, float size, java.lang.Class.Color color2, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers)
+    public static Particle Particle_dust_color_transition(Color color1, float size, Color color2, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers)
     {
         return Particle_dust_color_transition(color1, size, color2, pos, delta, speed, count, force, viewers, true);
     }
 
-    public static Particle Particle_dust_color_transition(java.lang.Class.Color color1, float size, java.lang.Class.Color color2, Pos pos, Vector3<Float> delta, float speed, int count, boolean force)
+    public static Particle Particle_dust_color_transition(Color color1, float size, Color color2, Pos pos, Vector3<Float> delta, float speed, int count, boolean force)
     {
         return Particle_dust_color_transition(color1, size, color2, pos, delta, speed, count, force, null, true);
     }
 
-    public static Particle Particle_dust_color_transition(java.lang.Class.Color color1, float size, java.lang.Class.Color color2, Pos pos, Vector3<Float> delta, float speed, int count)
+    public static Particle Particle_dust_color_transition(Color color1, float size, Color color2, Pos pos, Vector3<Float> delta, float speed, int count)
     {
         return Particle_dust_color_transition(color1, size, color2, pos, delta, speed, count, false, null, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Particle Particle_dust_color_transition(Type.Color color1, float size, Type.Color color2, Pos pos, Vector3<float> delta, float speed, int count, bool force = false, Selector viewers = null, bool serialize = true)
-    public static Particle Particle_dust_color_transition(java.lang.Class.Color color1, float size, java.lang.Class.Color color2, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
+    public static Particle Particle_dust_color_transition(Color color1, float size, Color color2, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(color1, size, color2, pos, delta, speed, count, force ? "force" : "normal", viewers);
-        
-        return particle1;
+
+        return new Particle(color1, size, color2, pos, delta, speed, count, force ? "force" : "normal", viewers);
     }
 
 
@@ -2186,10 +2145,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle_block(BlockState block, Pos pos = null, bool serialize = true)
     public static Particle Particle_block(BlockState block, Pos pos, boolean serialize)
     {
-        
-        Particle particle1 = new Particle("minecraft:block", block, pos);
-        
-        return particle1;
+
+        return new Particle(new ID("minecraft:block"), block, pos);
     }
 
 
@@ -2212,10 +2169,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle_block(BlockState block, Pos pos, Vector3<float> delta, float speed, int count, bool force = false, Selector viewers = null, bool serialize = true)
     public static Particle Particle_block(BlockState block, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
     {
-        
-        Particle particle1 = new Particle("minecraft:block", block, pos, delta, speed, count, force ? "force" : "normal", viewers);
-        
-        return particle1;
+
+        return new Particle(new ID("minecraft:block"), block, pos, delta, speed, count, force ? "force" : "normal", viewers);
     }
 
 
@@ -2233,10 +2188,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle_falling_dust(BlockState block, Pos pos = null, bool serialize = true)
     public static Particle Particle_falling_dust(BlockState block, Pos pos, boolean serialize)
     {
-        
-        Particle particle1 = new Particle("minecraft:falling_dust", block, pos);
-        
-        return particle1;
+
+        return new Particle(new ID("minecraft:falling_dust"), block, pos);
     }
 
 
@@ -2259,10 +2212,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle_falling_dust(BlockState block, Pos pos, Vector3<float> delta, float speed, int count, bool force = false, Selector viewers = null, bool serialize = true)
     public static Particle Particle_falling_dust(BlockState block, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
     {
-        
-        Particle particle1 = new Particle("minecraft:falling_dust", block, pos, delta, speed, count, force ? "force" : "normal", viewers);
-        
-        return particle1;
+
+        return new Particle(new ID("minecraft:falling_dust"), block, pos, delta, speed, count, force ? "force" : "normal", viewers);
     }
 
 
@@ -2280,10 +2231,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle_item(ItemStack item, Pos pos = null, bool serialize = true)
     public static Particle Particle_item(ItemStack item, Pos pos, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(item, pos);
-        
-        return particle1;
+
+        return new Particle(item, pos);
     }
 
 
@@ -2306,10 +2255,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle_item(ItemStack item, Pos pos, Vector3<float> delta, float speed, int count, bool force = false, Selector viewers = null, bool serialize = true)
     public static Particle Particle_item(ItemStack item, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(item, pos, delta, speed, count, force ? "force" : "normal", viewers);
-        
-        return particle1;
+
+        return new Particle(item, pos, delta, speed, count, force ? "force" : "normal", viewers);
     }
 
 
@@ -2327,10 +2274,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle_shriek(int second, Pos pos = null, bool serialize = true)
     public static Particle Particle_shriek(int second, Pos pos, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(second, pos);
-        
-        return particle1;
+
+        return new Particle(second, pos);
     }
 
 
@@ -2353,10 +2298,8 @@ public class Commands
 //ORIGINAL LINE: public static Particle Particle_shriek(int second, Pos pos, Vector3<float> delta, float speed, int count, bool force = false, Selector viewers = null, bool serialize = true)
     public static Particle Particle_shriek(int second, Pos pos, Vector3<Float> delta, float speed, int count, boolean force, Selector viewers, boolean serialize)
     {
-        
-        Particle particle1 = new Particle(second, pos, delta, speed, count, force ? "force" : "normal", viewers);
-        
-        return particle1;
+
+        return new Particle(second, pos, delta, speed, count, force ? "force" : "normal", viewers);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -2373,10 +2316,8 @@ public class Commands
 //ORIGINAL LINE: public static Perf PerfStart(bool serialize = true)
     public static Perf PerfStart(boolean serialize)
     {
-        
-        Perf perfStart1 = new Perf("start");
-        
-        return perfStart1;
+
+        return new Perf("start");
     }
 
 
@@ -2414,10 +2355,8 @@ public class Commands
 //ORIGINAL LINE: public static Place PlaceFeature(ID feature, Pos pos = null, bool serialize = true)
     public static Place PlaceFeature(ID feature, Pos pos, boolean serialize)
     {
-        
-        Place place = new Place(feature, pos);
-        
-        return place;
+
+        return new Place(feature, pos);
     }
 
 
@@ -2435,10 +2374,8 @@ public class Commands
 //ORIGINAL LINE: public static Place PlaceJigsaw(ID pool, ID target, int max_depth, Pos pos = null, bool serialize = true)
     public static Place PlaceJigsaw(ID pool, ID target, int max_depth, Pos pos, boolean serialize)
     {
-        
-        Place place = new Place(pool, target, max_depth, pos);
-        
-        return place;
+
+        return new Place(pool, target, max_depth, pos);
     }
 
 
@@ -2456,51 +2393,47 @@ public class Commands
 //ORIGINAL LINE: public static Place PlaceStructure(ID structure, Pos pos = null, bool serialize = true)
     public static Place PlaceStructure(ID structure, Pos pos, boolean serialize)
     {
-        
-        Place place = new Place(structure, pos, 114514);
-        
-        return place;
+
+        return new Place(structure, pos, 114514);
     }
 
 
-    public static Place PlaceTemplate(ID template, Pos pos, Rot rot, Mirror mirror, float integrity, java.util.Optional<Long> seed)
+    public static Place PlaceTemplate(ID template, Pos pos, Place.Rot rot, Place.Mirror mirror, float integrity, Long seed)
     {
         return PlaceTemplate(template, pos, rot, mirror, integrity, seed, true);
     }
 
-    public static Place PlaceTemplate(ID template, Pos pos, Rot rot, Mirror mirror, float integrity)
+    public static Place PlaceTemplate(ID template, Pos pos, Place.Rot rot, Place.Mirror mirror, float integrity)
     {
         return PlaceTemplate(template, pos, rot, mirror, integrity, null, true);
     }
 
-    public static Place PlaceTemplate(ID template, Pos pos, Rot rot, Mirror mirror)
+    public static Place PlaceTemplate(ID template, Pos pos, Place.Rot rot, Place.Mirror mirror)
     {
         return PlaceTemplate(template, pos, rot, mirror, 1.0f, null, true);
     }
 
-    public static Place PlaceTemplate(ID template, Pos pos, Rot rot)
+    public static Place PlaceTemplate(ID template, Pos pos, Place.Rot rot)
     {
-        return PlaceTemplate(template, pos, rot, Mirror.none, 1.0f, null, true);
+        return PlaceTemplate(template, pos, rot, Place.Mirror.none, 1.0f, null, true);
     }
 
     public static Place PlaceTemplate(ID template, Pos pos)
     {
-        return PlaceTemplate(template, pos, Rot._none, Mirror.none, 1.0f, null, true);
+        return PlaceTemplate(template, pos, Place.Rot._none, Place.Mirror.none, 1.0f, null, true);
     }
 
     public static Place PlaceTemplate(ID template)
     {
-        return PlaceTemplate(template, null, Rot._none, Mirror.none, 1.0f, null, true);
+        return PlaceTemplate(template, null, Place.Rot._none, Place.Mirror.none, 1.0f, null, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Place PlaceTemplate(ID template, Pos pos = null, Rot rot = Rot._none, Mirror mirror = Mirror.none, float integrity = 1.0f, Nullable<long> seed = null, bool serialize = true)
-    public static Place PlaceTemplate(ID template, Pos pos, Rot rot, Mirror mirror, float integrity, java.util.Optional<Long> seed, boolean serialize)
+    public static Place PlaceTemplate(ID template, Pos pos, Place.Rot rot, Place.Mirror mirror, float integrity, Long seed, boolean serialize)
     {
-        
-        Place place = new Place(template, pos, rot, mirror, integrity, seed);
-        
-        return place;
+
+        return new Place(template, pos, rot, mirror, integrity, seed);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -2548,7 +2481,7 @@ public class Commands
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#region publish
 
-    public static Publish Publish(boolean allowCommands, Gamemodes gamemode, java.util.Optional<Integer> port)
+    public static Publish Publish(boolean allowCommands, Gamemodes gamemode, Integer port)
     {
         return Publish(allowCommands, gamemode, port, true);
     }
@@ -2570,14 +2503,12 @@ public class Commands
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Publish Publish(bool allowCommands = false, Gamemodes gamemode = Gamemodes.survival, Nullable<int> port = null, bool serialize = true)
-    public static Publish Publish(boolean allowCommands, Gamemodes gamemode, java.util.Optional<Integer> port, boolean serialize)
+    public static Publish Publish(boolean allowCommands, Gamemodes gamemode, Integer port, boolean serialize)
     {
         
         Publish publish = new Publish(allowCommands, gamemode, port);
         
         return publish;
-        {
-        }
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -2888,150 +2819,61 @@ public class Commands
 //ORIGINAL LINE: public static Scoreboard SbObjectSetdisplay(Scoreboard.DisplaySlot displaySlot, SbObject objective, bool serialize = true)
     public static Scoreboard SbObjectSetdisplay(Scoreboard.DisplaySlot displaySlot, SbObject objective, boolean serialize)
     {
-        
-        Scoreboard scoreboard = new Scoreboard(displaySlot, objective);
-        
-        return scoreboard;
+
+        return new Scoreboard(displaySlot, objective);
     }
 
-
-    public static Scoreboard SbPlayerAdd(String target, SbObject objective, int value)
+    public static Scoreboard SbPlayerAdd(Int target, int value)
     {
-        return SbPlayerAdd(target, objective, value, true);
-    }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Scoreboard SbPlayerAdd(string target, SbObject objective, int value, bool serialize = true)
-    public static Scoreboard SbPlayerAdd(String target, SbObject objective, int value, boolean serialize)
-    {
-        
-        Scoreboard scoreboard = new Scoreboard(Scoreboard.ars.add, target, objective, value);
-        
-        return scoreboard;
+        return new Scoreboard(Scoreboard.ars.add, target.identifier, target.object, value);
     }
-
 
     public static Scoreboard SbPlayerEnableTrigger(String target, SbObject trigger)
     {
-        return SbPlayerEnableTrigger(target, trigger, true);
-    }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Scoreboard SbPlayerEnableTrigger(string target, SbObject trigger, bool serialize = true)
-    public static Scoreboard SbPlayerEnableTrigger(String target, SbObject trigger, boolean serialize)
-    {
-        
-        Scoreboard scoreboard = new Scoreboard(target, trigger);
-        
-        return scoreboard;
+        return new Scoreboard(target, trigger);
     }
-
 
     public static Scoreboard SbPlayerGet(String target, SbObject objective)
     {
-        return SbPlayerGet(target, objective, true);
-    }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Scoreboard SbPlayerGet(string target, SbObject objective, bool serialize = true)
-    public static Scoreboard SbPlayerGet(String target, SbObject objective, boolean serialize)
-    {
-        
-        Scoreboard scoreboard = new Scoreboard(Scoreboard.eg.get, target, objective);
-        
-        return scoreboard;
+        return new Scoreboard(Scoreboard.eg.get, target, objective);
     }
 
 
     public static Scoreboard SbPlayerList(String target)
     {
-        return SbPlayerList(target, true);
+
+        return new Scoreboard(target);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Scoreboard SbPlayerList(string target, bool serialize = true)
-    public static Scoreboard SbPlayerList(String target, boolean serialize)
+    public static Scoreboard SbPlayerOperation(Int a, String operation, Int b)
     {
-        
-        Scoreboard scoreboard = new Scoreboard(target);
-        
-        return scoreboard;
+        return new Scoreboard(a.identifier, a.object, operation, b.identifier, b.object);
     }
 
-
-    public static Scoreboard SbPlayerOperation(SbValue a, String operation, SbValue b)
+    public static Scoreboard SbPlayerRemove(Int target, int value)
     {
-        return SbPlayerOperation(a, operation, b, true);
-    }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Scoreboard SbPlayerOperation(SbValue a, string operation, SbValue b, bool serialize = true)
-    public static Scoreboard SbPlayerOperation(SbValue a, String operation, SbValue b, boolean serialize)
-    {
-        
-        Scoreboard scoreboard = new Scoreboard(a.playerName, a.object, operation, b.playerName, b.object);
-        
-        return scoreboard;
-    }
-
-
-    public static Scoreboard SbPlayerRemove(String target, SbObject objective, int value)
-    {
-        return SbPlayerRemove(target, objective, value, true);
-    }
-
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Scoreboard SbPlayerRemove(string target, SbObject objective, int value, bool serialize = true)
-    public static Scoreboard SbPlayerRemove(String target, SbObject objective, int value, boolean serialize)
-    {
-        
-        Scoreboard scoreboard = new Scoreboard(ars.remove, target, objective, value);
-        
-        return scoreboard;
-    }
-
-
-    public static Scoreboard SbPlayerReset(String target, SbObject objective)
-    {
-        return SbPlayerReset(target, objective, true);
+        return new Scoreboard(Scoreboard.ars.remove, target.identifier, target.object, value);
     }
 
     public static Scoreboard SbPlayerReset(String target)
     {
-        return SbPlayerReset(target, null, true);
+        return SbPlayerReset(target, null);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Scoreboard SbPlayerReset(string target, SbObject objective = null, bool serialize = true)
-    public static Scoreboard SbPlayerReset(String target, SbObject objective, boolean serialize)
+    public static Scoreboard SbPlayerReset(String target, SbObject objective)
     {
-        
-        Scoreboard scoreboard = new Scoreboard(target, objective);
-        
-        return scoreboard;
+        return new Scoreboard(target, objective);
     }
 
-
-    public static Scoreboard SbPlayerSet(SbValue a, int value)
+    public static Scoreboard SbPlayerSet(Int a, int value)
     {
-        return SbPlayerSet(a, value, true);
+
+        return new Scoreboard(Scoreboard.ars.set, a.identifier, a.object, value);
     }
-
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Scoreboard SbPlayerSet(SbValue a, int value, bool serialize = true)
-    public static Scoreboard SbPlayerSet(SbValue a, int value, boolean serialize)
-    {
-        
-        Scoreboard scoreboard = new Scoreboard(ars.set, a.playerName, a.object, value);
-        
-        return scoreboard;
-    }
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region seed
-
     public static Seed Seed()
     {
         return Seed(true);
@@ -3041,10 +2883,8 @@ public class Commands
 //ORIGINAL LINE: public static Seed Seed(bool serialize = true)
     public static Seed Seed(boolean serialize)
     {
-        
-        Seed seed = new Seed();
-        
-        return seed;
+
+        return new Seed();
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
@@ -3059,16 +2899,16 @@ public class Commands
 
     public static Setblock Setblock(Pos pos, BlockState state)
     {
-        return Setblock(pos, state, Cmds.Setblock.dkr.replace, true);
+        return Setblock(pos, state, Setblock.dkr.replace, true);
     }
 
     public static Setblock Setblock(Pos pos)
     {
-        return Setblock(pos, null, Cmds.Setblock.dkr.replace, true);
+        return Setblock(pos, null, Setblock.dkr.replace, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Setblock Setblock(Pos pos, BlockState state = null, Setblock.dkr mode = Cmds.Setblock.dkr.replace, bool serialize = true)
+//ORIGINAL LINE: public static Setblock Setblock(Pos pos, BlockState state = null, Setblock.dkr mode = Setblock.dkr.replace, bool serialize = true)
     public static Setblock Setblock(Pos pos, BlockState state, Setblock.dkr mode, boolean serialize)
     {
         
@@ -3271,15 +3111,15 @@ public class Commands
 
     public static Stopsound Stopsound(Selector target)
     {
-        return Stopsound(target, Cmds.Stopsound.Source.master, null, true);
+        return Stopsound(target, Stopsound.Source.master, null, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Stopsound Stopsound(Selector target, Stopsound.Source source = Cmds.Stopsound.Source.master, string sound = null, bool serialize = true)
+//ORIGINAL LINE: public static Stopsound Stopsound(Selector target, Stopsound.Source source = Stopsound.Source.master, string sound = null, bool serialize = true)
     public static Stopsound Stopsound(Selector target, Stopsound.Source source, String sound, boolean serialize)
     {
         
-        Stopsound stopsound = new Stopsound(target, source, sound);
+        Stopsound stopsound = new Stopsound(target, source, new ID(sound));
         
         return stopsound;
     }
@@ -3499,14 +3339,14 @@ public class Commands
     }
 
 
-    public static Team TeamModifyColor(String team, java.lang.Class.Color.Colors color)
+    public static Team TeamModifyColor(String team, Color.Colors color)
     {
         return TeamModifyColor(team, color, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
 //ORIGINAL LINE: public static Team TeamModifyColor(string team, Type.Color.Colors color, bool serialize = true)
-    public static Team TeamModifyColor(String team, java.lang.Class.Color.Colors color, boolean serialize)
+    public static Team TeamModifyColor(String team, Color.Colors color, boolean serialize)
     {
         
         Team teamcmd = new Team(team, Team.OptionColor.color, color);
@@ -3690,7 +3530,7 @@ public class Commands
 
     public static Teleport Teleport(Selector targets, Pos location)
     {
-        return Teleport(targets, location, null, true);
+        return Teleport(targets, location, (Rotation) null, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
@@ -3727,11 +3567,11 @@ public class Commands
 
     public static Teleport Teleport(Selector targets, Pos location, Selector facingEntity)
     {
-        return Teleport(targets, location, facingEntity, Cmds.Teleport.ef.feet, true);
+        return Teleport(targets, location, facingEntity, Teleport.ef.feet, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Teleport Teleport(Selector targets, Pos location, Selector facingEntity, Teleport.ef facingEntityAnchor = Cmds.Teleport.ef.feet, bool serialize = true)
+//ORIGINAL LINE: public static Teleport Teleport(Selector targets, Pos location, Selector facingEntity, Teleport.ef facingEntityAnchor = Teleport.ef.feet, bool serialize = true)
     public static Teleport Teleport(Selector targets, Pos location, Selector facingEntity, Teleport.ef facingEntityAnchor, boolean serialize)
     {
         
@@ -4044,7 +3884,7 @@ public class Commands
 
     public static Tp Tp(Selector targets, Pos location)
     {
-        return Tp(targets, location, null, true);
+        return Tp(targets, location, (Rotation) null, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
@@ -4081,11 +3921,11 @@ public class Commands
 
     public static Tp Tp(Selector targets, Pos location, Selector facingEntity)
     {
-        return Tp(targets, location, facingEntity, Cmds.Tp.ef.feet, true);
+        return Tp(targets, location, facingEntity, Tp.ef.feet, true);
     }
 
     //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Tp Tp(Selector targets, Pos location, Selector facingEntity, Tp.ef facingEntityAnchor = Cmds.Tp.ef.feet, bool serialize = true)
+//ORIGINAL LINE: public static Tp Tp(Selector targets, Pos location, Selector facingEntity, Tp.ef facingEntityAnchor = Tp.ef.feet, bool serialize = true)
     public static Tp Tp(Selector targets, Pos location, Selector facingEntity, Tp.ef facingEntityAnchor, boolean serialize)
     {
         
@@ -4495,88 +4335,9 @@ public class Commands
 //ORIGINAL LINE: public static Xp XpQuery(Selector player, bool levels = false, bool serialize = true)
     public static Xp XpQuery(Selector player, boolean levels, boolean serialize)
     {
-        
-        Xp xp = new Xp(player, levels ? "levels" : "points");
-        
-        return xp;
+
+        return new Xp(player, levels ? "levels" : "points");
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
-
-    public static void Comment(String comment)
-    {
-        if (DatapackInfo.GetFunctionState() == DatapackInfo.FunctionState.UnRegestered)
-        {
-            throw new FunctionNotRegistryException("未注册的函数:" + (new StackFrame(1)).GetMethod().Name);
-        }
-        else if (DatapackInfo.GetFunctionState() == DatapackInfo.FunctionState.Forbidden)
-        {
-            return;
-        }
-        
-    }
-
-    /**
-     将一个已有的命令添加到当前的命令函数中
-
-     @param command 要添加的命令
-     @param serialize 是否序列化。默认为是
-     */
-
-    public static void AddCommand(Command command)
-    {
-        AddCommand(command, true);
-    }
-
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static void AddCommand(Command command, bool serialize = true)
-    public static void AddCommand(Command command, boolean serialize)
-    {
-        if (DatapackInfo.GetFunctionState() == DatapackInfo.FunctionState.UnRegestered)
-        {
-            throw new FunctionNotRegistryException("未注册的函数:" + (new StackFrame(1)).GetMethod().Name);
-        }
-        else if (DatapackInfo.GetFunctionState() == DatapackInfo.FunctionState.Forbidden)
-        {
-            return;
-        }
-        
-    }
-
-    /**
-     将当前命令函数的最后一行命令删除
-
-     @exception FunctionNotRegistryException
-     */
-    public static void RemoveCommand()
-    {
-        if (DatapackInfo.GetFunctionState() == DatapackInfo.FunctionState.UnRegestered)
-        {
-            throw new FunctionNotRegistryException("未注册的函数:" + (new StackFrame(1)).GetMethod().Name);
-        }
-        else if (DatapackInfo.GetFunctionState() == DatapackInfo.FunctionState.Forbidden)
-        {
-            return;
-        }
-        DatapackInfo.functions[StackManager.GetStackName()[0]].RemoveCommand();
-    }
-
-    /**
-     将当前命令函数中的此未序列化的命令序列化
-
-     @param command
-     */
-    public static void Serialize(Command command)
-    {
-        if (DatapackInfo.GetFunctionState() == DatapackInfo.FunctionState.UnRegestered)
-        {
-            throw new FunctionNotRegistryException("未注册的函数:" + (new StackFrame(1)).GetMethod().Name);
-        }
-        else if (DatapackInfo.GetFunctionState() == DatapackInfo.FunctionState.Forbidden)
-        {
-            return;
-        }
-        DatapackInfo.functions[StackManager.GetStackName()[0]].Serialize(command);
-    }
-
 }

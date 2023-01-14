@@ -12,14 +12,14 @@ public class SbObject
     public JsonText display;
 
     /**
-     MCSharp数学计算使用的计分板对象。
+     mcfpp数学计算使用的计分板对象。
      */
-    public static SbObject MCS_intvar;
+    public static SbObject MCS_intvar = new SbObject("mcs_intvar", "dummy");
 
     /**
-     MCSharp默认的计分板变量
+     mcfpp默认的计分板变量
      */
-    public static SbObject MCS_default;
+    public static SbObject MCS_default = new SbObject("mcs_default","dummy");
 
 
     public SbObject(String name, String rule)
@@ -32,8 +32,6 @@ public class SbObject
         this(name, "dummy", null);
     }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public SbObject(string name, string rule = "dummy", JsonText display = null)
     public SbObject(String name, String rule, JsonText display)
     {
         this.name = name.toLowerCase();

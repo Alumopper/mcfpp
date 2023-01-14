@@ -1,10 +1,16 @@
 package top.alumopper.mcfpp.reader;
 
+import org.antlr.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import top.alumopper.mcfpp.Cache;
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.lib.FunctionParam;
 import top.alumopper.mcfpp.tokens.FunctionToken;
 import top.alumopper.mcfpp.tokens.Token;
+import top.alumopper.mcfpp.lib.*;
 
 import java.io.*;
 
@@ -12,47 +18,31 @@ import java.io.*;
  * 用于读取mcfpp代码
  */
 public class McfppFileReader extends McfppReader {
+
+    public static String currPath;
+
     /**
      * 从指定路径读取mcfpp文件
      * @param path mcfpp文件的路径
      */
     public McfppFileReader(String path) throws IOException{
         this.path = path;
-        this.rpath = getRelativePath(Project.root)
-        reader = new BufferedReader(new FileReader(path));
+        this.rpath = getRelativePath(Project.root.getAbsolutePath(),new File(path).getParentFile().getAbsolutePath());
+        currPath = this.rpath;
+        input = new FileInputStream(path);
     }
 
     /**
-     * 从这个文件中解析类或者函数
+     * 编译这个文件
      */
-    @Override
-    public void analyze() throws IOException{
-        int line = 0;
-        Token temp;
-        while ((temp = Token.readToken(this)) != null){
-            //处理token
-            if(temp.tokenStrings.get(0).equals("func")){
-                //函数
-                FunctionToken f = new FunctionToken(temp);
-                f.name = temp.tokenStrings.get(1);
-                for (String p : temp.tokenStrings.get(2).split(" ")) {
-                    //参数解析
-                    if(p.equals("")){
-                        continue;
-                    }
-                    String[] pinfo = p.split(" ");
-                    if(pinfo.length == 3 && pinfo[0].equals("static")){
-                        f.params.add(new FunctionParam(pinfo[1],pinfo[2], true));
-                    }else {
-                        f.params.add(new FunctionParam(pinfo[0],pinfo[1], false));
-                    }
-                }
-                //函数体
-                f.funcs = temp.tokenStrings.get(2);
-                f.namespace = FunctionToken.currNamespace;
-                Cache.functions.put(f.name,f);
-            }
-        }
+    public void compile() throws IOException {
+        Project.currFile = new File(path);
+        CharStream charStream = CharStreams.fromStream(input);
+        mcfppLexer lexer = new mcfppLexer(charStream);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        mcfppParser parser = new mcfppParser(tokens);
+        parser.addParseListener(new McfppImListener());
+        parser.compilationUnit();
     }
 
     /**

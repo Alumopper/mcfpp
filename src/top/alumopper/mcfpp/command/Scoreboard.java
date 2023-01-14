@@ -358,62 +358,39 @@ public class Scoreboard extends Command
     public String toString()
     {
         String re = "#scoreboard qwq";
-        switch (type)
-        {
-            case 0:
-            {
+        switch (type) {
+            case 0 -> {
                 re = "scoreboard objectives add " + objective + " " + rule + " " + display;
-                break;
             }
-            case 1:
-            {
+            case 1 -> {
                 re = "scoreboard objectives list";
-                break;
             }
-            case 2:
-            {
+            case 2 -> {
                 re = "scoreboard objectives modify " + rule + " displayname " + display;
-                break;
             }
-            case 3:
-            {
+            case 3 -> {
                 re = "scoreboard objectives modify " + objective + " rendertype " + hearts_integer.name();
-                break;
             }
-            case 4:
-            {
+            case 4 -> {
                 re = "scoreboard objectives remove " + objective;
-                break;
             }
-            case 5:
-            {
+            case 5 -> {
                 re = "scoreboard objectives setdisplay " + displaySlot + " " + objective;
-                break;
             }
-            case 6:
-            {
+            case 6 -> {
                 re = "scoreboard players " + add_remove_set.name() + " " + target + " " + objective + " " + value;
-                break;
             }
-            case 7:
-            {
+            case 7 -> {
                 re = "scoreboard players " + enable_get.name() + " " + target + " " + objective;
-                break;
             }
-            case 8:
-            {
+            case 8 -> {
                 re = "scoreboard players list " + target;
-                break;
             }
-            case 9:
-            {
+            case 9 -> {
                 re = "scoreboard players operation " + target + " " + objective + " " + operation + " " + source + " " + sourceObject;
-                break;
             }
-            case 10:
-            {
+            case 10 -> {
                 re = "scoreboard players reset " + target + " " + objective;
-                break;
             }
         }
         return re;

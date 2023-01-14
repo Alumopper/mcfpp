@@ -41,6 +41,8 @@ public class Project {
      */
     static ArrayList<String> includes;
 
+    public static File currFile;
+
     /**
      * 读取工程
      * @param path 工程的json文件的路径
@@ -49,6 +51,7 @@ public class Project {
         //工程信息读取
         try{
             logger.debug("Reading project from file \"" + path + "\"");
+            FunctionToken.currNamespace = new File(path).getName().toLowerCase();
             BufferedReader reader = new BufferedReader(new FileReader(path));
             root = new File(path).getParentFile();
             StringBuilder json = new StringBuilder();
@@ -95,23 +98,20 @@ public class Project {
         }
     }
 
-    public void compile(){
+    public static void compile(){
         //工程文件编译
         assert files != null;
         //解析文件
         for (String file : files) {
             logger.debug("Compiling mcfpp code in \"" + file + "\"");
             try{
-                new McfppFileReader(file).analyze();
+                new McfppFileReader(file).compile();
             }catch (Exception e){
                 logger.error("Error while compiling file \"" + file + "\"");
                 e.printStackTrace();
             }
         }
-        //解析函数
-        for(FunctionToken function : Cache.functions.values()){
-            logger.debug("Compiling mcfpp function \"" + function.name + "\"");
-        }
+        logger.info("Successfully compile project " + root.getName());
     }
 
 

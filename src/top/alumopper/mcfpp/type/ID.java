@@ -44,6 +44,16 @@ public class ID {
 
     /**
      * 创建一个命名空间id
+     */
+    public ID(String id)
+    {
+        this.namespace = namespace;
+        this.name = name;
+        this.id = namespace + ":" + name;
+    }
+
+    /**
+     * 创建一个命名空间id
      * @param namespace 命名空间
      * @param name 名字
      * @param isTag 是否是标签
@@ -54,6 +64,10 @@ public class ID {
         this.name = name;
         this.id = namespace + ":" + name;
         this.isTag = isTag;
+    }
+
+    public static boolean IsLegal(String arg) {
+        return true;
     }
 
     @Override

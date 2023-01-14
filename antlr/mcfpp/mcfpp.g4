@@ -1,5 +1,9 @@
 grammar mcfpp;
 
+@header{
+package top.alumopper.mcfpp.lib;
+}
+
 //一个mcfpp文件
 compilationUnit
     :   namespaceDeclaration?
@@ -27,75 +31,83 @@ classOrFunctionDeclaration
 
 //类声明
 classDeclaration
-    :   'class' ClassName '{' classMember* '}'
+    :   'class' className '{' classMember* '}'
     ;
 
 //函数声明
 functionDeclaration
-    :   'func' Identifier '(' parameterList? ')' '{' functionBody '}'
+    :    namespaceID? 'func' Identifier '(' parameterList? ')' '{' functionBody '}'
     ;
 
 //类成员
 classMember
     :   functionDeclaration
-    |   variableDeclaration
+    |   fieldDeclaration
     |   constructorDeclaration
     ;
 
 //构造函数声明
 constructorDeclaration
-    :   ClassName '(' parameterList ')' '{' functionBody '}'
+    :   className '(' parameterList ')' '{' functionBody '}'
     ;
 
+//构造函数的调用
 constructorCall
-    :   'new' ClassName arguments
+    :   'new' className arguments
     ;
 
 //变量声明
-variableDeclaration
+fieldDeclaration
     :   type Identifier ';'
     |   type Identifier '=' expression ';'
     ;
 
+//参数列表
 parameterList
     :   parameter (',' parameter)*
     ;
 
+//参数
 parameter
     :   type Identifier
     ;
 
+//表达式
 expression
-    :   conditionalExpression ('=' expression)?
+    :   conditionalExpression
     ;
 
+//能作为语句的表达式
 statementExpression
-    :   conditionalExpression ('=' expression)? ';'
+    :   var  ('=' expression )?';'
     ;
 
+//条件表达式
 conditionalExpression
     :   conditionalOrExpression ( '?' expression ':' expression )?
     ;
 
-
+//或门
 conditionalOrExpression
     :   conditionalAndExpression ( '||' conditionalAndExpression )*
     ;
 
+//与门
 conditionalAndExpression
     :   equalityExpression ( '&&' equalityExpression )*
     ;
 
-
+//等同
 equalityExpression
-    :   relationalExpression ( ('==' | '!=') relationalExpression )*
+    :   relationalExpression ( op=('==' | '!=') relationalExpression )*
     ;
 
-
+//比较关系
 relationalExpression
     :   additiveExpression ( relationalOp additiveExpression )*
     ;
 
+//比较关系运算符
 relationalOp
     :   '<='
     |   '>='
@@ -103,47 +115,63 @@ relationalOp
     |   '>'
     ;
 
+//加减
 additiveExpression
-    :   multiplicativeExpression ( ('+' | '-') multiplicativeExpression )*
+    :   multiplicativeExpression ( op=('+' | '-') multiplicativeExpression )*
     ;
 
+//乘除
 multiplicativeExpression
-    :   unaryExpression ( ( '*' | '/' | '%' ) unaryExpression )*
+    :   unaryExpression ( op=( '*' | '/' | '%' ) unaryExpression )*
     ;
 
+//一元表达式
 unaryExpression
     :   '!' unaryExpression
     |   castExpression
-    |   primary selector*
+    |   basicExpression
     ;
 
+basicExpression
+    :   primary selector*
+    ;
+
+
+//强制类型转换表达式
 castExpression
-    :  '(' primitiveType ')' unaryExpression
+    :  '(' type ')' unaryExpression
     ;
 
+//初级表达式
 primary
     :   '(' expression ')'
+    |   var
     |   'this' arguments?
     |   'super' superSuffix
     |   number
     |   constructorCall
-    |   Identifier ('.' Identifier)* identifierSuffix?
+    ;
+
+//变量
+var
+    :   THIS selector+
+    |   SUPER selector+
+    |   Identifier identifierSuffix? selector*
     ;
 
 identifierSuffix
     :   '[' conditionalExpression ']'
     |   arguments
-    |   '.' primaryAndSelectorSuffix
     ;
 
-primaryAndSelectorSuffix
+selectorSuffix
 	:	'super' superSuffix
 	|	Identifier arguments
 	;
 
 selector
     :   '.' Identifier arguments?
-	|	'.' primaryAndSelectorSuffix
+	|	'.' selectorSuffix
     |   '.' 'this'
     |   '.' 'super' superSuffix
     |   '[' expression ']'
@@ -151,22 +179,10 @@ selector
 
 superSuffix
     :   arguments
-    |   '.' Identifier arguments?
     ;
 
 arguments
     :   '(' expressionList? ')'
-    ;
-
-primitiveType
-    :   'boolean'
-    |   'char'
-    |   'byte'
-    |   'short'
-    |   'int'
-    |   'long'
-    |   'float'
-    |   'double'
     ;
 
 functionBody
@@ -174,29 +190,44 @@ functionBody
     ;
 
 statement
-    :   variableDeclaration
+    :   fieldDeclaration
     |   statementExpression
+    |   IF'('expression')' block (ELSE block)?
+    |   FOR '(' forControl ')' block
+    |   WHILE '(' expression ')' block
+    |   DO block WHILE '{' expression '}' ';'
     |   ';'
+    |   selfAddOrMinusExpression ';'
+    |   TRY block  STORE '(' Identifier ')' ';'
     ;
 
-variableOperation
-    :   Identifier '=' expression ';'
+block
+    :   '{' statement* '}'
+    ;
+
+selfAddOrMinusExpression
+    :   Identifier ('++'|'--')
+    ;
+
+forControl
+    :   forInit? ';' expression? ';' forUpdate?
+    ;
+
+forInit
+    :   forVariableDeclaration
+    |   expressionList
+    ;
+
+forUpdate
+    :   expressionList
+    ;
+
+forVariableDeclaration
+    :   type Identifier '=' expression
     ;
 
 expressionList
     :   expression (',' expression)*
-    ;
-
-functionCall
-    :   functionExpression ';'
-    ;
-
-functionExpression
-    :   Identifier '(' expressionList? ')'
-    ;
-
-var
-    :   Identifier
     ;
 
 type
@@ -205,19 +236,44 @@ type
     |   'string'
     |   'bool'
     |   'decimal'
+    |   className
     ;
 
 number
     :   INT
     |   DECIMAL
-    |   var
     ;
+
+className
+    :   ClassIdentifier
+    |   InsideClass
+    ;
+
+namespaceID
+    :   Identifier (':' Identifier)?
+    ;
+
+THIS:'this';
+SUPER:'super';
+IF:'if';
+ELSE:'else';
+WHILE:'while';
+FOR:'for';
+DO:'do';
+TRY:'try';
+STORE:'store';
 
 Identifier
     :   [a-z]+
     ;
 
-ClassName
+InsideClass
+    :   'entity'
+    |   'pos'
+    |   VEC INT
+    ;
+
+ClassIdentifier
     :   [A-Z][a-z]*
     ;
 
@@ -228,6 +284,10 @@ INT
 DECIMAL
     :   INT
     |   INT '.' [0-9]+
+    ;
+
+VEC
+    :   'vec'
     ;
 
 //
