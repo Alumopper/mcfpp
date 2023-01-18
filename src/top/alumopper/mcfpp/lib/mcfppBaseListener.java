@@ -331,6 +331,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterVarWithSelector(mcfppParser.VarWithSelectorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarWithSelector(mcfppParser.VarWithSelectorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVar(mcfppParser.VarContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -355,18 +367,6 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSelectorSuffix(mcfppParser.SelectorSuffixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSelectorSuffix(mcfppParser.SelectorSuffixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterSelector(mcfppParser.SelectorContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -374,18 +374,6 @@ public class mcfppBaseListener implements mcfppListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSelector(mcfppParser.SelectorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSuperSuffix(mcfppParser.SuperSuffixContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSuperSuffix(mcfppParser.SuperSuffixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -410,6 +398,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunctionBody(mcfppParser.FunctionBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionCall(mcfppParser.FunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionCall(mcfppParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -523,6 +523,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFunctionType(mcfppParser.FunctionTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionType(mcfppParser.FunctionTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNumber(mcfppParser.NumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -542,6 +554,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitClassName(mcfppParser.ClassNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNamespaceID(mcfppParser.NamespaceIDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNamespaceID(mcfppParser.NamespaceIDContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

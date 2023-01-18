@@ -1,17 +1,25 @@
 package top.alumopper.mcfpp;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
+import java.util.*;
 
 import top.alumopper.mcfpp.lib.Function;
-import top.alumopper.mcfpp.tokens.FunctionToken;
-import top.alumopper.mcfpp.type.Number;
 import top.alumopper.mcfpp.type.Var;
 
 public final class Cache {
-    //变量
+
+    /**
+     * 局部变量
+     */
     public HashMap<String,Var> vars = new HashMap<>();
+
+    /**
+     * 全局变量
+     */
+    public static HashMap<String,Var> globalVars = new HashMap<>();
+
+    /**
+     * 全局函数
+     */
     public static HashMap<String, Function> functions = new HashMap<>();
 
     //TODO:DEBUG
@@ -22,5 +30,15 @@ public final class Cache {
                 System.out.println("\t" + c);
             }
         }
+    }
+
+    public static Object getKey(Map map, Object value){
+        List<Object> keyList = new ArrayList<>();
+        for(Object key: map.keySet()){
+            if(map.get(key).equals(value)){
+                keyList.add(key);
+            }
+        }
+        return keyList;
     }
 }

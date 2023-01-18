@@ -7,11 +7,11 @@ public class Function extends Command
 	/** 
 	 函数命名空间id
 	*/
-	private ID functionID;
+	private final String functionID;
 
-	public Function(ID functionID)
+	public Function(top.alumopper.mcfpp.lib.Function functionID)
 	{
-		this.functionID = functionID;
+		this.functionID = functionID.GetNamespaceID();
 	}
 
 	@Override

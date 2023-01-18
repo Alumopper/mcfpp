@@ -444,9 +444,8 @@ public class Execute extends Command
 
          @param pos
          @param path
-         @exception ArgumentNotMatchException
          */
-        public If(Pos pos, String path) throws ArgumentNotMatchException {
+        public If(Pos pos, String path) {
             this.pos = pos;
             this.path = path;
             type = 3;
@@ -457,9 +456,8 @@ public class Execute extends Command
 
          @param target
          @param path
-         @exception ArgumentNotMatchException
          */
-        public If(Selector target, String path) throws ArgumentNotMatchException {
+        public If(Selector target, String path) {
             this.target = target;
             this.path = path;
             type = 4;
@@ -470,9 +468,8 @@ public class Execute extends Command
 
          @param source
          @param path
-         @exception ArgumentNotMatchException
          */
-        public If(ID source, String path) throws ArgumentNotMatchException {
+        public If(ID source, String path) {
             this.source = source;
             this.path = path;
             type = 5;
@@ -575,10 +572,7 @@ public class Execute extends Command
         }
     }
 
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-
-    private final ArrayList<ExecuteChildCommand> childcommands = new ArrayList<ExecuteChildCommand>();
+    private final ArrayList<ExecuteChildCommand> childcommands = new ArrayList<>();
 
     public final void Append(ExecuteChildCommand childCommand)
     {

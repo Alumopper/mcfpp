@@ -21,9 +21,24 @@ public class Function {
     public String name;
 
     /**
+     * 函数的标签
+     */
+    public String tag;
+
+    /**
      * 函数的路径
      */
     public String path;
+
+    /**
+     *  参数列表
+     */
+    public ArrayList<FunctionParam> params;
+
+    /**
+     *  是否是类的成员函数
+     */
+    public boolean isClassMember;
 
     /**
      * 函数编译时的缓存
@@ -31,14 +46,35 @@ public class Function {
     public Cache cache = new Cache();
 
     /**
+     * 这个函数调用的函数
+     */
+    public ArrayList<Function> child = new ArrayList<>();
+
+    /**
+     * 调用这个函数的函数
+     */
+    public Function parent;
+
+    /**
      * 目前处在的函数
      */
     public static Function currFunction;
 
+    public static Function nullFunction = new Function("null");
+
     public Function(String name){
         this.path = McfppFileReader.currPath;
         this.name = name;
-        commands = new ArrayList<>();
+        this.commands = new ArrayList<>();
+        this.params = new ArrayList<>();
+    }
+
+    public Function(String name, String tag){
+        this.path = McfppFileReader.currPath;
+        this.name = name;
+        this.commands = new ArrayList<>();
+        this.params = new ArrayList<>();
+        this.tag = tag;
     }
 
     public String GetID(){

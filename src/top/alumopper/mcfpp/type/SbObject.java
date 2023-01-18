@@ -21,6 +21,8 @@ public class SbObject
      */
     public static SbObject MCS_default = new SbObject("mcs_default","dummy");
 
+    public static SbObject MCS_params = new SbObject("mcs_params","dummy");
+
 
     public SbObject(String name, String rule)
     {

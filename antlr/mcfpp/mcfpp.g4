@@ -9,6 +9,7 @@ compilationUnit
     :   namespaceDeclaration?
         (   namespaceDeclaration
         |   typeDeclaration
+        |   fieldDeclaration
         )*
         EOF
     ;
@@ -69,7 +70,7 @@ parameterList
 
 //参数
 parameter
-    :   type Identifier
+    :   STATIC? type Identifier
     ;
 
 //表达式
@@ -79,7 +80,7 @@ expression
 
 //能作为语句的表达式
 statementExpression
-    :   var  ('=' expression )?';'
+    :   varWithSelector '=' expression ';'
     ;
 
 //条件表达式
@@ -133,9 +134,9 @@ unaryExpression
     ;
 
 basicExpression
-    :   primary selector*
+    :   primary
+    |   varWithSelector
     ;
-
 
 //强制类型转换表达式
 castExpression
@@ -144,41 +145,28 @@ castExpression
 
 //初级表达式
 primary
-    :   '(' expression ')'
-    |   var
-    |   'this' arguments?
-    |   'super' superSuffix
+    :   var
     |   number
-    |   constructorCall
     ;
 
-//变量
+varWithSelector
+    : var selector*
+    ;
+
 var
-    :   THIS selector+
-    |   SUPER selector+
-    |   Identifier identifierSuffix? selector*
+    :   '(' expression ')'
+    |   Identifier identifierSuffix*
+    |   'this'
+    |   'super'
+    |   constructorCall
     ;
 
 identifierSuffix
     :   '[' conditionalExpression ']'
-    |   arguments
     ;
-
-selectorSuffix
-	:	'super' superSuffix
-	|	Identifier arguments
-	;
 
 selector
-    :   '.' Identifier arguments?
-	|	'.' selectorSuffix
-    |   '.' 'this'
-    |   '.' 'super' superSuffix
-    |   '[' expression ']'
-    ;
-
-superSuffix
-    :   arguments
+    :   '.' var
     ;
 
 arguments
@@ -189,9 +177,17 @@ functionBody
     :   statement*
     ;
 
+functionCall
+    :   Identifier arguments
+    |   'this' arguments
+    |   'super' arguments
+    |   (basicExpression '.') Identifier arguments
+    ;
+
 statement
     :   fieldDeclaration
     |   statementExpression
+    |   functionCall
     |   IF'('expression')' block (ELSE block)?
     |   FOR '(' forControl ')' block
     |   WHILE '(' expression ')' block
@@ -232,11 +228,15 @@ expressionList
 
 type
     :   'int'
-    |   'float'
     |   'string'
     |   'bool'
     |   'decimal'
     |   className
+    ;
+
+functionType
+    :   'void'
+    |   type
     ;
 
 number
@@ -262,6 +262,8 @@ FOR:'for';
 DO:'do';
 TRY:'try';
 STORE:'store';
+
+STATIC:'static';
 
 Identifier
     :   [a-z]+

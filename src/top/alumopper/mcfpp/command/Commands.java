@@ -1484,19 +1484,10 @@ public class Commands
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#region function
 
-    public static Function Function(ID functionID)
+    public static Function Function(top.alumopper.mcfpp.lib.Function function)
     {
-        return Function(functionID, true);
-    }
 
-    //C# TO JAVA CONVERTER NOTE: Java does not support optional parameters. Overloaded method(s) are created above:
-//ORIGINAL LINE: public static Function Function(ID functionID, bool serialize = true)
-    public static Function Function(ID functionID, boolean serialize)
-    {
-        
-        Function function = new Function(functionID);
-        
-        return function;
+        return new Function(function);
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion

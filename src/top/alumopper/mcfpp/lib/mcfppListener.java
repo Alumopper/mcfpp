@@ -270,6 +270,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitPrimary(mcfppParser.PrimaryContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mcfppParser#varWithSelector}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarWithSelector(mcfppParser.VarWithSelectorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#varWithSelector}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarWithSelector(mcfppParser.VarWithSelectorContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mcfppParser#var}.
 	 * @param ctx the parse tree
 	 */
@@ -290,16 +300,6 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitIdentifierSuffix(mcfppParser.IdentifierSuffixContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mcfppParser#selectorSuffix}.
-	 * @param ctx the parse tree
-	 */
-	void enterSelectorSuffix(mcfppParser.SelectorSuffixContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link mcfppParser#selectorSuffix}.
-	 * @param ctx the parse tree
-	 */
-	void exitSelectorSuffix(mcfppParser.SelectorSuffixContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link mcfppParser#selector}.
 	 * @param ctx the parse tree
 	 */
@@ -309,16 +309,6 @@ public interface mcfppListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSelector(mcfppParser.SelectorContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link mcfppParser#superSuffix}.
-	 * @param ctx the parse tree
-	 */
-	void enterSuperSuffix(mcfppParser.SuperSuffixContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link mcfppParser#superSuffix}.
-	 * @param ctx the parse tree
-	 */
-	void exitSuperSuffix(mcfppParser.SuperSuffixContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#arguments}.
 	 * @param ctx the parse tree
@@ -339,6 +329,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionBody(mcfppParser.FunctionBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCall(mcfppParser.FunctionCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCall(mcfppParser.FunctionCallContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#statement}.
 	 * @param ctx the parse tree
@@ -430,6 +430,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitType(mcfppParser.TypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mcfppParser#functionType}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionType(mcfppParser.FunctionTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#functionType}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionType(mcfppParser.FunctionTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mcfppParser#number}.
 	 * @param ctx the parse tree
 	 */
@@ -449,4 +459,14 @@ public interface mcfppListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitClassName(mcfppParser.ClassNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * @param ctx the parse tree
+	 */
+	void enterNamespaceID(mcfppParser.NamespaceIDContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * @param ctx the parse tree
+	 */
+	void exitNamespaceID(mcfppParser.NamespaceIDContext ctx);
 }

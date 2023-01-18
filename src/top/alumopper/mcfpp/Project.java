@@ -4,12 +4,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.reader.McfppFileReader;
-import top.alumopper.mcfpp.tokens.FunctionToken;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +26,11 @@ public class Project {
      * 工程的根目录
      */
     public static File root;
+
+    /**
+     * 工程的名字
+     */
+    public static String name;
 
     /**
      * 工程包含的所有文件。以绝对路径保存
@@ -43,6 +49,10 @@ public class Project {
 
     public static File currFile;
 
+    public static int errorCount;
+
+    public static int warningCount;
+
     /**
      * 读取工程
      * @param path 工程的json文件的路径
@@ -51,9 +61,9 @@ public class Project {
         //工程信息读取
         try{
             logger.debug("Reading project from file \"" + path + "\"");
-            FunctionToken.currNamespace = new File(path).getName().toLowerCase();
             BufferedReader reader = new BufferedReader(new FileReader(path));
             root = new File(path).getParentFile();
+            name = root.getName();
             StringBuilder json = new StringBuilder();
             String line;
             while((line = reader.readLine()) != null){
@@ -64,6 +74,7 @@ public class Project {
             JSONArray filesJson = jsonObject.getJSONArray("files");
             if(filesJson == null){
                 logger.error("Missing key \"files\" in project json file");
+                errorCount++;
             }else {
                 for (Object o : filesJson.toArray()) {
                     String s = (String) o;
@@ -71,17 +82,16 @@ public class Project {
                         //通配符
                         s = s.substring(0,s.length()-1);
                     }
+                    File r;
                     if(s.length() > 2 && s.charAt(1) == ':'){
                         //绝对路径
-                        File r = new File(s);
-                        logger.info("Finding file in \"" + r.getAbsolutePath() + "\"");
-                        getFiles(r, files);
+                        r = new File(s);
                     }else {
                         //相对路径
-                        File r = new File(root.getAbsolutePath() + s);
-                        logger.info("Finding file in \"" + r.getAbsolutePath() + "\"");
-                        getFiles(r, files);
+                        r = new File(root.getAbsolutePath() + s);
                     }
+                    logger.info("Finding file in \"" + r.getAbsolutePath() + "\"");
+                    getFiles(r, files);
                 }
             }
             version = jsonObject.getString("version");
@@ -94,6 +104,7 @@ public class Project {
             }
         }catch (Exception e){
             logger.error("Error while reading project from file \"" + path + "\"");
+            errorCount ++;
             e.printStackTrace();
         }
     }
@@ -103,17 +114,35 @@ public class Project {
         assert files != null;
         //解析文件
         for (String file : files) {
-            logger.debug("Compiling mcfpp code in \"" + file + "\"");
+            Project.logger.debug("Compiling mcfpp code in \"" + file + "\"");
             try{
                 new McfppFileReader(file).compile();
-            }catch (Exception e){
-                logger.error("Error while compiling file \"" + file + "\"");
+            }catch (IOException e){
+                Project.logger.error("Error while compiling file \"" + file + "\"");
+                errorCount++;
                 e.printStackTrace();
             }
         }
-        logger.info("Successfully compile project " + root.getName());
     }
 
+    public static void optimization(){
+        logger.debug("Optimizing...");
+        //寻找入口函数
+        boolean hasEntrance = false;
+        for (Function f : Cache.functions.values()) {
+            if(f.parent == null){
+                //找到了入口函数
+                hasEntrance = true;
+                f.commands.add(0,"data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+                Project.logger.debug("Find entrance function:" + f.tag + " " + f.name);
+            }
+        }
+        if(!hasEntrance){
+            Project.logger.warn("No valid entrance function in Project " + Project.name);
+            Project.warningCount ++;
+        }
+        logger.info("Complete compiling project " + root.getName() + " with [" + errorCount + "] error and [" + warningCount + "] warning");
+    }
 
     /**
      * 获取文件列表
@@ -123,6 +152,7 @@ public class Project {
     private static void getFiles(File file, ArrayList<String> files){
         if(!file.exists()){
             Project.logger.warn("Path \"" + file.getAbsolutePath() + "\" doesn't exist. Ignoring.");
+            Project.warningCount ++;
             return;
         }
         File[] fs = file.listFiles();

@@ -1,12 +1,12 @@
 package top.alumopper.mcfpp.type;
 
+import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
 import top.alumopper.mcfpp.lib.Function;
 
 import java.util.UUID;
 
 public class Int extends Number<Integer>{
-
 
     public Int(){
         this(UUID.randomUUID().toString());
@@ -46,7 +46,10 @@ public class Int extends Number<Integer>{
             this.value = a.value;
         }else {
             this.isConcrete = false;
-            Function.addCommand(Commands.SbPlayerOperation(this,"=", (Int) a).toString());
+            //变量进栈
+            Function.addCommand("execute store result storage mcfpp:system " + Project.name + ".stack_frame[0]." + this.identifier + " run "
+                    + Commands.SbPlayerOperation(this,"=", (Int) a)
+            );
         }
     }
 

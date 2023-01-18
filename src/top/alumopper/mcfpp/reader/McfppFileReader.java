@@ -1,17 +1,10 @@
 package top.alumopper.mcfpp.reader;
 
-import org.antlr.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import top.alumopper.mcfpp.Cache;
 import top.alumopper.mcfpp.Project;
-import top.alumopper.mcfpp.lib.FunctionParam;
-import top.alumopper.mcfpp.tokens.FunctionToken;
-import top.alumopper.mcfpp.tokens.Token;
 import top.alumopper.mcfpp.lib.*;
-
 import java.io.*;
 
 /**

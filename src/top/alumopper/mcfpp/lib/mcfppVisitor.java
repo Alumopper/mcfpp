@@ -169,6 +169,12 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrimary(mcfppParser.PrimaryContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link mcfppParser#varWithSelector}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarWithSelector(mcfppParser.VarWithSelectorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link mcfppParser#var}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -181,23 +187,11 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIdentifierSuffix(mcfppParser.IdentifierSuffixContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link mcfppParser#selectorSuffix}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSelectorSuffix(mcfppParser.SelectorSuffixContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link mcfppParser#selector}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSelector(mcfppParser.SelectorContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link mcfppParser#superSuffix}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSuperSuffix(mcfppParser.SuperSuffixContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#arguments}.
 	 * @param ctx the parse tree
@@ -210,6 +204,12 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionBody(mcfppParser.FunctionBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#functionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(mcfppParser.FunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#statement}.
 	 * @param ctx the parse tree
@@ -265,6 +265,12 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(mcfppParser.TypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link mcfppParser#functionType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionType(mcfppParser.FunctionTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link mcfppParser#number}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -276,4 +282,10 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitClassName(mcfppParser.ClassNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNamespaceID(mcfppParser.NamespaceIDContext ctx);
 }

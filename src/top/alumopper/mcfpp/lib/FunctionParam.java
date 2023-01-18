@@ -18,11 +18,11 @@ public class FunctionParam {
     /**
      * 参数的名字
      */
-    public String name;
+    public String identifier;
 
     public FunctionParam(String type, String name, boolean isStatic){
         this.type = type;
-        this.name = name;
+        this.identifier = name;
         this.isStatic = isStatic;
     }
 }

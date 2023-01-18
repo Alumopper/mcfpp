@@ -1,12 +1,14 @@
 package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
-import top.alumopper.mcfpp.exception.VariableNotDefineException;
 import top.alumopper.mcfpp.type.Int;
 import top.alumopper.mcfpp.type.Var;
 
 import java.util.Objects;
 
+/**
+ * 获取表达式结果用的visitor
+ */
 public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
 
     @Override
@@ -135,7 +137,7 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
 
     @Override
     public Var visitBasicExpression(mcfppParser.BasicExpressionContext ctx){
-        if(ctx.selector().size() == 0){
+        if(ctx.primary() != null){
             return visit(ctx.primary());
         }else {
             //TODO
@@ -145,44 +147,39 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
 
     @Override
     public Var visitPrimary(mcfppParser.PrimaryContext ctx){
-        if(ctx.expression() != null) {
-            //括号表达式
-            return visit(ctx.expression());
-        }else if(ctx.number() != null){
+        if(ctx.var() != null) {
+            //变量
+            return visit(ctx.var());
+        }else{
             //数字
             mcfppParser.NumberContext num = ctx.number();
             if(num.INT() != null){
                 return new Int(Integer.parseInt(num.INT().getText()));
-            }else {
-                //TODO
-                return null;
             }
-        }else if(ctx.var() != null){
-            //标识符
-            return visit(ctx.var());
         }
-        else {
-            //TODO
-            return null;
-        }
+        return null;
     }
 
     @Override
     public Var visitVar(mcfppParser.VarContext ctx){
-        if(ctx.Identifier() != null){
-            if(ctx.identifierSuffix() == null && ctx.selector().size() == 0){
+        if(ctx.Identifier() != null) {
+            if (ctx.identifierSuffix() == null || ctx.identifierSuffix().size() == 0) {
+                //没有数组选取
                 String qwq = ctx.Identifier().getText();
-                if(!Function.currFunction.cache.vars.containsKey(Function.currFunction.GetNamespaceID() + "_" + qwq)){
-                    Project.logger.error("Undefined variable: " + qwq +
+                if (!Function.currFunction.cache.vars.containsKey(qwq)) {
+                    Project.logger.error("Undefined variable:" + qwq +
                             " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                    throw new VariableNotDefineException();
-                }else {
-                    return Function.currFunction.cache.vars.get(Function.currFunction.GetNamespaceID() + "_" + qwq);
+                    Project.errorCount ++;
+                    return null;
+                } else {
+                    return Function.currFunction.cache.vars.get(qwq);
                 }
-            }else {
+            } else {
                 //TODO
                 return null;
             }
+        }else if(ctx.expression() != null){
+            return visit(ctx.expression());
         }else {
             //TODO
             return null;
