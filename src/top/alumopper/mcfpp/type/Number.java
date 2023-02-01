@@ -9,16 +9,6 @@ public class Number<T> extends Var {
 
     public SbObject object;
 
-    /**
-     * 是否是动态的
-     */
-    public boolean isConcrete = false;
-
-    /**
-     * 是否是临时变量
-     */
-    public boolean isTemp = false;
-
     public Number(){
         super();
         object = SbObject.MCS_default;
@@ -50,4 +40,16 @@ public class Number<T> extends Var {
     public Number<T> modularCommand(Number<T> a){
         return null;
     }
+
+    public Bool greaterCommand(Number<T> a){return null;}
+
+    public Bool lessCommand(Number<T> a){return null;}
+
+    public Bool lessOrEqualCommand(Number<T> a){return null;}
+
+    public Bool greaterOrEqualCommand(Number<T> a){return null;}
+
+    public Bool equalCommand(Number<T> a){return null;}
+
+    public Bool notEqualCommand(Number<T> a){return null;}
 }

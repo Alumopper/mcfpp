@@ -1,6 +1,9 @@
 package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
+import top.alumopper.mcfpp.exception.TODOException;
+import top.alumopper.mcfpp.type.Bool;
 import top.alumopper.mcfpp.type.Int;
 import top.alumopper.mcfpp.type.Var;
 
@@ -13,138 +16,186 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
 
     @Override
     public Var visitExpression(mcfppParser.ExpressionContext ctx){
-        return visit(ctx.conditionalExpression());
+        return visit(ctx.conditionalOrExpression());
     }
 
-    @Override
-    public Var visitConditionalExpression(mcfppParser.ConditionalExpressionContext ctx){
-        if(ctx.expression().size() == 0){
-            return visit(ctx.conditionalOrExpression());
-        }else {
-            return null;
-        }
-    }
+    //TODO 三目表达式
+    //@Override
+    //public Var visitConditionalExpression(mcfppParser.ConditionalExpressionContext ctx){
+    //    if(ctx.expression().size() == 0){
+    //        return visit(ctx.conditionalOrExpression());
+    //    }else {
+    //        return null;
+    //    }
+    //}
 
+    //或
     @Override
     public Var visitConditionalOrExpression(mcfppParser.ConditionalOrExpressionContext ctx){
-        if(ctx.conditionalAndExpression().size() == 1){
-            return visit(ctx.conditionalAndExpression(0));
-        }else {
-            return null;
+        Var re = visit(ctx.conditionalAndExpression(0));
+        for (int i = 1; i < ctx.conditionalAndExpression().size();i ++){
+            Var b = visit(ctx.conditionalAndExpression(i));
+            if(re instanceof Bool re2 && b instanceof Bool b2){
+                re = re2.orCommand(b2);
+            }else {
+                throw new ArgumentNotMatchException("运算符'||'只能用于bool类型");
+            }
         }
+        return re;
     }
 
+    //和
     @Override
     public Var visitConditionalAndExpression(mcfppParser.ConditionalAndExpressionContext ctx){
-        if(ctx.equalityExpression().size() == 1){
-            return visit(ctx.equalityExpression(0));
-        }else {
-            //TODO
-            return null;
+        Var re = visit(ctx.equalityExpression(0));
+        for (int i = 1; i < ctx.equalityExpression().size();i ++){
+            Var b = visit(ctx.equalityExpression(i));
+            if(re instanceof Bool re2 && b instanceof Bool b2){
+                re = re2.andCommand(b2);
+            }else {
+                throw new ArgumentNotMatchException("运算符'&&'只能用于bool类型");
+            }
         }
+        return re;
     }
 
+    //等于或不等于
     @Override
     public Var visitEqualityExpression(mcfppParser.EqualityExpressionContext ctx){
-        if(ctx.relationalExpression().size() == 1){
-            return visit(ctx.relationalExpression(0));
-        }else {
-            //TODO
-            return null;
+        Var re = visit(ctx.relationalExpression(0));
+        for (int i = 1; i < ctx.relationalExpression().size();i ++){
+            Var b = visit(ctx.relationalExpression(i));
+            if(ctx.op.getText().equals("==")){
+                if(re instanceof Int re1 && b instanceof Int b1){
+                    re = re1.equalCommand(b1);
+                }else if(re instanceof Bool re2 && b instanceof Bool b2){
+                    re = re2.equalCommand(b2);
+                }
+            }else{
+                if(re instanceof Int re1 && b instanceof Int b1){
+                    re = re1.notEqualCommand(b1);
+                }else if(re instanceof Bool re2 && b instanceof Bool b2){
+                    re = re2.notEqualCommand(b2);
+                }
+            }
         }
+        return re;
     }
 
+    //大小比较
     @Override
     public Var visitRelationalExpression(mcfppParser.RelationalExpressionContext ctx){
-        if(ctx.additiveExpression().size() == 1){
-            return visit(ctx.additiveExpression(0));
-        }else {
-            //TODO
-            return null;
+        Var re = visit(ctx.additiveExpression(0));
+        if(ctx.additiveExpression().size() != 1){
+            Var b = visit(ctx.additiveExpression(1));
+            if(re instanceof Int re1 && b instanceof Int b1){
+                switch (ctx.relationalOp().getText()){
+                    case ">" -> re = re1.greaterCommand(b1);
+                    case ">=" -> re = re1.greaterOrEqualCommand(b1);
+                    case "<" -> re = re1.lessCommand(b1);
+                    case "<=" -> re = re1.lessOrEqualCommand(b1);
+                }
+            }else {
+                //TODO
+                throw new TODOException("");
+            }
         }
+        return re;
     }
 
+    //加法
     @Override
     public Var visitAdditiveExpression(mcfppParser.AdditiveExpressionContext ctx){
-        if(ctx.multiplicativeExpression().size() == 1){
-            return visit(ctx.multiplicativeExpression(0));
-        }else {
-            Var a = visit(ctx.multiplicativeExpression(0));
-            Var b = visit(ctx.multiplicativeExpression(1));
+        Var re = visit(ctx.multiplicativeExpression(0));
+        for (int i = 1; i < ctx.multiplicativeExpression().size();i ++){
+            Var b = visit(ctx.multiplicativeExpression(i));
             if(Objects.equals(ctx.op.getText(),"+")){
-                if(a instanceof Int a1 && b instanceof Int b1){
-                    return a1.addCommand(b1);
+                if(re instanceof Int re1 && b instanceof Int b1){
+                    re = re1.addCommand(b1);
                 }else {
                     //TODO
-                    return null;
+                    throw new TODOException("");
                 }
             }else if(Objects.equals(ctx.op.getText(), "-")){
-                if(a instanceof Int a1 && b instanceof Int b1){
-                    return a1.minusCommand(b1);
+                if(re instanceof Int re1 && b instanceof Int b1){
+                    re = re1.minusCommand(b1);
                 }else {
                     //TODO
-                    return null;
+                    throw new TODOException("");
                 }
             }else {
                 return  null;
             }
         }
+        return re;
     }
 
+    //乘法
     @Override
     public Var visitMultiplicativeExpression(mcfppParser.MultiplicativeExpressionContext ctx){
-        if(ctx.unaryExpression().size() == 1){
-            return visit(ctx.unaryExpression(0));
-        }else {
-            Var a = visit(ctx.unaryExpression(0));
-            Var b = visit(ctx.unaryExpression(1));
-            if(Objects.equals(ctx.op.getText(), "*")){
-                if(a instanceof Int a1 && b instanceof Int b1){
-                    return a1.multipleCommand(b1);
+        Var a = visit(ctx.unaryExpression(0));
+        Var re = a;
+        for (int i = 1; i < ctx.unaryExpression().size();i ++){
+            Var b = visit(ctx.unaryExpression(i));
+            if(Objects.equals(ctx.op.getText(),"*")){
+                if(re instanceof Int re1 && b instanceof Int b1){
+                    re = re1.multipleCommand(b1);
                 }else {
                     //TODO
-                    return null;
+                    throw new TODOException("");
                 }
             }else if(Objects.equals(ctx.op.getText(), "/")){
-                if(a instanceof Int a1 && b instanceof Int b1){
-                    return a1.divideCommand(b1);
+                if(re instanceof Int re1 && b instanceof Int b1){
+                    re = re1.divideCommand(b1);
                 }else {
                     //TODO
-                    return null;
+                    throw new TODOException("");
                 }
-            }else if(Objects.equals(ctx.op.getText(), "/")){
-                if(a instanceof Int a1 && b instanceof Int b1){
-                    return a1.modularCommand(b1);
+            }else if(Objects.equals(ctx.op.getText(), "%")){
+                if(re instanceof Int re1 && b instanceof Int b1){
+                    re = re1.modularCommand(b1);
                 }else {
                     //TODO
-                    return null;
+                    throw new TODOException("");
                 }
             }else {
-                return null;
+                return  null;
             }
         }
+        return re;
     }
 
+    //单变量表达式
     @Override
     public Var visitUnaryExpression(mcfppParser.UnaryExpressionContext ctx){
         if(ctx.basicExpression() != null){
             return visit(ctx.basicExpression());
-        }else {
+        }else if(ctx.unaryExpression() != null){
+            Var a = visit(ctx.unaryExpression());
+            if(a instanceof Bool a1){
+                return a1.opposeCommand();
+            }else {
+                throw new ArgumentNotMatchException("运算符'!'只能用于bool类型");
+            }
+        }
+        else {
             //TODO
-            return null;
+            throw new TODOException("");
         }
     }
 
+    //基本表达式
     @Override
     public Var visitBasicExpression(mcfppParser.BasicExpressionContext ctx){
         if(ctx.primary() != null){
             return visit(ctx.primary());
         }else {
             //TODO
-            return null;
+            throw new TODOException("");
         }
     }
 
+    //初级表达式
     @Override
     public Var visitPrimary(mcfppParser.PrimaryContext ctx){
         if(ctx.var() != null) {
@@ -160,6 +211,7 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         return null;
     }
 
+    //变量
     @Override
     public Var visitVar(mcfppParser.VarContext ctx){
         if(ctx.Identifier() != null) {
@@ -175,14 +227,14 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
                     return Function.currFunction.cache.vars.get(qwq);
                 }
             } else {
-                //TODO
-                return null;
+                //TODO 是数组调用
+                throw new TODOException("");
             }
         }else if(ctx.expression() != null){
             return visit(ctx.expression());
         }else {
             //TODO
-            return null;
+            throw new TODOException("");
         }
     }
 }

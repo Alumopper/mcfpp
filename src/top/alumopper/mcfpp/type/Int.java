@@ -2,8 +2,10 @@ package top.alumopper.mcfpp.type;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
+import top.alumopper.mcfpp.command.Execute;
 import top.alumopper.mcfpp.lib.Function;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Int extends Number<Integer>{
@@ -196,4 +198,131 @@ public class Int extends Number<Integer>{
         }
         return re;
     }
+
+    @Override
+    public Bool greaterCommand(Number<Integer> a) {
+        //re = t > a
+        Bool re;
+        if(this.isConcrete && a.isConcrete){
+            re = new Bool(this.value > a.value);
+        }else if(this.isConcrete){
+            re = a.lessCommand(this);
+        }else if(a.isConcrete){
+            //execute store success score qwq qwq if score qwq qwq matches a+1..
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " matches " + (a.value + 1) + "..");
+        }else {
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " > " + a.identifier + " " + a.object);
+        }
+        return re;
+    }
+
+    @Override
+    public Bool lessCommand(Number<Integer> a) {
+        //re = t < a
+        Bool re;
+        if(this.isConcrete && a.isConcrete){
+            re = new Bool(this.value < a.value);
+        }else if(this.isConcrete){
+            re = a.greaterCommand(this);
+        }else if(a.isConcrete){
+            //execute store success score qwq qwq if score qwq qwq matches a+1..
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " matches " + ".." + (a.value - 1));
+        }else {
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " < " + a.identifier + " " + a.object);
+        }
+        return re;
+    }
+
+    @Override
+    public Bool lessOrEqualCommand(Number<Integer> a) {
+        //re = t <= a
+        Bool re;
+        if(this.isConcrete && a.isConcrete){
+            re = new Bool(this.value <= a.value);
+        }else if(this.isConcrete){
+            re = a.greaterCommand(this);
+        }else if(a.isConcrete){
+            //execute store success score qwq qwq if score qwq qwq matches a+1..
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " matches " + ".." + a.value);
+        }else {
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " <= " + a.identifier + " " + a.object);
+        }
+        return re;
+    }
+
+    @Override
+    public Bool greaterOrEqualCommand(Number<Integer> a) {
+        //re = t <= a
+        Bool re;
+        if(this.isConcrete && a.isConcrete){
+            re = new Bool(this.value >= a.value);
+        }else if(this.isConcrete){
+            re = a.greaterCommand(this);
+        }else if(a.isConcrete){
+            //execute store success score qwq qwq if score qwq qwq matches a+1..
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " matches " + a.value + "..");
+        }else {
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " >= " + a.identifier + " " + a.object);
+        }
+        return re;
+    }
+
+    @Override
+    public Bool equalCommand(Number<Integer> a) {
+        //re = t == a
+        Bool re;
+        if(this.isConcrete && a.isConcrete){
+            re = new Bool(Objects.equals(this.value, a.value));
+        }else if(this.isConcrete){
+            re = a.equalCommand(this);
+        }else if(a.isConcrete){
+            //execute store success score qwq qwq if score qwq qwq = owo owo
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " matches " + a.value);
+        }else {
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " if score " + this.identifier + " " + this.object + " = " + a.identifier + " " + a.object);
+        }
+        return re;
+    }
+
+    @Override
+    public Bool notEqualCommand(Number<Integer> a) {
+        //re = t != a
+        Bool re;
+        if(this.isConcrete && a.isConcrete){
+            re = new Bool(!Objects.equals(this.value, a.value));
+        }else if(this.isConcrete){
+            re = a.equalCommand(this);
+        }else if(a.isConcrete){
+            //execute store success score qwq qwq if score qwq qwq = owo owo
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " unless score " + this.identifier + " " + this.object + " matches " + a.value);
+        }else {
+            re = new Bool();
+            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
+                    + " unless score " + this.identifier + " " + this.object + " = " + a.identifier + " " + a.object);
+        }
+        return re;
+    }
+
 }

@@ -23,6 +23,8 @@ public class SbObject
 
     public static SbObject MCS_params = new SbObject("mcs_params","dummy");
 
+    public static SbObject MCS_boolean = new SbObject("mcs_boolean","dummy");
+
 
     public SbObject(String name, String rule)
     {

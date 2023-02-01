@@ -11,6 +11,16 @@ public class Var {
      */
     public String identifier;
 
+    /**
+     * 是否是已知的
+     */
+    public boolean isConcrete = false;
+
+    /**
+     * 是否是临时变量
+     */
+    public boolean isTemp = false;
+
     public Var(){
         identifier = UUID.randomUUID().toString();
     }

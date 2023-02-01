@@ -5,6 +5,7 @@ import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.reader.McfppFileReader;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * 一个函数
@@ -55,6 +56,8 @@ public class Function {
      */
     public Function parent;
 
+    public Stack<Function> blockStack;
+
     /**
      * 目前处在的函数
      */
@@ -67,13 +70,11 @@ public class Function {
         this.name = name;
         this.commands = new ArrayList<>();
         this.params = new ArrayList<>();
+        this.blockStack = new Stack<>();
     }
 
     public Function(String name, String tag){
-        this.path = McfppFileReader.currPath;
-        this.name = name;
-        this.commands = new ArrayList<>();
-        this.params = new ArrayList<>();
+        this(name);
         this.tag = tag;
     }
 

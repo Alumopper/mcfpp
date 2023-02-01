@@ -75,7 +75,7 @@ parameter
 
 //表达式
 expression
-    :   conditionalExpression
+    :   conditionalOrExpression
     ;
 
 //能作为语句的表达式
@@ -105,7 +105,7 @@ equalityExpression
 
 //比较关系
 relationalExpression
-    :   additiveExpression ( relationalOp additiveExpression )*
+    :   additiveExpression ( relationalOp additiveExpression )?
     ;
 
 //比较关系运算符

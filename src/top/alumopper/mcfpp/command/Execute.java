@@ -310,7 +310,7 @@ public class Execute extends Command
          @param target 修改此分数持有者（可以是实体、选择器甚至不存在的玩家）的分数
          @param objective 记分项。
          */
-        public Store(rs result_success, IDataArg target, SbObject objective)
+        public Store(rs result_success, Int b)
         {
             this.result_success = result_success;
             this.target = target;

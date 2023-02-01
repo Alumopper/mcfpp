@@ -5,6 +5,7 @@ import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
 import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.exception.VariableDuplicationException;
+import top.alumopper.mcfpp.type.Bool;
 import top.alumopper.mcfpp.type.Int;
 import top.alumopper.mcfpp.type.Var;
 
@@ -75,6 +76,24 @@ public class McfppImListener extends mcfppBaseListener {
                         Function.currFunction.cache.vars.put(ctx.Identifier().getText(), var);
                     }
                 }
+                case "bool" -> {
+                    if(Function.currFunction.cache.vars.containsKey(ctx.Identifier().getText())){
+                        Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
+                                " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
+                        Project.errorCount ++;
+                        throw new VariableDuplicationException();
+                    }
+                    var = new Bool(ctx.Identifier().getText());
+                    if(ctx.parent instanceof mcfppParser.CompilationUnitContext){
+                        //全局变量
+                        Cache.globalVars.put(ctx.Identifier().getText(),var);
+                    } else if(ctx.parent instanceof mcfppParser.ClassMemberContext){
+                        //TODO 类成员
+                    } else {
+                        //函数变量
+                        Function.currFunction.cache.vars.put(ctx.Identifier().getText(), var);
+                    }
+                }
             }
         }else {
             //TODO
@@ -92,6 +111,12 @@ public class McfppImListener extends mcfppBaseListener {
                             " at " + Function.currFunction.GetID() + " line:" + ctx.getStart().getLine());
                     Project.errorCount ++;
                     throw new VariableConverseException();
+                }
+            }else if(var instanceof Bool var2){
+                if(init instanceof Bool init1){
+                    //变量声明的标记，用于在优化阶段处理是否进行临时变量优化进行标记和定位
+                    Function.addCommand("#Bool " + var.identifier);
+                    var2.assignCommand(init1);
                 }
             }
         }
