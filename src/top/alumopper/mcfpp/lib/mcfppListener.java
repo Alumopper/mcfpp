@@ -350,6 +350,116 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitStatement(mcfppParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mcfppParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStatement(mcfppParser.IfStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStatement(mcfppParser.IfStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#elseIfStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseIfStatement(mcfppParser.ElseIfStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#elseIfStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseIfStatement(mcfppParser.ElseIfStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#ifBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfBlock(mcfppParser.IfBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#ifBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfBlock(mcfppParser.IfBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#forStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterForStatement(mcfppParser.ForStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#forStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitForStatement(mcfppParser.ForStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#forBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterForBlock(mcfppParser.ForBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#forBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitForBlock(mcfppParser.ForBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#whileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileStatement(mcfppParser.WhileStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#whileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileStatement(mcfppParser.WhileStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#whileBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileBlock(mcfppParser.WhileBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#whileBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileBlock(mcfppParser.WhileBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#doWhileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDoWhileStatement(mcfppParser.DoWhileStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#doWhileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDoWhileStatement(mcfppParser.DoWhileStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#doWhileBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterDoWhileBlock(mcfppParser.DoWhileBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#doWhileBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitDoWhileBlock(mcfppParser.DoWhileBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#selfAddOrMinusStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterSelfAddOrMinusStatement(mcfppParser.SelfAddOrMinusStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#selfAddOrMinusStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitSelfAddOrMinusStatement(mcfppParser.SelfAddOrMinusStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#tryStoreStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterTryStoreStatement(mcfppParser.TryStoreStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#tryStoreStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitTryStoreStatement(mcfppParser.TryStoreStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mcfppParser#block}.
 	 * @param ctx the parse tree
 	 */

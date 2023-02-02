@@ -188,13 +188,57 @@ statement
     :   fieldDeclaration
     |   statementExpression
     |   functionCall
-    |   IF'('expression')' block (ELSE block)?
-    |   FOR '(' forControl ')' block
-    |   WHILE '(' expression ')' block
-    |   DO block WHILE '{' expression '}' ';'
+    |   ifStatement
+    |   forStatement
+    |   whileStatement
+    |   doWhileStatement
     |   ';'
-    |   selfAddOrMinusExpression ';'
-    |   TRY block  STORE '(' Identifier ')' ';'
+    |   selfAddOrMinusStatement
+    |   tryStoreStatement
+    ;
+
+ifStatement
+    :   IF'('expression')' ifBlock (ELSE (elseIfStatement|ifBlock))?
+    ;
+
+elseIfStatement
+    :   ifStatement
+    ;
+
+ifBlock
+    :   block
+    ;
+
+forStatement
+    :   FOR '(' forControl ')' forBlock
+    ;
+
+forBlock
+    :   block
+    ;
+
+whileStatement
+    :   WHILE '(' expression ')' whileBlock
+    ;
+
+whileBlock
+    :   block
+    ;
+
+doWhileStatement
+    :   DO doWhileBlock WHILE '{' expression '}' ';'
+    ;
+
+doWhileBlock
+    :   block
+    ;
+
+selfAddOrMinusStatement
+    :   selfAddOrMinusExpression ';'
+    ;
+
+tryStoreStatement
+    :   TRY block  STORE '(' Identifier ')' ';'
     ;
 
 block

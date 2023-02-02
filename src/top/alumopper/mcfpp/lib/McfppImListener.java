@@ -7,12 +7,18 @@ import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.exception.VariableDuplicationException;
 import top.alumopper.mcfpp.type.Bool;
 import top.alumopper.mcfpp.type.Int;
+import top.alumopper.mcfpp.type.SbObject;
 import top.alumopper.mcfpp.type.Var;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class McfppImListener extends mcfppBaseListener {
 
+    /**
+     * 进入一个函数体
+     * @param ctx the parse tree
+     */
     @Override
     public void enterFunctionBody(mcfppParser.FunctionBodyContext ctx){
         if(ctx.parent.parent instanceof mcfppParser.ClassMemberContext){
@@ -52,6 +58,10 @@ public class McfppImListener extends mcfppBaseListener {
         }
     }
 
+    /**
+     * 变量声明
+     * @param ctx the parse tree
+     */
     @Override
     public void exitFieldDeclaration(mcfppParser.FieldDeclarationContext ctx){
         Var var = null;
@@ -122,6 +132,10 @@ public class McfppImListener extends mcfppBaseListener {
         }
     }
 
+    /**
+     * 一个赋值的语句
+     * @param ctx the parse tree
+     */
     @Override
     public void exitStatementExpression(mcfppParser.StatementExpressionContext ctx){
         Var left = new McfppExprVisitor().visit(ctx.varWithSelector());
@@ -211,5 +225,87 @@ public class McfppImListener extends mcfppBaseListener {
             Function.currFunction.child.add(curr);
             curr.parent = Function.currFunction;
         }
+    }
+
+    Bool lastBool;
+
+    @Override
+    public void enterIfBlock(mcfppParser.IfBlockContext ctx){
+        mcfppParser.IfStatementContext parent = (mcfppParser.IfStatementContext)ctx.parent;
+        //是if语句，获取参数
+        int index = parent.ifBlock().indexOf(ctx);
+        //匿名函数的定义
+        Function f = new InternalFunction("_if_",Function.currFunction);
+        Cache.functions.put(f.name,f);
+        if(index == 0){
+            //第一个if
+            Bool exp = (Bool)new McfppExprVisitor().visit(parent.expression());
+            if(exp.isConcrete && exp.value){
+                //函数调用的命令
+                //给子函数开栈
+                Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+                Function.addCommand(Commands.Function(f).toString());
+                Project.logger.warn("The condition is always true. " +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            }else if(exp.isConcrete) {
+                Function.addCommand("#" + Commands.Function(f).toString());
+                Project.logger.warn("The condition is always false. " +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            }else {
+                //给子函数开栈
+                Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+                Function.addCommand("execute " +
+                        "if score " + exp.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                        "run " + Commands.Function(f));
+            }
+            lastBool = exp;
+        }else{
+            //else语句
+            Function.addCommand("execute " +
+                    "unless score " + lastBool.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                    "run " + Commands.Function(f));
+        }
+        Function.currFunction = f;
+    }
+
+    @Override
+    public void exitIfBlock(mcfppParser.IfBlockContext ctx){
+        Function.currFunction = Function.currFunction.parent;
+        //调用完毕，将子函数的栈销毁
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+    }
+
+    @Override
+    public void enterElseIfStatement(mcfppParser.ElseIfStatementContext ctx){
+        //匿名函数的定义
+        Function f = new InternalFunction("_if_",Function.currFunction);
+        Cache.functions.put(f.name,f);
+        if(lastBool.isConcrete && !lastBool.value){
+            //函数调用的命令
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("#" + Commands.Function(f));
+            Project.logger.warn("The condition is always false. " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+        }else if(lastBool.isConcrete) {
+            Function.addCommand(Commands.Function(f).toString());
+            Project.logger.warn("The condition is always true. " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+        }else {
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("execute " +
+                    "unless score " + lastBool.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                    "run " + Commands.Function(f));
+        }
+        lastBool = null;
+        Function.currFunction = f;
+    }
+
+    @Override
+    public void exitElseIfStatement(mcfppParser.ElseIfStatementContext ctx){
+        Function.currFunction = Function.currFunction.parent;
+        //调用完毕，将子函数的栈销毁
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
     }
 }

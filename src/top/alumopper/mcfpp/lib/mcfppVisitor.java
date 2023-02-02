@@ -217,6 +217,72 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(mcfppParser.StatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link mcfppParser#ifStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStatement(mcfppParser.IfStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#elseIfStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseIfStatement(mcfppParser.ElseIfStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#ifBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfBlock(mcfppParser.IfBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#forStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForStatement(mcfppParser.ForStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#forBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForBlock(mcfppParser.ForBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#whileStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileStatement(mcfppParser.WhileStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#whileBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileBlock(mcfppParser.WhileBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#doWhileStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDoWhileStatement(mcfppParser.DoWhileStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#doWhileBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDoWhileBlock(mcfppParser.DoWhileBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#selfAddOrMinusStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSelfAddOrMinusStatement(mcfppParser.SelfAddOrMinusStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#tryStoreStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTryStoreStatement(mcfppParser.TryStoreStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link mcfppParser#block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
