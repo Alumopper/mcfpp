@@ -195,6 +195,12 @@ statement
     |   ';'
     |   selfAddOrMinusStatement
     |   tryStoreStatement
+    |   controlStatement
+    ;
+
+controlStatement
+    :   BREAK
+    |   CONTINUE
     ;
 
 ifStatement
@@ -215,6 +221,23 @@ forStatement
 
 forBlock
     :   block
+    ;
+
+forControl
+    :   forInit? ';' expression? ';' forUpdate?
+    ;
+
+forInit
+    :   forVariableDeclaration
+    |   expressionList
+    ;
+
+forUpdate
+    :   expressionList
+    ;
+
+forVariableDeclaration
+    :   type Identifier '=' expression
     ;
 
 whileStatement
@@ -247,23 +270,6 @@ block
 
 selfAddOrMinusExpression
     :   Identifier ('++'|'--')
-    ;
-
-forControl
-    :   forInit? ';' expression? ';' forUpdate?
-    ;
-
-forInit
-    :   forVariableDeclaration
-    |   expressionList
-    ;
-
-forUpdate
-    :   expressionList
-    ;
-
-forVariableDeclaration
-    :   type Identifier '=' expression
     ;
 
 expressionList
@@ -306,6 +312,9 @@ FOR:'for';
 DO:'do';
 TRY:'try';
 STORE:'store';
+
+BREAK:'break';
+CONTINUE:'continue';
 
 STATIC:'static';
 

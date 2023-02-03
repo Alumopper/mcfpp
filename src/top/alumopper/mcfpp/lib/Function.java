@@ -54,7 +54,7 @@ public class Function {
     /**
      * 调用这个函数的函数
      */
-    public Function parent;
+    public ArrayList<Function> parent = new ArrayList<>();
 
     public Stack<Function> blockStack;
 

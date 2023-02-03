@@ -130,7 +130,7 @@ public class Project {
         //寻找入口函数
         boolean hasEntrance = false;
         for (Function f : Cache.functions.values()) {
-            if(f.parent == null){
+            if(f.parent.size() == 0){
                 //找到了入口函数
                 hasEntrance = true;
                 f.commands.add(0,"data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
@@ -170,3 +170,26 @@ public class Project {
         }
     }
 }
+/*
+ *                    _ooOoo_
+ *                   o8888888o
+ *                   88" . "88
+ *                   (| -_- |)
+ *                    O\ = /O
+ *                ____/`---'\____
+ *              .   ' \\| |// `.
+ *               / \\||| : |||// \
+ *             / _||||| -:- |||||- \
+ *               | | \\\ - /// | |
+ *             | \_| ''\---/'' | |
+ *              \ .-\__ `-` ___/-. /
+ *           ___`. .' /--.--\ `. . __
+ *        ."" '< `.___\_<|>_/___.' >'"".
+ *       | | : `- \`.;`\ _ /`;.`/ - ` : | |
+ *         \ \ `-. \_ __\ /__ _/ .-` / /
+ * ======`-.____`-.___\_____/___.-`____.-'======
+ *                    `=---='
+ *
+ * .............................................
+ *          佛祖保佑             永无BUG
+ */

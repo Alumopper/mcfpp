@@ -49,7 +49,7 @@ public class Int extends Number<Integer>{
         }else {
             this.isConcrete = false;
             //变量进栈
-            Function.addCommand("execute store result storage mcfpp:system " + Project.name + ".stack_frame[0]." + this.identifier + " run "
+            Function.addCommand("execute store result storage mcfpp:system " + Project.name + ".stack_frame[0]." + this.identifier.replace(":","_") + " run "
                     + Commands.SbPlayerOperation(this,"=", (Int) a)
             );
         }

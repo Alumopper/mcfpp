@@ -223,12 +223,13 @@ public class McfppImListener extends mcfppBaseListener {
             }
             //函数树
             Function.currFunction.child.add(curr);
-            curr.parent = Function.currFunction;
+            curr.parent.add(Function.currFunction);
         }
     }
 
     Bool lastBool;
 
+    //TODO 条件判断语句实现方式与参考文章有出入，可能存在bug
     @Override
     public void enterIfBlock(mcfppParser.IfBlockContext ctx){
         mcfppParser.IfStatementContext parent = (mcfppParser.IfStatementContext)ctx.parent;
@@ -270,7 +271,7 @@ public class McfppImListener extends mcfppBaseListener {
 
     @Override
     public void exitIfBlock(mcfppParser.IfBlockContext ctx){
-        Function.currFunction = Function.currFunction.parent;
+        Function.currFunction = Function.currFunction.parent.get(0);
         //调用完毕，将子函数的栈销毁
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
     }
@@ -288,6 +289,8 @@ public class McfppImListener extends mcfppBaseListener {
             Project.logger.warn("The condition is always false. " +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
         }else if(lastBool.isConcrete) {
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
             Function.addCommand(Commands.Function(f).toString());
             Project.logger.warn("The condition is always true. " +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
@@ -304,8 +307,59 @@ public class McfppImListener extends mcfppBaseListener {
 
     @Override
     public void exitElseIfStatement(mcfppParser.ElseIfStatementContext ctx){
-        Function.currFunction = Function.currFunction.parent;
+        Function.currFunction = Function.currFunction.parent.get(0);
         //调用完毕，将子函数的栈销毁
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
     }
+
+    @Override
+    public void enterWhileBlock(mcfppParser.WhileBlockContext ctx){
+        mcfppParser.WhileStatementContext parent = (mcfppParser.WhileStatementContext) ctx.parent;
+        Bool exp = (Bool) new McfppExprVisitor().visit(parent.expression());
+        //匿名函数的定义
+        Function f = new InternalFunction("_while_",Function.currFunction);
+        f.child.add(f);
+        f.parent.add(f);
+        Cache.functions.put(f.name,f);
+        if(exp.isConcrete && exp.value){
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand(Commands.Function(f).toString());
+            Project.logger.warn("The condition is always true. " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+        }else if(exp.isConcrete){
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("#" + Commands.Function(f));
+            Project.logger.warn("The condition is always false. " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+        }else {
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("execute " +
+                    "if score " + exp.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                    "run " + Commands.Function(f));
+        }
+        //调用完毕，将子函数的栈销毁
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.currFunction = f;  //后续块中的命令解析到递归的函数中
+        //TODO 内部函数共享父栈，但是有自己有一个栈的问题
+    }
+
+    @Override
+    public void exitWhileBlock(mcfppParser.WhileBlockContext ctx){
+        //递归调用函数
+        //重新计算表达式
+        mcfppParser.WhileStatementContext parent = (mcfppParser.WhileStatementContext) ctx.parent;
+        Bool exp = (Bool) new McfppExprVisitor().visit(parent.expression());
+        //给子函数开栈
+        Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+        Function.addCommand("execute " +
+                "if score " + exp.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                "run " + Commands.Function(Function.currFunction));
+        //调用完毕，将子函数的栈销毁
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.currFunction = Function.currFunction.parent.get(0);
+    }
+
 }

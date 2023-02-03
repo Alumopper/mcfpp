@@ -217,6 +217,12 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(mcfppParser.StatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link mcfppParser#controlStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitControlStatement(mcfppParser.ControlStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link mcfppParser#ifStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -246,6 +252,30 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitForBlock(mcfppParser.ForBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#forControl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForControl(mcfppParser.ForControlContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#forInit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForInit(mcfppParser.ForInitContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#forUpdate}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForUpdate(mcfppParser.ForUpdateContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#forVariableDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForVariableDeclaration(mcfppParser.ForVariableDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#whileStatement}.
 	 * @param ctx the parse tree
@@ -294,30 +324,6 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSelfAddOrMinusExpression(mcfppParser.SelfAddOrMinusExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link mcfppParser#forControl}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitForControl(mcfppParser.ForControlContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link mcfppParser#forInit}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitForInit(mcfppParser.ForInitContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link mcfppParser#forUpdate}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitForUpdate(mcfppParser.ForUpdateContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link mcfppParser#forVariableDeclaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitForVariableDeclaration(mcfppParser.ForVariableDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#expressionList}.
 	 * @param ctx the parse tree

@@ -20,7 +20,7 @@ public class InternalFunction extends Function{
     }
 
     public void setParentFunction(Function parent){
-        this.parent = parent;
+        this.parent.add(parent);
         parent.child.add(this);
         this.cache.vars = new HashMap<>(parent.cache.vars);
     }
