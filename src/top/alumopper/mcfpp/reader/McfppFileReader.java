@@ -8,7 +8,7 @@ import top.alumopper.mcfpp.lib.*;
 import java.io.*;
 
 /**
- * 用于读取mcfpp代码
+ * 用于读取mcfpp代码。
  */
 public class McfppFileReader extends McfppReader {
 
@@ -42,7 +42,7 @@ public class McfppFileReader extends McfppReader {
      * 获得targetPath相对于sourcePath的相对路径
      * @param sourcePath	: 原文件路径
      * @param targetPath	: 目标文件路径
-     * @return
+     * @return 返回相对路径
      */
     private static String getRelativePath(String sourcePath, String targetPath) {
         StringBuilder pathSB = new StringBuilder();

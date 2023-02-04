@@ -10,16 +10,21 @@ import top.alumopper.mcfpp.type.Var;
 import java.util.Objects;
 
 /**
- * 获取表达式结果用的visitor
+ * 获取表达式结果用的visitor。解析并计算一个形如a+b*c的表达式。
  */
 public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
 
+    /**
+     * 计算一个复杂表达式
+     * @param ctx the parse tree
+     * @return 表达式的结果
+     */
     @Override
     public Var visitExpression(mcfppParser.ExpressionContext ctx){
         return visit(ctx.conditionalOrExpression());
     }
 
-    //TODO 三目表达式
+    //TODO 三目表达式。可能会实现，但是泠雪是懒狐，不想做。
     //@Override
     //public Var visitConditionalExpression(mcfppParser.ConditionalExpressionContext ctx){
     //    if(ctx.expression().size() == 0){
@@ -29,7 +34,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
     //    }
     //}
 
-    //或
+    /**
+     * 计算一个或表达式。例如 a || b。
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     @Override
     public Var visitConditionalOrExpression(mcfppParser.ConditionalOrExpressionContext ctx){
         Var re = visit(ctx.conditionalAndExpression(0));
@@ -44,6 +53,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         return re;
     }
 
+    /**
+     * 计算一个与表达式。例如a && b
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     //和
     @Override
     public Var visitConditionalAndExpression(mcfppParser.ConditionalAndExpressionContext ctx){
@@ -59,6 +73,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         return re;
     }
 
+    /**
+     * 计算一个等于或不等于表达式，例如a == b和a != b
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     //等于或不等于
     @Override
     public Var visitEqualityExpression(mcfppParser.EqualityExpressionContext ctx){
@@ -82,7 +101,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         return re;
     }
 
-    //大小比较
+    /**
+     * 计算一个比较表达式，例如a > b
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     @Override
     public Var visitRelationalExpression(mcfppParser.RelationalExpressionContext ctx){
         Var re = visit(ctx.additiveExpression(0));
@@ -103,7 +126,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         return re;
     }
 
-    //加法
+    /**
+     * 计算一个加减法表达式，例如a + b
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     @Override
     public Var visitAdditiveExpression(mcfppParser.AdditiveExpressionContext ctx){
         Var re = visit(ctx.multiplicativeExpression(0));
@@ -130,11 +157,15 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         return re;
     }
 
+    /**
+     * 计算一个乘除法表达式，例如a * b
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     //乘法
     @Override
     public Var visitMultiplicativeExpression(mcfppParser.MultiplicativeExpressionContext ctx){
-        Var a = visit(ctx.unaryExpression(0));
-        Var re = a;
+        Var re = visit(ctx.unaryExpression(0));
         for (int i = 1; i < ctx.unaryExpression().size();i ++){
             Var b = visit(ctx.unaryExpression(i));
             if(Objects.equals(ctx.op.getText(),"*")){
@@ -165,7 +196,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         return re;
     }
 
-    //单变量表达式
+    /**
+     * 计算一个单目表达式。比如!a 或者 (int)a
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     @Override
     public Var visitUnaryExpression(mcfppParser.UnaryExpressionContext ctx){
         if(ctx.basicExpression() != null){
@@ -184,6 +219,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         }
     }
 
+    /**
+     * 计算一个基本的表达式。可能是一个变量，也可能是一个数值
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     //基本表达式
     @Override
     public Var visitBasicExpression(mcfppParser.BasicExpressionContext ctx){
@@ -195,7 +235,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         }
     }
 
-    //初级表达式
+    /**
+     * 一个初级表达式，可能是一个变量，也可能是一个数值
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
     @Override
     public Var visitPrimary(mcfppParser.PrimaryContext ctx){
         if(ctx.var() != null) {
@@ -211,7 +255,11 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         return null;
     }
 
-    //变量
+    /**
+     * 变量
+     * @param ctx the parse tree
+     * @return 变量
+     */
     @Override
     public Var visitVar(mcfppParser.VarContext ctx){
         if(ctx.Identifier() != null) {

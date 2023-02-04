@@ -227,9 +227,14 @@ public class McfppImListener extends mcfppBaseListener {
         }
     }
 
-    Bool lastBool;
+    Bool lastBool;  //if语句的条件
 
     //TODO 条件判断语句实现方式与参考文章有出入，可能存在bug
+
+    /**
+     * 进入if语句块
+     * @param ctx the parse tree
+     */
     @Override
     public void enterIfBlock(mcfppParser.IfBlockContext ctx){
         mcfppParser.IfStatementContext parent = (mcfppParser.IfStatementContext)ctx.parent;
@@ -269,6 +274,10 @@ public class McfppImListener extends mcfppBaseListener {
         Function.currFunction = f;
     }
 
+    /**
+     * 离开if语句块
+     * @param ctx the parse tree
+     */
     @Override
     public void exitIfBlock(mcfppParser.IfBlockContext ctx){
         Function.currFunction = Function.currFunction.parent.get(0);
@@ -276,6 +285,10 @@ public class McfppImListener extends mcfppBaseListener {
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
     }
 
+    /**
+     * 进入else-if语句块
+     * @param ctx the parse tree
+     */
     @Override
     public void enterElseIfStatement(mcfppParser.ElseIfStatementContext ctx){
         //匿名函数的定义
@@ -305,6 +318,10 @@ public class McfppImListener extends mcfppBaseListener {
         Function.currFunction = f;
     }
 
+    /**
+     * 离开else-if语句块
+     * @param ctx the parse tree
+     */
     @Override
     public void exitElseIfStatement(mcfppParser.ElseIfStatementContext ctx){
         Function.currFunction = Function.currFunction.parent.get(0);
@@ -312,6 +329,10 @@ public class McfppImListener extends mcfppBaseListener {
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
     }
 
+    /**
+     * 进入while语句块
+     * @param ctx the parse tree
+     */
     @Override
     public void enterWhileBlock(mcfppParser.WhileBlockContext ctx){
         mcfppParser.WhileStatementContext parent = (mcfppParser.WhileStatementContext) ctx.parent;
@@ -343,9 +364,12 @@ public class McfppImListener extends mcfppBaseListener {
         //调用完毕，将子函数的栈销毁
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
         Function.currFunction = f;  //后续块中的命令解析到递归的函数中
-        //TODO 内部函数共享父栈，但是有自己有一个栈的问题
     }
 
+    /**
+     * 离开while语句块
+     * @param ctx the parse tree
+     */
     @Override
     public void exitWhileBlock(mcfppParser.WhileBlockContext ctx){
         //递归调用函数

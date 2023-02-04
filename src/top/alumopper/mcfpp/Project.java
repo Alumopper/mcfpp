@@ -14,7 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * 一个工程
+ * 一个工程。工程文件包含了这个mcfpp工程编译需要的所有信息。编译器将会以这个文件为入口开始编译。
+ * 同时，这个工程文件的名字也是此文件编译生成的数据包的命名空间。
  */
 public class Project {
     public static Logger logger = Logger.getLogger("mcfpp");
@@ -109,6 +110,9 @@ public class Project {
         }
     }
 
+    /**
+     * 编译工程
+     */
     public static void compile(){
         //工程文件编译
         assert files != null;
@@ -125,6 +129,9 @@ public class Project {
         }
     }
 
+    /**
+     * 整理并优化工程
+     */
     public static void optimization(){
         logger.debug("Optimizing...");
         //寻找入口函数

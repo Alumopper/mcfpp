@@ -2,19 +2,28 @@ package top.alumopper.mcfpp.type;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
-import top.alumopper.mcfpp.command.Execute;
 import top.alumopper.mcfpp.lib.Function;
 
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * 代表了mc中的一个整数。实质上是记分板中的一个记分项。
+ */
 public class Int extends Number<Integer>{
 
+    /**
+     * 创建一个匿名的动态int
+     */
     public Int(){
         this(UUID.randomUUID().toString());
         this.isTemp = true;
     }
 
+    /**
+     * 创建一个固定的匿名int
+     * @param value 值
+     */
     public Int(int value){
         this(UUID.randomUUID().toString());
         this.isTemp = true;
@@ -22,16 +31,29 @@ public class Int extends Number<Integer>{
         this.value = value;
     }
 
+    /**
+     * 创建一个固定的int
+     * @param id 标识符
+     * @param value 值
+     */
     public Int(String id,int value){
         super(Function.currFunction.GetNamespaceID() + "_" + id);
         this.isConcrete = true;
         this.value = value;
     }
 
+    /**
+     * 创建一个int
+     * @param id 值
+     */
     public Int(String id){
         super(Function.currFunction.GetNamespaceID() + "_" + id);
     }
 
+    /**
+     * 复制一个int
+     * @param b 被复制的int值
+     */
     public Int(Int b){
         super(b.identifier);
         value = b.value;

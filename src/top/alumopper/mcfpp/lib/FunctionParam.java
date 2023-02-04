@@ -1,7 +1,7 @@
 package top.alumopper.mcfpp.lib;
 
 /**
- * 函数的参数
+ * 函数的参数。用于函数声明的时候。
  */
 public class FunctionParam {
 
@@ -11,7 +11,7 @@ public class FunctionParam {
     public String type;
 
     /**
-     * 参数是否为静态
+     * 参数是否为静态的
      */
     public boolean isStatic;
 

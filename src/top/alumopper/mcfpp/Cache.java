@@ -5,6 +5,10 @@ import java.util.*;
 import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.type.Var;
 
+/**
+ * 一个缓存。在编译过程中，编译器读取到的变量，函数等会以键值对的方式储存在其中。键为函数的id或者变量的
+ * 标识符，而值则是这个函数或者变量的对象。
+ */
 public final class Cache {
 
     /**
