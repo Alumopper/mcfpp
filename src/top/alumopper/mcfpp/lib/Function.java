@@ -3,6 +3,7 @@ package top.alumopper.mcfpp.lib;
 import top.alumopper.mcfpp.Cache;
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.reader.McfppFileReader;
+import top.alumopper.mcfpp.type.Var;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -11,6 +12,7 @@ import java.util.Stack;
  * 一个函数
  */
 public class Function {
+
     /**
      * 包含的所有命令
      */
@@ -88,5 +90,11 @@ public class Function {
 
     public static void addCommand(String str){
         currFunction.commands.add(str);
+    }
+
+    public Var getVar(String id){
+        Var re = cache.vars.getOrDefault(id, null);
+        re.stackIndex = 0;
+        return re;
     }
 }

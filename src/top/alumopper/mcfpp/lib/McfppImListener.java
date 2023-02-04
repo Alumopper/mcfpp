@@ -358,8 +358,7 @@ public class McfppImListener extends mcfppBaseListener {
                 "if score " + exp.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
                 "run " + Commands.Function(Function.currFunction));
         //调用完毕，将子函数的栈销毁
-        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
         Function.currFunction = Function.currFunction.parent.get(0);
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
     }
-
 }

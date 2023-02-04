@@ -218,14 +218,13 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
             if (ctx.identifierSuffix() == null || ctx.identifierSuffix().size() == 0) {
                 //没有数组选取
                 String qwq = ctx.Identifier().getText();
-                if (!Function.currFunction.cache.vars.containsKey(qwq)) {
+                Var re = Function.currFunction.getVar(qwq);
+                if(re == null){
                     Project.logger.error("Undefined variable:" + qwq +
                             " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
                     Project.errorCount ++;
-                    return null;
-                } else {
-                    return Function.currFunction.cache.vars.get(qwq);
                 }
+                return re;
             } else {
                 //TODO 是数组调用
                 throw new TODOException("");

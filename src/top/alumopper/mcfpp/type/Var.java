@@ -21,6 +21,11 @@ public class Var {
      */
     public boolean isTemp = false;
 
+    /**
+     * 变量在栈里面的位置
+     */
+    public int stackIndex;
+
     public Var(){
         identifier = UUID.randomUUID().toString();
     }

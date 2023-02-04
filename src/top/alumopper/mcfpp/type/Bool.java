@@ -161,7 +161,7 @@ public class Bool extends Var {
             this.isConcrete = false;
             //变量进栈
             Function.addCommand("execute" +
-                    " store result storage mcfpp:system " + Project.name + ".stack_frame[0]." + this.identifier.replace(":","_") +
+                    " store result storage mcfpp:system " + Project.name + ".stack_frame[" + stackIndex + "]." + this.identifier.replace(":","_") +
                     " run scoreboard players operation " + this.identifier + " " + SbObject.MCS_boolean + " = " + a.identifier + " " + SbObject.MCS_boolean
             );
         }
