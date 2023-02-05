@@ -427,6 +427,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOrgCommand(mcfppParser.OrgCommandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrgCommand(mcfppParser.OrgCommandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterControlStatement(mcfppParser.ControlStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -530,18 +542,6 @@ public class mcfppBaseListener implements mcfppListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitForUpdate(mcfppParser.ForUpdateContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForVariableDeclaration(mcfppParser.ForVariableDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForVariableDeclaration(mcfppParser.ForVariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -59,8 +59,8 @@ constructorCall
 
 //变量声明
 fieldDeclaration
-    :   type Identifier ';'
-    |   type Identifier '=' expression ';'
+    :   type Identifier
+    |   type Identifier '=' expression
     ;
 
 //参数列表
@@ -80,7 +80,7 @@ expression
 
 //能作为语句的表达式
 statementExpression
-    :   varWithSelector '=' expression ';'
+    :   varWithSelector '=' expression
     ;
 
 //条件表达式
@@ -185,17 +185,26 @@ functionCall
     ;
 
 statement
-    :   fieldDeclaration
-    |   statementExpression
-    |   functionCall
+    :   fieldDeclaration ';'
+    |   statementExpression ';'
+    |   functionCall ';'
     |   ifStatement
     |   forStatement
     |   whileStatement
-    |   doWhileStatement
+    |   doWhileStatement ';'
     |   ';'
-    |   selfAddOrMinusStatement
+    |   selfAddOrMinusStatement ';'
     |   tryStoreStatement
-    |   controlStatement
+    |   controlStatement ';'
+    |   orgCommand
+    ;
+
+orgCommand
+    :   OrgCommand
+    ;
+
+OrgCommand
+    :   '/' [a-z]* ([ ][a-z:_{}\\[0-9A-Z\]]*)+
     ;
 
 controlStatement
@@ -224,20 +233,16 @@ forBlock
     ;
 
 forControl
-    :   forInit? ';' expression? ';' forUpdate?
+    :   forInit* ';' expression? ';' forUpdate
     ;
 
 forInit
-    :   forVariableDeclaration
-    |   expressionList
+    :   fieldDeclaration
+    |   statementExpression
     ;
 
 forUpdate
-    :   expressionList
-    ;
-
-forVariableDeclaration
-    :   type Identifier '=' expression
+    :   statementExpression*
     ;
 
 whileStatement
@@ -249,7 +254,7 @@ whileBlock
     ;
 
 doWhileStatement
-    :   DO doWhileBlock WHILE '{' expression '}' ';'
+    :   DO doWhileBlock WHILE '(' expression ')'
     ;
 
 doWhileBlock
@@ -257,7 +262,7 @@ doWhileBlock
     ;
 
 selfAddOrMinusStatement
-    :   selfAddOrMinusExpression ';'
+    :   selfAddOrMinusExpression
     ;
 
 tryStoreStatement
@@ -319,7 +324,7 @@ CONTINUE:'continue';
 STATIC:'static';
 
 Identifier
-    :   [a-z]+
+    :   [a-z_]+
     ;
 
 InsideClass

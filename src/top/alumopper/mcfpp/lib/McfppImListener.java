@@ -11,7 +11,6 @@ import top.alumopper.mcfpp.type.SbObject;
 import top.alumopper.mcfpp.type.Var;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class McfppImListener extends mcfppBaseListener {
 
@@ -52,6 +51,9 @@ public class McfppImListener extends mcfppBaseListener {
                     f.params.add(param1);
                     if(param1.type.equals("int")){
                         f.cache.vars.put(param1.identifier,new Int(f.GetNamespaceID()+ "_param_" + param1.identifier));
+                    }
+                    if(param1.type.equals("bool")){
+                        f.cache.vars.put(param1.identifier,new Bool(f.GetNamespaceID()+ "_param_" + param1.identifier));
                     }
                 }
             }
@@ -384,5 +386,166 @@ public class McfppImListener extends mcfppBaseListener {
         //调用完毕，将子函数的栈销毁
         Function.currFunction = Function.currFunction.parent.get(0);
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+    }
+
+    /**
+     * 进入do-while语句块，开始匿名函数调用
+     * @param ctx the parse tree
+     */
+    @Override
+    public void enterDoWhileBlock(mcfppParser.DoWhileBlockContext ctx){
+        //匿名函数的定义
+        Function f = new InternalFunction("_dowhile_",Function.currFunction);
+        f.child.add(f);
+        f.parent.add(f);
+        Cache.functions.put(f.name,f);
+        //给子函数开栈
+        Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+        Function.addCommand(Commands.Function(f).toString());
+        //调用完毕，将子函数的栈销毁
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.currFunction = f;  //后续块中的命令解析到递归的函数中
+    }
+
+    /**
+     * 离开do-while语句
+     * @param ctx the parse tree
+     */
+    @Override
+    public void exitDoWhileStatement(mcfppParser.DoWhileStatementContext ctx){
+        Bool exp = (Bool) new McfppExprVisitor().visit(ctx.expression());
+        if(exp.isConcrete && exp.value){
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand(Commands.Function(Function.currFunction).toString());
+            Project.logger.warn("The condition is always true. " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStop().getLine());
+        }else if(exp.isConcrete){
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("#" + Commands.Function(Function.currFunction));
+            Project.logger.warn("The condition is always false. " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStop().getLine());
+        }else {
+            //给子函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("execute " +
+                    "if score " + exp.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                    "run " + Commands.Function(Function.currFunction));
+        }
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        //调用完毕，将子函数的栈销毁
+        Function.currFunction = Function.currFunction.parent.get(0);
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+    }
+
+    /**
+     * 整个for语句本身额外有一个栈，无条件调用函数
+     * @param ctx the parse tree
+     */
+    @Override
+    public void enterForStatement(mcfppParser.ForStatementContext ctx){
+        Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+        Function forFunc = new InternalFunction("_for_",Function.currFunction);
+        forFunc.parent.add(Function.currFunction);
+        Cache.functions.put(forFunc.name,forFunc);
+        Function.addCommand(Commands.Function(forFunc).toString());
+        Function.currFunction = forFunc;
+    }
+
+    @Override
+    public void exitForStatement(mcfppParser.ForStatementContext ctx){
+        Function.currFunction = Function.currFunction.parent.get(0);
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+    }
+
+    /**
+     * 进入for update语句块。
+     * 由于在编译过程中，编译器会首先编译for语句的for control部分，也就是for后面的括号，这就意味着forUpdate语句将会先forBlock
+     * 被写入到命令函数中。因此我们需要将forUpdate语句中的命令临时放在一个函数内部，然后在forBlock调用完毕后加上中间的命令
+     * <p>
+     *     值得注意的是，for update和for block相对于整个父函数的栈的位置应该是相同的，如果它们想要调用父函数中声明的变量，都应该
+     *     用索引[1]来访问，因此可以直接将for update中的命令转移到for block中而不会出现任何问题。
+     * </p>
+     * @param ctx the parse tree
+     */
+    @Override
+    public void enterForUpdate(mcfppParser.ForUpdateContext ctx){
+        Function f = new InternalFunction("_forblock_",Function.currFunction);
+        Function.currFunction = f;
+    }
+
+    Function forupdate;
+
+    /**
+     * 离开for update。将for update缓存，同时切换当前函数为父函数
+     * @param ctx the parse tree
+     */
+    @Override
+    public void exitForUpdate(mcfppParser.ForUpdateContext ctx){
+        forupdate = Function.currFunction;
+        Function.currFunction = forupdate.parent.get(0);
+    }
+
+    /**
+     * 进入for block语句。此时当前函数为父函数
+     * @param ctx the parse tree
+     */
+    @Override
+    public void enterForBlock(mcfppParser.ForBlockContext ctx){
+        mcfppParser.ForStatementContext parent = (mcfppParser.ForStatementContext) ctx.parent;
+        Bool exp = (Bool) new McfppExprVisitor().visit(parent.forControl().expression());
+        //匿名函数的定义。这里才是正式的for函数哦喵
+        Function f = new InternalFunction("_forblock_",Function.currFunction);
+        f.child.add(f);
+        f.parent.add(f);
+        Cache.functions.put(f.name,f);
+        if(exp.isConcrete && exp.value){
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand(Commands.Function(f).toString());
+            Project.logger.warn("The condition is always true. " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+        }else if(exp.isConcrete){
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("#" + Commands.Function(f));
+            Project.logger.warn("The condition is always false. " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+        }else {
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("execute " +
+                    "if score " + exp.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                    "run " + Commands.Function(f));
+        }
+        //调用完毕，将子函数的栈销毁。这条命令仍然是在for函数中的。
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.currFunction = f;  //后续块中的命令解析到递归的函数中
+    }
+
+    /**
+     * 离开for block语句。此时当前函数仍然是for的函数
+     * @param ctx the parse tree
+     */
+    @Override
+    public void exitForBlock(mcfppParser.ForBlockContext ctx){
+        //for update的命令压入
+        Function.currFunction.commands.addAll(forupdate.commands);
+        forupdate = null;
+        //递归调用函数
+        //重新计算表达式
+        mcfppParser.ForStatementContext parent = (mcfppParser.ForStatementContext) ctx.parent;
+        Bool exp = (Bool) new McfppExprVisitor().visit(parent.forControl().expression());
+        //这里就需要给子函数开栈
+        Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+        Function.addCommand("execute " +
+                "if score " + exp.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                "run " + Commands.Function(Function.currFunction));
+        //调用完毕，将子函数的栈销毁
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.currFunction = Function.currFunction.parent.get(0);
+    }
+
+    @Override
+    public void exitOrgCommand(mcfppParser.OrgCommandContext ctx){
+        Function.addCommand(ctx.getText().substring(1));
     }
 }

@@ -350,6 +350,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitStatement(mcfppParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mcfppParser#orgCommand}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrgCommand(mcfppParser.OrgCommandContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#orgCommand}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrgCommand(mcfppParser.OrgCommandContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mcfppParser#controlStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -439,16 +449,6 @@ public interface mcfppListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitForUpdate(mcfppParser.ForUpdateContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link mcfppParser#forVariableDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterForVariableDeclaration(mcfppParser.ForVariableDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link mcfppParser#forVariableDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitForVariableDeclaration(mcfppParser.ForVariableDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#whileStatement}.
 	 * @param ctx the parse tree

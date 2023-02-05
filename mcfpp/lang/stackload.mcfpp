@@ -1,0 +1,4 @@
+load func stack_load(){
+    /data modify storage mny:program stack_frame prepend value {}
+    /data remove storage mny:program stack_frame[0]
+}

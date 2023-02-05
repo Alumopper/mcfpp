@@ -217,6 +217,12 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(mcfppParser.StatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link mcfppParser#orgCommand}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrgCommand(mcfppParser.OrgCommandContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link mcfppParser#controlStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -270,12 +276,6 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitForUpdate(mcfppParser.ForUpdateContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link mcfppParser#forVariableDeclaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitForVariableDeclaration(mcfppParser.ForVariableDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#whileStatement}.
 	 * @param ctx the parse tree
