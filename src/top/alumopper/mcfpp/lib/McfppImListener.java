@@ -1,8 +1,11 @@
 package top.alumopper.mcfpp.lib;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RuleContext;
 import top.alumopper.mcfpp.Cache;
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
+import top.alumopper.mcfpp.exception.SyntaxException;
 import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.exception.VariableDuplicationException;
 import top.alumopper.mcfpp.type.Bool;
@@ -66,6 +69,7 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void exitFieldDeclaration(mcfppParser.FieldDeclarationContext ctx){
+        Function.addCommand("#" + ctx.getText());
         Var var = null;
         if(ctx.type().className() == null){
             //普通类型
@@ -140,6 +144,7 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void exitStatementExpression(mcfppParser.StatementExpressionContext ctx){
+        Function.addCommand("#" + ctx.getText());
         Var left = new McfppExprVisitor().visit(ctx.varWithSelector());
         Var right = new McfppExprVisitor().visit(ctx.expression());
         if(left instanceof Int left1){
@@ -161,6 +166,7 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void exitFunctionCall(mcfppParser.FunctionCallContext ctx){
+        Function.addCommand("#" + ctx.getText());
         //参数获取
         ArrayList<Var> args = new ArrayList<>();
         McfppExprVisitor exprVisitor = new McfppExprVisitor();
@@ -239,6 +245,7 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void enterIfBlock(mcfppParser.IfBlockContext ctx){
+        Function.addCommand("#if start");
         mcfppParser.IfStatementContext parent = (mcfppParser.IfStatementContext)ctx.parent;
         //是if语句，获取参数
         int index = parent.ifBlock().indexOf(ctx);
@@ -285,6 +292,7 @@ public class McfppImListener extends mcfppBaseListener {
         Function.currFunction = Function.currFunction.parent.get(0);
         //调用完毕，将子函数的栈销毁
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.addCommand("#if end");
     }
 
     /**
@@ -293,6 +301,7 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void enterElseIfStatement(mcfppParser.ElseIfStatementContext ctx){
+        Function.addCommand("#else if start");
         //匿名函数的定义
         Function f = new InternalFunction("_if_",Function.currFunction);
         Cache.functions.put(f.name,f);
@@ -326,9 +335,11 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void exitElseIfStatement(mcfppParser.ElseIfStatementContext ctx){
+
         Function.currFunction = Function.currFunction.parent.get(0);
         //调用完毕，将子函数的栈销毁
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.addCommand("#else if end");
     }
 
     /**
@@ -337,6 +348,7 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void enterWhileBlock(mcfppParser.WhileBlockContext ctx){
+        Function.addCommand("#while start");
         mcfppParser.WhileStatementContext parent = (mcfppParser.WhileStatementContext) ctx.parent;
         Bool exp = (Bool) new McfppExprVisitor().visit(parent.expression());
         //匿名函数的定义
@@ -374,6 +386,9 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void exitWhileBlock(mcfppParser.WhileBlockContext ctx){
+        if(!Function.isBreak && Function.isLastFunctionEnd != 0){
+            Function.currFunction = Function.currFunction.parent.get(0);
+        }
         //递归调用函数
         //重新计算表达式
         mcfppParser.WhileStatementContext parent = (mcfppParser.WhileStatementContext) ctx.parent;
@@ -386,6 +401,7 @@ public class McfppImListener extends mcfppBaseListener {
         //调用完毕，将子函数的栈销毁
         Function.currFunction = Function.currFunction.parent.get(0);
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.addCommand("#while end");
     }
 
     /**
@@ -394,6 +410,7 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void enterDoWhileBlock(mcfppParser.DoWhileBlockContext ctx){
+        Function.addCommand("#do while start");
         //匿名函数的定义
         Function f = new InternalFunction("_dowhile_",Function.currFunction);
         f.child.add(f);
@@ -437,6 +454,7 @@ public class McfppImListener extends mcfppBaseListener {
         //调用完毕，将子函数的栈销毁
         Function.currFunction = Function.currFunction.parent.get(0);
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.addCommand("#do while end");
     }
 
     /**
@@ -445,6 +463,7 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void enterForStatement(mcfppParser.ForStatementContext ctx){
+        Function.addCommand("#for start");
         Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
         Function forFunc = new InternalFunction("_for_",Function.currFunction);
         forFunc.parent.add(Function.currFunction);
@@ -457,6 +476,7 @@ public class McfppImListener extends mcfppBaseListener {
     public void exitForStatement(mcfppParser.ForStatementContext ctx){
         Function.currFunction = Function.currFunction.parent.get(0);
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        Function.addCommand("#for end");
     }
 
     /**
@@ -547,5 +567,102 @@ public class McfppImListener extends mcfppBaseListener {
     @Override
     public void exitOrgCommand(mcfppParser.OrgCommandContext ctx){
         Function.addCommand(ctx.getText().substring(1));
+    }
+
+    /**
+     * 进入任意语句，检查此函数是否还能继续添加语句
+     * @param ctx the parse tree
+     */
+    @Override
+    public void enterStatement(mcfppParser.StatementContext ctx){
+        if(Function.currFunction.isEnd){
+            Project.logger.warn("Unreachable code: " + ctx.getText() +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+        }
+        if(Function.isLastFunctionEnd == 1){
+            //循环经历了break语句的洗礼，后面的语句需要全部放在匿名函数中。
+            Function.addCommand("#" + (Function.isBreak?"break":"continue") + " function");
+            //匿名函数的定义
+            Function f = new InternalFunction("_" + (Function.isBreak?"break":"continue") + "_",Function.currFunction);
+            f.child.add(f);
+            f.parent.add(f);
+            Cache.functions.put(f.name,f);
+            //给函数开栈
+            Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+            Function.addCommand("execute " +
+                    "unless score " + temp.identifier + " " + SbObject.MCS_boolean + " matches 1 " +
+                    "run " + Commands.Function(f)
+            );
+            //调用完毕，将子函数的栈销毁
+            Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+            Function.currFunction = f;  //后续块中的命令解析到递归的函数中
+        }
+    }
+
+    Bool temp;
+
+    @Override
+    public void exitControlStatement(mcfppParser.ControlStatementContext ctx){
+        if(Function.currFunction.isEnd || Function.isLastFunctionEnd != 0){
+            return;
+        }
+        if(!inLoopStatement(ctx)){
+            Project.logger.error("'continue' or 'break' can only be used in loop statements: " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            throw new SyntaxException();
+        }
+        Function.addCommand("#" + ctx.getText());
+        temp = new Bool();
+        //变量进栈
+        Function.addCommand("scoreboard players set " + this.temp.identifier + " " + SbObject.MCS_boolean + " = " + 1);
+        Function.currFunction.isEnd = true;
+        Function.isLastFunctionEnd = 1;
+        if(ctx.BREAK() != null){
+            Function.isBreak = true;
+        }
+    }
+
+    /**
+     * 离开任意代码块。主要用于break语句和continue语句的匿名函数出栈判定。
+     * @param ctx the parse tree
+     */
+    @Override
+    public void exitBlock(mcfppParser.BlockContext ctx){
+        if(!Function.currFunction.isEnd && Function.isLastFunctionEnd == 2){
+            if(ctx.parent instanceof mcfppParser.IfBlockContext){
+                //如果是if语句，出栈
+                Function.currFunction = Function.currFunction.parent.get(0);
+                Function.isLastFunctionEnd = 1;
+            }
+            if(ctx.parent instanceof mcfppParser.ForBlockContext
+                ||ctx.parent instanceof mcfppParser.WhileBlockContext
+                ||ctx.parent instanceof mcfppParser.DoWhileBlockContext
+            ){
+                //是循环语句，出栈的同时重置isLastFunctionEnd标志
+                Function.currFunction = Function.currFunction.parent.get(0);
+                Function.isLastFunctionEnd = 0;
+            }
+        }
+    }
+
+    /**
+     * 判断这个语句是否在循环语句中。包括嵌套形式。
+     * @param ctx 需要判断的语句
+     * @return 是否在嵌套中
+     */
+    private static boolean inLoopStatement(RuleContext ctx){
+        if(ctx instanceof mcfppParser.ForStatementContext){
+            return true;
+        }
+        if(ctx instanceof mcfppParser.DoWhileStatementContext){
+            return true;
+        }
+        if(ctx instanceof mcfppParser.WhileStatementContext){
+            return true;
+        }
+        if(ctx.parent != null){
+            return inLoopStatement(ctx.parent);
+        }
+        return false;
     }
 }

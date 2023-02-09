@@ -137,6 +137,26 @@ public class Function {
     public ArrayList<Function> parent = new ArrayList<>();
 
     /**
+     * 函数是否已经实际中止。用于break和continue语句。
+     */
+    public boolean isEnd = false;
+
+    /**
+     * 是不是break。用于break和continue语句。
+     */
+    public static boolean isBreak = false;
+
+    /**
+     * 当一个函数被break或continue截断的时候，使用此标记，表示此函数执行完毕后的函数应当重新建立一个匿名内部函数，
+     * 从而实现break和continue的逻辑控制。
+     * 即同时满足isEnd == false和isLastFunctionEnd = 2的时候进入新的匿名break/continue内部函数
+     * 0    未截断
+     * 1    被截断，需要进入匿名函数
+     * 2    被截断，但是已经在匿名函数里面了
+     */
+    public static int isLastFunctionEnd = 0;
+
+    /**
      * 目前编译器处在的函数。允许编译器在全局获取并访问当前正在编译的函数对象
      */
     public static Function currFunction;
@@ -188,7 +208,9 @@ public class Function {
      * @param str 要添加的命令。
      */
     public static void addCommand(String str){
-        currFunction.commands.add(str);
+        if(!currFunction.isEnd){
+            currFunction.commands.add(str);
+        }
     }
 
     /**

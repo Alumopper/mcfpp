@@ -40,11 +40,16 @@ functionDeclaration
     :    namespaceID? 'func' Identifier '(' parameterList? ')' '{' functionBody '}'
     ;
 
+nativeDeclaration
+    :   NATIVE type Identifier '(' parameterList? ')' '{' functionBody '}'
+    ;
+
 //类成员
 classMember
     :   functionDeclaration
     |   fieldDeclaration
     |   constructorDeclaration
+    |   nativeDeclaration
     ;
 
 //构造函数声明
@@ -308,6 +313,10 @@ namespaceID
     :   Identifier (':' Identifier)?
     ;
 
+TargetSelector
+    :   '@' ('a'|'r'|'p'|'s'|'e')
+    ;
+
 THIS:'this';
 SUPER:'super';
 IF:'if';
@@ -322,6 +331,8 @@ BREAK:'break';
 CONTINUE:'continue';
 
 STATIC:'static';
+
+NATIVE:'native';
 
 Identifier
     :   [a-z_]+
@@ -348,6 +359,10 @@ DECIMAL
 
 VEC
     :   'vec'
+    ;
+
+WAVE
+    :   '~'
     ;
 
 //
