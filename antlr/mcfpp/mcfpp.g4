@@ -28,11 +28,28 @@ typeDeclaration
 classOrFunctionDeclaration
     :   classDeclaration
     |   functionDeclaration
+    |   nativeDeclaration
     ;
 
 //类声明
 classDeclaration
-    :   'class' className '{' classMember* '}'
+    :   'class' className (EXTENDS className)? classBody
+    ;
+
+classBody
+    :   '{' classMemberDeclaration* '}'
+    ;
+
+classMemberDeclaration
+    :   accessModifier? STATIC? classMember
+    ;
+
+//类成员
+classMember
+    :   functionDeclaration
+    |   fieldDeclaration ';'
+    |   constructorDeclaration
+    |   nativeDeclaration
     ;
 
 //函数声明
@@ -41,20 +58,28 @@ functionDeclaration
     ;
 
 nativeDeclaration
-    :   NATIVE type Identifier '(' parameterList? ')' '{' functionBody '}'
+    :   NATIVE 'func' Identifier '(' parameterList? ')' '->' javaRefer ';'
     ;
 
-//类成员
-classMember
-    :   functionDeclaration
-    |   fieldDeclaration
-    |   constructorDeclaration
-    |   nativeDeclaration
+javaRefer
+    :   string ('.' string)*
+    ;
+
+string
+    :   Identifier
+    |   ClassIdentifier
+    |   NORMALSTRING
+    ;
+
+accessModifier
+    :   PRIVATE
+    |   PROTECTED
+    |   PUBLIC
     ;
 
 //构造函数声明
 constructorDeclaration
-    :   className '(' parameterList ')' '{' functionBody '}'
+    :   className '(' parameterList? ')' '{' functionBody '}'
     ;
 
 //构造函数的调用
@@ -294,11 +319,6 @@ type
     |   className
     ;
 
-functionType
-    :   'void'
-    |   type
-    ;
-
 number
     :   INT
     |   DECIMAL
@@ -331,21 +351,16 @@ BREAK:'break';
 CONTINUE:'continue';
 
 STATIC:'static';
-
+EXTENDS:'extends';
 NATIVE:'native';
 
-Identifier
-    :   [a-z_]+
-    ;
+PUBLIC:'public';
+PROTECTED:'protected';
+PRIVATE:'private';
 
 InsideClass
     :   'entity'
-    |   'pos'
     |   VEC INT
-    ;
-
-ClassIdentifier
-    :   [A-Z][a-z]*
     ;
 
 INT
@@ -357,12 +372,20 @@ DECIMAL
     |   INT '.' [0-9]+
     ;
 
-VEC
-    :   'vec'
+VEC:'vec';
+
+WAVE:'~';
+
+Identifier
+    :   [a-z0-9_]+
     ;
 
-WAVE
-    :   '~'
+ClassIdentifier
+    :   [A-Z][a-zA-Z0-9_]*
+    ;
+
+NORMALSTRING
+    :   [A-Za-z0-9_]+
     ;
 
 //

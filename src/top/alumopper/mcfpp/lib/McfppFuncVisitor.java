@@ -11,8 +11,8 @@ public class McfppFuncVisitor extends mcfppBaseVisitor<Function>{
     @Override
     public Function visitFunctionCall(mcfppParser.FunctionCallContext ctx){
         if(ctx.Identifier() != null){
-            if(Cache.functions.containsKey(ctx.Identifier().getText())){
-                return Cache.functions.get(ctx.Identifier().getText());
+            if(Cache.globalFunctions.containsKey(ctx.Identifier().getText())){
+                return Cache.globalFunctions.get(ctx.Identifier().getText());
             }else {
                 Project.logger.error("Undefined function:" + ctx.Identifier().getText() +
                         " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());

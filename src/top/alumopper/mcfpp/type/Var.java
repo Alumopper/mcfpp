@@ -1,5 +1,7 @@
 package top.alumopper.mcfpp.type;
 
+import top.alumopper.mcfpp.lib.ClassMember;
+
 import java.util.UUID;
 
 /**
@@ -17,11 +19,16 @@ import java.util.UUID;
  *     mcfpp本身的语法并不支持匿名变量。
  * </p>
  */
-public class Var {
+public class Var implements ClassMember {
     /**
      * 标识符
      */
     public String identifier;
+
+    /**
+     * 类型
+     */
+    public String type;
 
     /**
      * 是否是已知的（固定的）

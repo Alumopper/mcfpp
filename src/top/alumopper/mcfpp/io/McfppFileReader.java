@@ -1,4 +1,4 @@
-package top.alumopper.mcfpp.reader;
+package top.alumopper.mcfpp.io;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;

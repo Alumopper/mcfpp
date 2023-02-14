@@ -5,7 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import top.alumopper.mcfpp.lib.Function;
-import top.alumopper.mcfpp.reader.McfppFileReader;
+import top.alumopper.mcfpp.io.McfppFileReader;
+import top.alumopper.mcfpp.lib.Global;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -48,11 +49,25 @@ public class Project {
      */
     static ArrayList<String> includes;
 
+    /**
+     * 编译时，当前编译的文件
+     */
     public static File currFile;
 
+    /**
+     * 工程中的总错误数量
+     */
     public static int errorCount;
 
+    /**
+     * 工程中的总警告数量
+     */
     public static int warningCount;
+
+    /**
+     * 全局缓存
+     */
+    public static Global global = new Global();
 
     /**
      * 读取工程
@@ -136,7 +151,7 @@ public class Project {
         logger.debug("Optimizing...");
         //寻找入口函数
         boolean hasEntrance = false;
-        for (Function f : Cache.functions.values()) {
+        for (Function f : Cache.globalFunctions.values()) {
             if(f.parent.size() == 0){
                 //找到了入口函数
                 hasEntrance = true;

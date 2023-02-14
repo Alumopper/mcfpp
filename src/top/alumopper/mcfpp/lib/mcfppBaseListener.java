@@ -79,13 +79,25 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx) { }
+	@Override public void enterClassBody(mcfppParser.ClassBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx) { }
+	@Override public void exitClassBody(mcfppParser.ClassBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -98,6 +110,66 @@ public class mcfppBaseListener implements mcfppListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitClassMember(mcfppParser.ClassMemberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNativeDeclaration(mcfppParser.NativeDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNativeDeclaration(mcfppParser.NativeDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJavaRefer(mcfppParser.JavaReferContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJavaRefer(mcfppParser.JavaReferContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterString(mcfppParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitString(mcfppParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAccessModifier(mcfppParser.AccessModifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAccessModifier(mcfppParser.AccessModifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -662,18 +734,6 @@ public class mcfppBaseListener implements mcfppListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitType(mcfppParser.TypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunctionType(mcfppParser.FunctionTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunctionType(mcfppParser.FunctionTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

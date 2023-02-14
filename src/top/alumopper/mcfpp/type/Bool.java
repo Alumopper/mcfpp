@@ -1,22 +1,31 @@
 package top.alumopper.mcfpp.type;
 
 import top.alumopper.mcfpp.Project;
-import top.alumopper.mcfpp.command.Commands;
+import top.alumopper.mcfpp.lib.CacheContainer;
+import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.Function;
 
 import java.util.Objects;
 import java.util.UUID;
 
 public class Bool extends Var {
+
     public boolean value;
 
-    public Bool(String id){
-        identifier = Function.currFunction.GetNamespaceID() + "_" + id;
+    public String type = "bool";
+
+    public Bool(String id, CacheContainer curr){
+        identifier = curr.getPrefix() + "_" + id;
     }
-    public Bool(boolean b,String id){
-        this(id);
+
+    public Bool(boolean b, String id, CacheContainer curr){
+        this(id,curr);
         value = b;
         this.isConcrete = true;
+    }
+
+    public Bool(String id){
+        identifier = id;
     }
 
     public Bool(){
@@ -32,10 +41,11 @@ public class Bool extends Var {
     }
 
     public Bool(Bool b){
-        this(b.identifier);
+        this.identifier = b.identifier;
         value = b.value;
         isTemp = b.isTemp;
         isConcrete = b.isConcrete;
+        this.type = b.type;
     }
 
     public Bool equalCommand(Bool a) {

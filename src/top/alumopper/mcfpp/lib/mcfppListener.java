@@ -60,15 +60,25 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitClassDeclaration(mcfppParser.ClassDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mcfppParser#functionDeclaration}.
+	 * Enter a parse tree produced by {@link mcfppParser#classBody}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx);
+	void enterClassBody(mcfppParser.ClassBodyContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mcfppParser#functionDeclaration}.
+	 * Exit a parse tree produced by {@link mcfppParser#classBody}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx);
+	void exitClassBody(mcfppParser.ClassBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#classMemberDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#classMemberDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#classMember}.
 	 * @param ctx the parse tree
@@ -79,6 +89,56 @@ public interface mcfppListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitClassMember(mcfppParser.ClassMemberContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#functionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#functionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#nativeDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterNativeDeclaration(mcfppParser.NativeDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#nativeDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitNativeDeclaration(mcfppParser.NativeDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#javaRefer}.
+	 * @param ctx the parse tree
+	 */
+	void enterJavaRefer(mcfppParser.JavaReferContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#javaRefer}.
+	 * @param ctx the parse tree
+	 */
+	void exitJavaRefer(mcfppParser.JavaReferContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void enterString(mcfppParser.StringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void exitString(mcfppParser.StringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#accessModifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterAccessModifier(mcfppParser.AccessModifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#accessModifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitAccessModifier(mcfppParser.AccessModifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#constructorDeclaration}.
 	 * @param ctx the parse tree
@@ -549,16 +609,6 @@ public interface mcfppListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitType(mcfppParser.TypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link mcfppParser#functionType}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionType(mcfppParser.FunctionTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link mcfppParser#functionType}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionType(mcfppParser.FunctionTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#number}.
 	 * @param ctx the parse tree

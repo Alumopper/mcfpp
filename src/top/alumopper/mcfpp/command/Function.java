@@ -1,7 +1,5 @@
 package top.alumopper.mcfpp.command;
 
-import top.alumopper.mcfpp.type.*;
-
 public class Function extends Command
 {
 	/** 
@@ -11,7 +9,7 @@ public class Function extends Command
 
 	public Function(top.alumopper.mcfpp.lib.Function functionID)
 	{
-		this.functionID = functionID.GetNamespaceID();
+		this.functionID = functionID.getNamespaceID();
 	}
 
 	@Override

@@ -1,17 +1,11 @@
 package top.alumopper.mcfpp.lib;
 
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import top.alumopper.mcfpp.Cache;
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
-import top.alumopper.mcfpp.exception.SyntaxException;
-import top.alumopper.mcfpp.exception.VariableConverseException;
-import top.alumopper.mcfpp.exception.VariableDuplicationException;
-import top.alumopper.mcfpp.type.Bool;
-import top.alumopper.mcfpp.type.Int;
-import top.alumopper.mcfpp.type.SbObject;
-import top.alumopper.mcfpp.type.Var;
+import top.alumopper.mcfpp.exception.*;
+import top.alumopper.mcfpp.type.*;
 
 import java.util.ArrayList;
 
@@ -23,43 +17,90 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void enterFunctionBody(mcfppParser.FunctionBodyContext ctx){
-        if(ctx.parent.parent instanceof mcfppParser.ClassMemberContext){
-            //TODO:类成员
-        }else {
-            //函数的定义
+        if(!(ctx.parent.parent instanceof mcfppParser.ClassMemberContext memberContext)){
+            //不是类成员
             Function f = new Function(((mcfppParser.FunctionDeclarationContext)ctx.parent).Identifier().getText());
             if(((mcfppParser.FunctionDeclarationContext) ctx.parent).namespaceID() != null){
                 f.tag = ((mcfppParser.FunctionDeclarationContext) ctx.parent).namespaceID().getText();
             }
-            f.isClassMember = false;
             Function.currFunction = f;
-            if(!Cache.functions.containsKey(f.name)){
-                Cache.functions.put(f.name,f);
+            f.isClassMember = false;
+
+            if(!Cache.globalFunctions.containsKey(f.name)){
+                Cache.globalFunctions.put(f.name,f);
             }else {
-                Project.logger.error("Already defined function:" + ((mcfppParser.FunctionDeclarationContext)ctx.parent).Identifier().getText());
+                Project.logger.error("Already defined function:" + ((mcfppParser.FunctionDeclarationContext)ctx.parent).Identifier().getText()+
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
                 Project.errorCount ++;
                 Function.currFunction = Function.nullFunction;
             }
+
             if(f.tag != null && (f.tag.equals("load") || f.tag.equals("tick")) && ((mcfppParser.FunctionDeclarationContext) ctx.parent).parameterList().parameter().size() != 0){
-                Project.logger.error("Entrance function shouldn't have parameter:" + ((mcfppParser.FunctionDeclarationContext)ctx.parent).Identifier().getText());
+                Project.logger.error("Entrance function shouldn't have parameter:" + ((mcfppParser.FunctionDeclarationContext)ctx.parent).Identifier().getText()+
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
                 Project.errorCount ++;
             }
+
             if(((mcfppParser.FunctionDeclarationContext) ctx.parent).parameterList() != null){
-                //函数参数解析
-                for (mcfppParser.ParameterContext param : ((mcfppParser.FunctionDeclarationContext) ctx.parent).parameterList().parameter()) {
-                    FunctionParam param1 = new FunctionParam(
-                            param.type().getText(),
-                            param.Identifier().getText(),
-                            param.STATIC() == null);
-                    f.params.add(param1);
-                    if(param1.type.equals("int")){
-                        f.cache.vars.put(param1.identifier,new Int(f.GetNamespaceID()+ "_param_" + param1.identifier));
-                    }
-                    if(param1.type.equals("bool")){
-                        f.cache.vars.put(param1.identifier,new Bool(f.GetNamespaceID()+ "_param_" + param1.identifier));
-                    }
-                }
+                f.addParams(((mcfppParser.FunctionDeclarationContext) ctx.parent).parameterList());
             }
+        }else if(ctx.parent instanceof mcfppParser.ConstructorDeclarationContext constructor) {
+            //是构造函数
+            ConstructFunction f = new ConstructFunction(Class.currClass);
+            f.isClassMember = true;
+
+            Function.currFunction = f;
+
+            if(f.tag != null){
+                Project.logger.error("Constructor shouldn't have tags:" +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+            }
+
+            if(constructor.parameterList() != null){
+                f.addParams(constructor.parameterList());
+            }
+        }else {
+            //是类的成员函数
+            Function f = new Function(((mcfppParser.FunctionDeclarationContext)ctx.parent).Identifier().getText());
+            if(((mcfppParser.FunctionDeclarationContext) ctx.parent).namespaceID() != null){
+                f.tag = ((mcfppParser.FunctionDeclarationContext) ctx.parent).namespaceID().getText();
+            }
+            Function.currFunction = f;
+            f.isClassMember = true;
+
+            if(!Class.currClass.members.functions.containsKey(f.name)){
+                Class.currClass.members.functions.put(f.name,f);
+            }else {
+                Project.logger.error("Already defined function:" + ((mcfppParser.FunctionDeclarationContext)ctx.parent).Identifier().getText() + "in class " + Class.currClass.identifier+
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+                Function.currFunction = Function.nullFunction;
+            }
+
+            if(f.tag != null){
+                Project.logger.error("Class member function shouldn't have tags: " + ((mcfppParser.FunctionDeclarationContext)ctx.parent).Identifier().getText()+
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+            }
+
+            if(((mcfppParser.FunctionDeclarationContext) ctx.parent).parameterList() != null){
+                f.addParams(((mcfppParser.FunctionDeclarationContext) ctx.parent).parameterList());
+            }
+        }
+    }
+
+    /**
+     * 离开一个函数体
+     * @param ctx the parse tree
+     */
+    @Override
+    public void exitFunctionBody(mcfppParser.FunctionBodyContext ctx){
+        if(Class.currClass == null){
+            //不在类中
+            Function.currFunction = Project.global.globalInit;
+        }else {
+            Function.currFunction = Class.currClass.classInit;
         }
     }
 
@@ -69,50 +110,44 @@ public class McfppImListener extends mcfppBaseListener {
      */
     @Override
     public void exitFieldDeclaration(mcfppParser.FieldDeclarationContext ctx){
-        Function.addCommand("#" + ctx.getText());
+        //变量生成
         Var var = null;
+        CacheContainer curr;
+        //变量注册
+        if(ctx.parent instanceof mcfppParser.CompilationUnitContext){
+            curr = Project.global;
+        }else if(ctx.parent instanceof mcfppParser.ClassMemberContext){
+            curr = Class.currClass;
+        }else {
+            curr = Function.currFunction;
+        }
         if(ctx.type().className() == null){
             //普通类型
             switch (ctx.type().getText()){
-                case "int" -> {
-                    if(Function.currFunction.cache.vars.containsKey(ctx.Identifier().getText())){
-                        Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
-                                " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
-                        Project.errorCount ++;
-                        throw new VariableDuplicationException();
-                    }
-                    var = new Int(ctx.Identifier().getText());
-                    if(ctx.parent instanceof mcfppParser.CompilationUnitContext){
-                        //全局变量
-                        Cache.globalVars.put(ctx.Identifier().getText(),var);
-                    } else if(ctx.parent instanceof mcfppParser.ClassMemberContext){
-                        //TODO 类成员
-                    } else {
-                        //函数变量
-                        Function.currFunction.cache.vars.put(ctx.Identifier().getText(), var);
-                    }
-                }
-                case "bool" -> {
-                    if(Function.currFunction.cache.vars.containsKey(ctx.Identifier().getText())){
-                        Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
-                                " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
-                        Project.errorCount ++;
-                        throw new VariableDuplicationException();
-                    }
-                    var = new Bool(ctx.Identifier().getText());
-                    if(ctx.parent instanceof mcfppParser.CompilationUnitContext){
-                        //全局变量
-                        Cache.globalVars.put(ctx.Identifier().getText(),var);
-                    } else if(ctx.parent instanceof mcfppParser.ClassMemberContext){
-                        //TODO 类成员
-                    } else {
-                        //函数变量
-                        Function.currFunction.cache.vars.put(ctx.Identifier().getText(), var);
-                    }
-                }
+                case "int" -> var = new Int(ctx.Identifier().getText(),curr);
+                case "bool" -> var = new Bool(ctx.Identifier().getText(),curr);
             }
         }else {
-            //TODO
+            //TODO 是类类型
+            throw new TODOException("类类型");
+        }
+        //变量注册
+        if(ctx.parent instanceof mcfppParser.CompilationUnitContext){
+            //TODO 全局变量
+            Cache.globalVars.put(ctx.Identifier().getText(),var);
+        }else if(ctx.parent instanceof mcfppParser.ClassMemberContext){
+            //是类变量
+            Class.currClass.members.vars.put(ctx.Identifier().getText(),var);
+        }else {
+            if(Function.currFunction.cache.vars.containsKey(ctx.Identifier().getText())){
+                Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
+                        " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
+                Project.errorCount ++;
+                throw new VariableDuplicationException();
+            }
+            Function.addCommand("#" + ctx.getText());
+            //函数变量
+            Function.currFunction.cache.vars.put(ctx.Identifier().getText(), var);
         }
         //变量初始化
         if(ctx.expression() != null){
@@ -193,7 +228,7 @@ public class McfppImListener extends mcfppBaseListener {
                     if(curr.params.get(i).type.equals("int")){
                         //参数传递和子函数的参数压栈
                         Function.addCommand("execute store result storage mcfpp:system " + Project.name + ".stack_frame[0]." + curr.params.get(i).identifier + " run "
-                            + Commands.SbPlayerOperation(new Int(curr.GetNamespaceID()+ "_param_" + curr.params.get(i).identifier),"=",pint).toString()
+                            + Commands.SbPlayerOperation(new Int("_param_" + curr.params.get(i).identifier,curr),"=",pint).toString()
                         );
                     }else {
                         Project.logger.error("Can't convert int to " + curr.params.get(i).type + ":" + args.get(i).identifier +
@@ -251,7 +286,7 @@ public class McfppImListener extends mcfppBaseListener {
         int index = parent.ifBlock().indexOf(ctx);
         //匿名函数的定义
         Function f = new InternalFunction("_if_",Function.currFunction);
-        Cache.functions.put(f.name,f);
+        Cache.globalFunctions.put(f.name,f);
         if(index == 0){
             //第一个if
             Bool exp = (Bool)new McfppExprVisitor().visit(parent.expression());
@@ -304,7 +339,7 @@ public class McfppImListener extends mcfppBaseListener {
         Function.addCommand("#else if start");
         //匿名函数的定义
         Function f = new InternalFunction("_if_",Function.currFunction);
-        Cache.functions.put(f.name,f);
+        Cache.globalFunctions.put(f.name,f);
         if(lastBool.isConcrete && !lastBool.value){
             //函数调用的命令
             //给子函数开栈
@@ -355,7 +390,7 @@ public class McfppImListener extends mcfppBaseListener {
         Function f = new InternalFunction("_while_",Function.currFunction);
         f.child.add(f);
         f.parent.add(f);
-        Cache.functions.put(f.name,f);
+        Cache.globalFunctions.put(f.name,f);
         if(exp.isConcrete && exp.value){
             //给子函数开栈
             Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
@@ -415,7 +450,7 @@ public class McfppImListener extends mcfppBaseListener {
         Function f = new InternalFunction("_dowhile_",Function.currFunction);
         f.child.add(f);
         f.parent.add(f);
-        Cache.functions.put(f.name,f);
+        Cache.globalFunctions.put(f.name,f);
         //给子函数开栈
         Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
         Function.addCommand(Commands.Function(f).toString());
@@ -467,7 +502,7 @@ public class McfppImListener extends mcfppBaseListener {
         Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
         Function forFunc = new InternalFunction("_for_",Function.currFunction);
         forFunc.parent.add(Function.currFunction);
-        Cache.functions.put(forFunc.name,forFunc);
+        Cache.globalFunctions.put(forFunc.name,forFunc);
         Function.addCommand(Commands.Function(forFunc).toString());
         Function.currFunction = forFunc;
     }
@@ -519,7 +554,7 @@ public class McfppImListener extends mcfppBaseListener {
         Function f = new InternalFunction("_forblock_",Function.currFunction);
         f.child.add(f);
         f.parent.add(f);
-        Cache.functions.put(f.name,f);
+        Cache.globalFunctions.put(f.name,f);
         if(exp.isConcrete && exp.value){
             Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
             Function.addCommand(Commands.Function(f).toString());
@@ -586,7 +621,7 @@ public class McfppImListener extends mcfppBaseListener {
             Function f = new InternalFunction("_" + (Function.isBreak?"break":"continue") + "_",Function.currFunction);
             f.child.add(f);
             f.parent.add(f);
-            Cache.functions.put(f.name,f);
+            Cache.globalFunctions.put(f.name,f);
             //给函数开栈
             Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
             Function.addCommand("execute " +
@@ -603,13 +638,13 @@ public class McfppImListener extends mcfppBaseListener {
 
     @Override
     public void exitControlStatement(mcfppParser.ControlStatementContext ctx){
-        if(Function.currFunction.isEnd || Function.isLastFunctionEnd != 0){
-            return;
-        }
         if(!inLoopStatement(ctx)){
             Project.logger.error("'continue' or 'break' can only be used in loop statements: " +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
             throw new SyntaxException();
+        }
+        if(Function.currFunction.isEnd || Function.isLastFunctionEnd != 0){
+            return;
         }
         Function.addCommand("#" + ctx.getText());
         temp = new Bool();
@@ -642,6 +677,59 @@ public class McfppImListener extends mcfppBaseListener {
                 Function.currFunction = Function.currFunction.parent.get(0);
                 Function.isLastFunctionEnd = 0;
             }
+        }
+    }
+
+    /**
+     * 进入类体前。获取这个类的基本信息
+     * @param ctx the parse tree
+     */
+    @Override
+    public void enterClassBody(mcfppParser.ClassBodyContext ctx){
+        mcfppParser.ClassDeclarationContext parent = (mcfppParser.ClassDeclarationContext)ctx.parent;
+        String identifier = parent.className(0).getText();
+        if(Cache.globalClasses.containsKey(identifier)){
+            //如果这个类已经被声明
+            Class.currClass = Cache.globalClasses.get(identifier);
+            if(parent.className().size() != 1 && !parent.className().get(1).getText().equals(Class.currClass.parent.identifier)){
+                Project.logger.error("The class has extended " + Class.currClass.identifier +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+            }
+        }else {
+            //如果没有声明过这个类
+            Class cls = new Class(identifier);
+            if(parent.className().size() != 1){
+                if(Cache.globalClasses.containsKey(parent.className(1).getText())){
+                    cls.parent = Cache.globalClasses.get(parent.className(1).getText());
+                }else {
+                    Project.logger.error("Undefined class: " + parent.className(1).getText() +
+                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                    Project.errorCount++;
+                }
+            }
+            Cache.globalClasses.put(identifier,cls);
+            Class.currClass = cls;
+        }
+        Function.currFunction = Class.currClass.classInit;
+    }
+
+    @Override
+    public void exitClassBody(mcfppParser.ClassBodyContext ctx){
+        Class.currClass = null;
+        Function.currFunction = Project.global.globalInit;
+    }
+
+    /**
+     * 类成员的声明
+     * @param ctx the parse tree
+     */
+    @Override
+    public void exitClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx){
+        mcfppParser.ClassMemberContext memberContext = ctx.classMember();
+        if(memberContext.functionDeclaration() != null){
+            //函数声明由函数的listener处理
+            return;
         }
     }
 

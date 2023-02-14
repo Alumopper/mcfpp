@@ -2,6 +2,8 @@ package top.alumopper.mcfpp.type;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
+import top.alumopper.mcfpp.lib.CacheContainer;
+import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.Function;
 
 import java.util.Objects;
@@ -11,6 +13,8 @@ import java.util.UUID;
  * 代表了mc中的一个整数。实质上是记分板中的一个记分项。
  */
 public class Int extends Number<Integer>{
+
+    public String type = "int";
 
     /**
      * 创建一个匿名的动态int
@@ -37,7 +41,7 @@ public class Int extends Number<Integer>{
      * @param value 值
      */
     public Int(String id,int value){
-        super(Function.currFunction.GetNamespaceID() + "_" + id);
+        super(Function.currFunction.getNamespaceID() + "_" + id);
         this.isConcrete = true;
         this.value = value;
     }
@@ -46,8 +50,12 @@ public class Int extends Number<Integer>{
      * 创建一个int
      * @param id 值
      */
+    public Int(String id, CacheContainer curr){
+        super( curr.getPrefix() + id);
+    }
+
     public Int(String id){
-        super(Function.currFunction.GetNamespaceID() + "_" + id);
+        super(id);
     }
 
     /**
@@ -59,6 +67,7 @@ public class Int extends Number<Integer>{
         value = b.value;
         this.isConcrete = b.isConcrete;
         this.isTemp = b.isTemp;
+        this.type = b.type;
     }
 
 

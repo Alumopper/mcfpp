@@ -2,11 +2,12 @@ package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Cache;
 import top.alumopper.mcfpp.Project;
-import top.alumopper.mcfpp.reader.McfppFileReader;
+import top.alumopper.mcfpp.io.McfppFileReader;
+import top.alumopper.mcfpp.type.Bool;
+import top.alumopper.mcfpp.type.Int;
 import top.alumopper.mcfpp.type.Var;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 /**
  * 一个minecraft中的命令函数。
@@ -89,7 +90,7 @@ import java.util.Stack;
  * </p>
  * @see InternalFunction
  */
-public class Function {
+public class Function implements ClassMember,CacheContainer {
 
     /**
      * 包含的所有命令
@@ -157,7 +158,7 @@ public class Function {
     public static int isLastFunctionEnd = 0;
 
     /**
-     * 目前编译器处在的函数。允许编译器在全局获取并访问当前正在编译的函数对象
+     * 目前编译器处在的函数。允许编译器在全局获取并访问当前正在编译的函数对象。默认为全局初始化函数
      */
     public static Function currFunction;
 
@@ -199,7 +200,7 @@ public class Function {
      * 获取这个函数的命名空间id，即xxx:xxx形式。可以用于命令
      * @return 函数的命名空间id
      */
-    public String GetNamespaceID(){
+    public String getNamespaceID(){
         return Project.root.getName() + ":" + (path.equals("") ? "" : path + "/") + name;
     }
 
@@ -224,5 +225,27 @@ public class Function {
             re.stackIndex = 0;
         }
         return re;
+    }
+
+    public void addParams(mcfppParser.ParameterListContext ctx){
+        //函数参数解析
+        for (mcfppParser.ParameterContext param : ctx.parameter()) {
+            FunctionParam param1 = new FunctionParam(
+                    param.type().getText(),
+                    param.Identifier().getText(),
+                    param.STATIC() == null);
+            params.add(param1);
+            if(param1.type.equals("int")){
+                cache.vars.put(param1.identifier,new Int(getNamespaceID()+ "_param_" + param1.identifier,this));
+            }
+            if(param1.type.equals("bool")){
+                cache.vars.put(param1.identifier,new Bool(getNamespaceID()+ "_param_" + param1.identifier,this));
+            }
+        }
+    }
+
+    @Override
+    public String getPrefix(){
+        return Project.name + "_func_" + getNamespaceID() + "_";
     }
 }
