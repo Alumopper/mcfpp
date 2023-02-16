@@ -5,6 +5,7 @@ import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.exception.TODOException;
 import top.alumopper.mcfpp.type.Bool;
 import top.alumopper.mcfpp.type.Int;
+import top.alumopper.mcfpp.type.MCString;
 import top.alumopper.mcfpp.type.Var;
 
 import java.util.Objects;
@@ -247,9 +248,12 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
             return visit(ctx.var());
         }else{
             //数字
-            mcfppParser.NumberContext num = ctx.number();
+            mcfppParser.ValueContext num = ctx.value();
             if(num.INT() != null){
                 return new Int(Integer.parseInt(num.INT().getText()));
+            }else if(num.STRING() != null){
+                String r = num.STRING().getText();
+                return new MCString(r.substring(1,r.length()-1));
             }
         }
         return null;
@@ -284,6 +288,4 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
             throw new TODOException("");
         }
     }
-
-
 }

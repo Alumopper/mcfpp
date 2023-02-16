@@ -12,7 +12,7 @@ public class Bool extends Var {
 
     public boolean value;
 
-    public String type = "bool";
+    public final String type = "bool";
 
     public Bool(String id, CacheContainer curr){
         identifier = curr.getPrefix() + "_" + id;
@@ -45,7 +45,11 @@ public class Bool extends Var {
         value = b.value;
         isTemp = b.isTemp;
         isConcrete = b.isConcrete;
-        this.type = b.type;
+    }
+
+    @Override
+    public String getType(){
+        return type;
     }
 
     public Bool equalCommand(Bool a) {

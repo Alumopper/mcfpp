@@ -151,13 +151,13 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterString(mcfppParser.StringContext ctx) { }
+	@Override public void enterStringName(mcfppParser.StringNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitString(mcfppParser.StringContext ctx) { }
+	@Override public void exitStringName(mcfppParser.StringNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -182,6 +182,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConstructorDeclaration(mcfppParser.ConstructorDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNativeConstructorDeclaration(mcfppParser.NativeConstructorDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNativeConstructorDeclaration(mcfppParser.NativeConstructorDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -739,13 +751,13 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNumber(mcfppParser.NumberContext ctx) { }
+	@Override public void enterValue(mcfppParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNumber(mcfppParser.NumberContext ctx) { }
+	@Override public void exitValue(mcfppParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

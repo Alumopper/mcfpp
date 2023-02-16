@@ -12,19 +12,4 @@ public interface ClassMember {
         PROTECTED,
         PUBLIC
     }
-
-    /**
-     * 是否是一个静态的成员
-     */
-    public boolean isStatic = false;
-
-    /**
-     *
-     */
-    public AccessModifier accessModifier = AccessModifier.PRIVATE;
-
-    /**
-     * 所在的类
-     */
-    public Class parent = null;
 }

@@ -9,7 +9,7 @@ compilationUnit
     :   namespaceDeclaration?
         (   namespaceDeclaration
         |   typeDeclaration
-        |   fieldDeclaration
+        |   fieldDeclaration ';'
         )*
         EOF
     ;
@@ -41,7 +41,7 @@ classBody
     ;
 
 classMemberDeclaration
-    :   accessModifier? STATIC? classMember
+    :   accessModifier? (STATIC)? classMember
     ;
 
 //类成员
@@ -50,6 +50,7 @@ classMember
     |   fieldDeclaration ';'
     |   constructorDeclaration
     |   nativeDeclaration
+    |   nativeConstructorDeclaration
     ;
 
 //函数声明
@@ -58,14 +59,14 @@ functionDeclaration
     ;
 
 nativeDeclaration
-    :   NATIVE 'func' Identifier '(' parameterList? ')' '->' javaRefer ';'
+    :   accessModifier NATIVE 'func' Identifier '(' parameterList? ')' '->' javaRefer ';'
     ;
 
 javaRefer
-    :   string ('.' string)*
+    :   stringName ('.' stringName)*
     ;
 
-string
+stringName
     :   Identifier
     |   ClassIdentifier
     |   NORMALSTRING
@@ -80,6 +81,11 @@ accessModifier
 //构造函数声明
 constructorDeclaration
     :   className '(' parameterList? ')' '{' functionBody '}'
+    ;
+
+//构造函数声明
+nativeConstructorDeclaration
+    :   accessModifier? NATIVE? className '(' parameterList? ')' '->' javaRefer ';'
     ;
 
 //构造函数的调用
@@ -100,7 +106,7 @@ parameterList
 
 //参数
 parameter
-    :   STATIC? type Identifier
+    :   STATIC? CONCRETE? type Identifier
     ;
 
 //表达式
@@ -176,7 +182,7 @@ castExpression
 //初级表达式
 primary
     :   var
-    |   number
+    |   value
     ;
 
 varWithSelector
@@ -189,6 +195,7 @@ var
     |   'this'
     |   'super'
     |   constructorCall
+    |   TargetSelector
     ;
 
 identifierSuffix
@@ -313,15 +320,14 @@ expressionList
 
 type
     :   'int'
-    |   'string'
     |   'bool'
-    |   'decimal'
     |   className
     ;
 
-number
+value
     :   INT
     |   DECIMAL
+    |   STRING
     ;
 
 className
@@ -353,6 +359,7 @@ CONTINUE:'continue';
 STATIC:'static';
 EXTENDS:'extends';
 NATIVE:'native';
+CONCRETE:'concrete';
 
 PUBLIC:'public';
 PROTECTED:'protected';
@@ -360,6 +367,8 @@ PRIVATE:'private';
 
 InsideClass
     :   'entity'
+    |   'selector'
+    |   'string'
     |   VEC INT
     ;
 
@@ -386,6 +395,10 @@ ClassIdentifier
 
 NORMALSTRING
     :   [A-Za-z0-9_]+
+    ;
+
+STRING
+    :   '"' .*? '"'
     ;
 
 //

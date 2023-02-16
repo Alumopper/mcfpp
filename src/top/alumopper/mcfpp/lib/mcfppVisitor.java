@@ -79,11 +79,11 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitJavaRefer(mcfppParser.JavaReferContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link mcfppParser#string}.
+	 * Visit a parse tree produced by {@link mcfppParser#stringName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitString(mcfppParser.StringContext ctx);
+	T visitStringName(mcfppParser.StringNameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#accessModifier}.
 	 * @param ctx the parse tree
@@ -96,6 +96,12 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitConstructorDeclaration(mcfppParser.ConstructorDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#nativeConstructorDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNativeConstructorDeclaration(mcfppParser.NativeConstructorDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#constructorCall}.
 	 * @param ctx the parse tree
@@ -373,11 +379,11 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(mcfppParser.TypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link mcfppParser#number}.
+	 * Visit a parse tree produced by {@link mcfppParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumber(mcfppParser.NumberContext ctx);
+	T visitValue(mcfppParser.ValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#className}.
 	 * @param ctx the parse tree

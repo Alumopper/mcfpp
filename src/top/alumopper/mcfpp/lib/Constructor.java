@@ -5,10 +5,10 @@ import top.alumopper.mcfpp.Project;
 /**
  * 一个构造函数
  */
-public class ConstructFunction extends Function {
+public class Constructor extends Function {
 
     Class target;
-    public ConstructFunction(Class cls) {
+    public Constructor(Class cls) {
         super("_init_" + cls.identifier.toLowerCase() + "_" + cls.structFunctions.size());
         this.target = cls;
     }

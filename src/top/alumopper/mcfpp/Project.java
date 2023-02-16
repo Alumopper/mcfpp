@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import top.alumopper.mcfpp.lib.Cache;
 import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.io.McfppFileReader;
 import top.alumopper.mcfpp.lib.Global;

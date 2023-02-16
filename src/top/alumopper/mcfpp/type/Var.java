@@ -45,8 +45,21 @@ public class Var implements ClassMember {
      */
     public int stackIndex;
 
+    /**
+     *
+     */
+    public boolean isStatic = false;
+
+    /**
+     * 访问修饰符
+     */
+    public AccessModifier accessModifier = AccessModifier.PRIVATE;
+
     public Var(){
         identifier = UUID.randomUUID().toString();
     }
 
+    public String getType(){
+        return type;
+    }
 }

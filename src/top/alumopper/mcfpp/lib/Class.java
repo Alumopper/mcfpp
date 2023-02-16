@@ -1,6 +1,5 @@
 package top.alumopper.mcfpp.lib;
 
-import top.alumopper.mcfpp.Cache;
 import top.alumopper.mcfpp.Project;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class Class implements CacheContainer {
     /**
      * 构造函数
      */
-    public ArrayList<ConstructFunction> structFunctions = new ArrayList<>();
+    public ArrayList<Constructor> structFunctions = new ArrayList<>();
 
     /**
      * 类的字段初始化函数
@@ -49,4 +48,6 @@ public class Class implements CacheContainer {
     public String getPrefix(){
         return Project.name + "_class_" + identifier + "_";
     }
+
+
 }

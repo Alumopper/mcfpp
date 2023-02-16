@@ -1,6 +1,5 @@
 package top.alumopper.mcfpp.lib;
 
-import top.alumopper.mcfpp.Cache;
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.io.McfppFileReader;
 import top.alumopper.mcfpp.type.Bool;
@@ -141,6 +140,21 @@ public class Function implements ClassMember,CacheContainer {
      * 函数是否已经实际中止。用于break和continue语句。
      */
     public boolean isEnd = false;
+
+    /**
+     * 访问修饰符
+     */
+    public AccessModifier accessModifier = AccessModifier.PRIVATE;
+
+    /**
+     * 是否是静态的
+     */
+    public boolean isStatic = false;
+
+    /**
+     * 所在的类。如果不是类成员，则为null
+     */
+    Class parentClass = null;
 
     /**
      * 是不是break。用于break和continue语句。

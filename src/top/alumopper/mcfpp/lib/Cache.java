@@ -1,10 +1,7 @@
-package top.alumopper.mcfpp;
+package top.alumopper.mcfpp.lib;
 
 import java.util.*;
 
-import top.alumopper.mcfpp.lib.Class;
-import top.alumopper.mcfpp.lib.ConstructFunction;
-import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.type.Var;
 
 /**
@@ -38,30 +35,42 @@ public final class Cache {
     //TODO:DEBUG
     public static void printAll(){
         for (Function s: globalFunctions.values()) {
-            System.out.println(s.getNamespaceID());
-            for (String c : s.commands) {
-                System.out.println("\t" + c);
+            if(s instanceof NativeFunction){
+                System.out.println("native " + s.getNamespaceID());
+            }else {
+                System.out.println(s.getNamespaceID());
+                for (String c : s.commands) {
+                    System.out.println("\t" + c);
+                }
             }
         }
         for (Class s: globalClasses.values()){
             System.out.println("class " + s.identifier);
             System.out.println("\tconstructors:");
-            for (ConstructFunction c : s.structFunctions) {
-                System.out.println("\t\t" + c.getNamespaceID());
-                for (String d : c.commands) {
-                    System.out.println("\t\t\t" + d);
+            for (Constructor c : s.structFunctions) {
+                if(c instanceof NativeConstructor){
+                    System.out.println("\t\tnative " + c.getNamespaceID());
+                }else {
+                    System.out.println("\t\t" + c.getNamespaceID());
+                    for (String d : c.commands) {
+                        System.out.println("\t\t\t" + d);
+                    }
                 }
             }
             System.out.println("\tfunctions:");
             for (Function f : s.members.functions.values()){
-                System.out.println("\t\t" + f.getNamespaceID());
-                for (String d : f.commands) {
-                    System.out.println("\t\t\t" + d);
+                if(f instanceof NativeFunction){
+                    System.out.println("\t\t" + f.accessModifier.name().toLowerCase() + " native " + (f.isStatic?"static":"") + f.getNamespaceID());
+                }else {
+                    System.out.println("\t\t" + f.accessModifier.name().toLowerCase() + " " + (f.isStatic?"static":"") + f.getNamespaceID());
+                    for (String d : f.commands) {
+                        System.out.println("\t\t\t" + d);
+                    }
                 }
             }
             System.out.println("\tattributes:");
             for (Var v : s.members.vars.values()){
-                System.out.println("\t\t" + v.accessModifier.name() + " " + v.type + " " + v.identifier);
+                System.out.println("\t\t" + v.accessModifier.name().toLowerCase() + " " + (v.isStatic?"static":"") + " " + v.getType() + " " + v.identifier);
             }
         }
     }

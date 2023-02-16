@@ -1,5 +1,6 @@
 package top.alumopper.mcfpp;
 
+import top.alumopper.mcfpp.lib.Cache;
 import top.alumopper.mcfpp.lib.UwU;
 
 /**

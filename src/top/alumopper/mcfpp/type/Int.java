@@ -14,7 +14,7 @@ import java.util.UUID;
  */
 public class Int extends Number<Integer>{
 
-    public String type = "int";
+    public final String type = "int";
 
     /**
      * 创建一个匿名的动态int
@@ -67,9 +67,12 @@ public class Int extends Number<Integer>{
         value = b.value;
         this.isConcrete = b.isConcrete;
         this.isTemp = b.isTemp;
-        this.type = b.type;
     }
 
+    @Override
+    public String getType(){
+        return type;
+    }
 
     @Override
     public void assignCommand(Number<Integer> a){

@@ -120,15 +120,15 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitJavaRefer(mcfppParser.JavaReferContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mcfppParser#string}.
+	 * Enter a parse tree produced by {@link mcfppParser#stringName}.
 	 * @param ctx the parse tree
 	 */
-	void enterString(mcfppParser.StringContext ctx);
+	void enterStringName(mcfppParser.StringNameContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mcfppParser#string}.
+	 * Exit a parse tree produced by {@link mcfppParser#stringName}.
 	 * @param ctx the parse tree
 	 */
-	void exitString(mcfppParser.StringContext ctx);
+	void exitStringName(mcfppParser.StringNameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#accessModifier}.
 	 * @param ctx the parse tree
@@ -149,6 +149,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConstructorDeclaration(mcfppParser.ConstructorDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#nativeConstructorDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterNativeConstructorDeclaration(mcfppParser.NativeConstructorDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#nativeConstructorDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitNativeConstructorDeclaration(mcfppParser.NativeConstructorDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#constructorCall}.
 	 * @param ctx the parse tree
@@ -610,15 +620,15 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitType(mcfppParser.TypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mcfppParser#number}.
+	 * Enter a parse tree produced by {@link mcfppParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterNumber(mcfppParser.NumberContext ctx);
+	void enterValue(mcfppParser.ValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mcfppParser#number}.
+	 * Exit a parse tree produced by {@link mcfppParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitNumber(mcfppParser.NumberContext ctx);
+	void exitValue(mcfppParser.ValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#className}.
 	 * @param ctx the parse tree
