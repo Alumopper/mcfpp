@@ -8,6 +8,7 @@ import top.alumopper.mcfpp.lib.Cache;
 import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.io.McfppFileReader;
 import top.alumopper.mcfpp.lib.Global;
+import top.alumopper.mcfpp.lib.Native;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -153,7 +154,7 @@ public class Project {
         //寻找入口函数
         boolean hasEntrance = false;
         for (Function f : Cache.globalFunctions.values()) {
-            if(f.parent.size() == 0){
+            if(f.parent.size() == 0 && !(f instanceof Native)){
                 //找到了入口函数
                 hasEntrance = true;
                 f.commands.add(0,"data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");

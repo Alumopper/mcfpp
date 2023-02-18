@@ -26,6 +26,6 @@ public class NativeFunction extends Function implements Native{
         this.javaMethod = javaMethod;
         List<mcfppParser.StringNameContext> strs = javaMethod.stringName();
         this.javaMethodName = strs.get(strs.size()-1).getText();
-        this.javaClassName = strs.remove(strs.size()-1).getText();
+        this.javaClassName = javaMethod.getText().substring(0,javaMethod.getText().lastIndexOf(javaMethodName)-1);
     }
 }

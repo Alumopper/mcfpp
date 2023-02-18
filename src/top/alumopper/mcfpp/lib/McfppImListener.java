@@ -6,6 +6,7 @@ import top.alumopper.mcfpp.command.Commands;
 import top.alumopper.mcfpp.exception.*;
 import top.alumopper.mcfpp.type.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class McfppImListener extends mcfppBaseListener {
@@ -189,14 +190,13 @@ public class McfppImListener extends mcfppBaseListener {
                 case "int" -> var = new Int(ctx.Identifier().getText(),curr);
                 case "bool" -> var = new Bool(ctx.Identifier().getText(),curr);
             }
-        }
-        if(ctx.type().className() != null && ctx.type().className().InsideClass() != null){
+        }else if(ctx.type().className().InsideClass() != null){
             switch (ctx.type().className().InsideClass().getText()){
                 case "selector" -> var = new Selector(ctx.Identifier().getText());
                 case "entity" -> var = null;
                 case "string" -> var = null;
             }
-        }else if(ctx.type().className().InsideClass() == null){
+        }else {
             //TODO
             throw new TODOException("");
         }
@@ -306,11 +306,45 @@ public class McfppImListener extends mcfppBaseListener {
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
             Project.errorCount ++;
         }
+        if(curr instanceof NativeFunction nativeCurr){
+            //是native方法
+            if(curr.isClassMember){
+                //TODO
+                throw new TODOException("");
+            }else {
+                try {
+                    Var[] vars = new Var[args.size()];
+                    Invoker.nativeInvoke(args.toArray(vars),nativeCurr.javaClassName,nativeCurr.javaMethodName);
+                } catch (ClassNotFoundException e) {
+                    Project.errorCount++;
+                    Project.logger.error("Cannot find java class: " + nativeCurr.javaClassName +
+                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                    throw new RuntimeException(e);
+                } catch (NoSuchMethodException e) {
+                    Project.errorCount++;
+                    Project.logger.error("Cannot find java method " + nativeCurr.javaMethodName + " in class " + nativeCurr.javaClassName +
+                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                    throw new RuntimeException(e);
+                } catch (InvocationTargetException e) {
+                    Project.errorCount++;
+                    Project.logger.error("Run into exception when invoke java method: " + nativeCurr.javaMethod.getText() +
+                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                    throw new RuntimeException(e);
+                } catch (IllegalAccessException e) {
+                    Project.errorCount++;
+                    Project.logger.error("Cannot access java method " + nativeCurr.javaMethodName + " in class " + nativeCurr.javaClassName +
+                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                    throw new RuntimeException(e);
+                }
+            }
+            return;
+        }
         //给子函数开栈
         Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
         //函数调用
         if(curr.isClassMember){
             //TODO
+            throw new TODOException("");
         }else {
             //参数传递
             for (int i = 0; i < curr.params.size(); i++) {
