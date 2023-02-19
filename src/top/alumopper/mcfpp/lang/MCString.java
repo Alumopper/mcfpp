@@ -1,6 +1,8 @@
-package top.alumopper.mcfpp.type;
+package top.alumopper.mcfpp.lang;
 
-public class MCString extends Var{
+import top.alumopper.mcfpp.lang.Var;
+
+public class MCString extends Var {
 
     public String value;
 

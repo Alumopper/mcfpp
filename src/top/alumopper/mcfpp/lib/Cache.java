@@ -2,7 +2,8 @@ package top.alumopper.mcfpp.lib;
 
 import java.util.*;
 
-import top.alumopper.mcfpp.type.Var;
+import top.alumopper.mcfpp.Project;
+import top.alumopper.mcfpp.lang.Var;
 
 /**
  * 一个缓存。在编译过程中，编译器读取到的变量，函数等会以键值对的方式储存在其中。键为函数的id或者变量的
@@ -11,30 +12,47 @@ import top.alumopper.mcfpp.type.Var;
 public final class Cache {
 
     /**
-     * 局部变量
+     * 变量缓存
      */
     public HashMap<String,Var> vars = new HashMap<>();
 
-    public HashMap<String, Function> functions = new HashMap<>();
+    /**
+     * 函数缓存
+     */
+    public ArrayList<Function> functions = new ArrayList<>();
 
     /**
-     * 全局变量
+     * 类缓存
      */
-    public static HashMap<String,Var> globalVars = new HashMap<>();
+    public HashMap<String, Class> classes = new HashMap<>();
 
     /**
-     * 全局函数
+     * 根据所给的函数名和参数获取一个函数
+     * @param key 函数名
+     * @param argsTypes 参数类型
+     * @param namespace 命名空间
+     * @return 如果此缓存中存在这个函数，则返回这个函数的对象，否则返回null
      */
-    public static HashMap<String, Function> globalFunctions = new HashMap<>();
+    public Function getFunction(String namespace,String key, List<String> argsTypes){
+        for (Function f : functions) {
+            if(f.namespace.equals(namespace) && f.name.equals(key) && f.params.size() == argsTypes.size()){
+                //参数比对
+                for (int i = 0; i < argsTypes.size(); i++) {
+                    if(argsTypes.get(i).equals(f.params.get(i).type)){
+                        return f;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     /**
-     * 全局类
+     * TODO:DEBUG
+     * 打印所有的函数和类
      */
-    public static HashMap<String, Class> globalClasses = new HashMap<>();
-
-    //TODO:DEBUG
     public static void printAll(){
-        for (Function s: globalFunctions.values()) {
+        for (Function s: Project.global.cache.functions) {
             if(s instanceof NativeFunction){
                 System.out.println("native " + s.getNamespaceID());
             }else {
@@ -44,7 +62,7 @@ public final class Cache {
                 }
             }
         }
-        for (Class s: globalClasses.values()){
+        for (Class s: Project.global.cache.classes.values()){
             System.out.println("class " + s.identifier);
             System.out.println("\tconstructors:");
             for (Constructor c : s.structFunctions) {
@@ -58,7 +76,7 @@ public final class Cache {
                 }
             }
             System.out.println("\tfunctions:");
-            for (Function f : s.members.functions.values()){
+            for (Function f : s.cache.functions){
                 if(f instanceof NativeFunction){
                     System.out.println("\t\t" + f.accessModifier.name().toLowerCase() + " native " + (f.isStatic?"static":"") + f.getNamespaceID());
                 }else {
@@ -69,19 +87,19 @@ public final class Cache {
                 }
             }
             System.out.println("\tattributes:");
-            for (Var v : s.members.vars.values()){
+            for (Var v : s.cache.vars.values()){
                 System.out.println("\t\t" + v.accessModifier.name().toLowerCase() + " " + (v.isStatic?"static":"") + " " + v.getType() + " " + v.identifier);
             }
         }
     }
 
-    public static Object getKey(Map map, Object value){
+    public static Object getKey(Map<?,?> map, Object value){
         List<Object> keyList = new ArrayList<>();
         for(Object key: map.keySet()){
             if(map.get(key).equals(value)){
                 keyList.add(key);
             }
         }
-        return keyList;
+        return keyList.get(0);
     }
 }

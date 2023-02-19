@@ -1,9 +1,9 @@
-package top.alumopper.mcfpp.type;
+package top.alumopper.mcfpp.lang;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.lib.CacheContainer;
-import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.Function;
+import top.alumopper.mcfpp.type.SbObject;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -11,8 +11,6 @@ import java.util.UUID;
 public class Bool extends Var {
 
     public boolean value;
-
-    public final String type = "bool";
 
     public Bool(String id, CacheContainer curr){
         identifier = curr.getPrefix() + "_" + id;
@@ -49,7 +47,7 @@ public class Bool extends Var {
 
     @Override
     public String getType(){
-        return type;
+        return "bool";
     }
 
     public Bool equalCommand(Bool a) {

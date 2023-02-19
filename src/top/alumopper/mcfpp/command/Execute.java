@@ -2,6 +2,7 @@ package top.alumopper.mcfpp.command;
 
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.exception.ExecuteCommandListEndException;
+import top.alumopper.mcfpp.lang.Int;
 import top.alumopper.mcfpp.type.*;
 
 import java.util.*;

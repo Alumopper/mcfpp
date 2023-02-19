@@ -57,6 +57,11 @@ public class Project {
     public static File currFile;
 
     /**
+     * 当前的命名空间
+     */
+    public static String currNamespace;
+
+    /**
      * 工程中的总错误数量
      */
     public static int errorCount;
@@ -153,7 +158,7 @@ public class Project {
         logger.debug("Optimizing...");
         //寻找入口函数
         boolean hasEntrance = false;
-        for (Function f : Cache.globalFunctions.values()) {
+        for (Function f : Project.global.cache.functions) {
             if(f.parent.size() == 0 && !(f instanceof Native)){
                 //找到了入口函数
                 hasEntrance = true;

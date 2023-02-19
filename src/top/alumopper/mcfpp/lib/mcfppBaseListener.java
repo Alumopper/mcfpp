@@ -115,6 +115,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterClassFunctionDeclaration(mcfppParser.ClassFunctionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassFunctionDeclaration(mcfppParser.ClassFunctionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -122,6 +134,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNamespaceID(mcfppParser.NamespaceIDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNamespaceID(mcfppParser.NamespaceIDContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -775,13 +799,13 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNamespaceID(mcfppParser.NamespaceIDContext ctx) { }
+	@Override public void enterFunctionTag(mcfppParser.FunctionTagContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNamespaceID(mcfppParser.NamespaceIDContext ctx) { }
+	@Override public void exitFunctionTag(mcfppParser.FunctionTagContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

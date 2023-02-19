@@ -21,7 +21,7 @@ public class Class implements CacheContainer {
     /**
      * 成员变量和成员函数
      */
-    public Cache members;
+    public Cache cache;
 
     /**
      * 构造函数
@@ -41,7 +41,7 @@ public class Class implements CacheContainer {
     public Class(String identifier){
         this.identifier = identifier;
         classInit = new Function("_class_preinit_" + identifier);
-        members = new Cache();
+        cache = new Cache();
     }
 
     @Override

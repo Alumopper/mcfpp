@@ -7,8 +7,7 @@ package top.alumopper.mcfpp.lib;
 //一个mcfpp文件
 compilationUnit
     :   namespaceDeclaration?
-        (   namespaceDeclaration
-        |   typeDeclaration
+        (   typeDeclaration
         |   fieldDeclaration ';'
         )*
         EOF
@@ -46,16 +45,24 @@ classMemberDeclaration
 
 //类成员
 classMember
-    :   functionDeclaration
+    :   classFunctionDeclaration
     |   fieldDeclaration ';'
     |   constructorDeclaration
     |   nativeDeclaration
     |   nativeConstructorDeclaration
     ;
 
+classFunctionDeclaration
+    :    'func' Identifier '(' parameterList? ')' '{' functionBody '}'
+    ;
+
 //函数声明
 functionDeclaration
-    :    namespaceID? 'func' Identifier '(' parameterList? ')' '{' functionBody '}'
+    :    functionTag? 'func' namespaceID '(' parameterList? ')' '{' functionBody '}'
+    ;
+
+namespaceID
+    : (Identifier ':')? Identifier
     ;
 
 nativeDeclaration
@@ -172,6 +179,7 @@ unaryExpression
 basicExpression
     :   primary
     |   varWithSelector
+    |   className
     ;
 
 //强制类型转换表达式
@@ -215,7 +223,7 @@ functionBody
     ;
 
 functionCall
-    :   Identifier arguments
+    :   namespaceID arguments
     |   'this' arguments
     |   'super' arguments
     |   (basicExpression '.') Identifier arguments
@@ -331,12 +339,12 @@ value
     ;
 
 className
-    :   ClassIdentifier
-    |   InsideClass
+    :   (Identifier ':') ClassIdentifier
+    |   (Identifier ':') InsideClass
     ;
 
-namespaceID
-    :   Identifier (':' Identifier)?
+functionTag
+    :   namespaceID
     ;
 
 TargetSelector

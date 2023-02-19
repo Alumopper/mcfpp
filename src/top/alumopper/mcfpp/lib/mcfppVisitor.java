@@ -61,11 +61,23 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassMember(mcfppParser.ClassMemberContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link mcfppParser#classFunctionDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassFunctionDeclaration(mcfppParser.ClassFunctionDeclarationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link mcfppParser#functionDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNamespaceID(mcfppParser.NamespaceIDContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#nativeDeclaration}.
 	 * @param ctx the parse tree
@@ -391,9 +403,9 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassName(mcfppParser.ClassNameContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * Visit a parse tree produced by {@link mcfppParser#functionTag}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNamespaceID(mcfppParser.NamespaceIDContext ctx);
+	T visitFunctionTag(mcfppParser.FunctionTagContext ctx);
 }

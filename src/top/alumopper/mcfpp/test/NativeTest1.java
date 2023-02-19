@@ -1,6 +1,6 @@
 package top.alumopper.mcfpp.test;
 
-import top.alumopper.mcfpp.type.Var;
+import top.alumopper.mcfpp.lang.Var;
 
 public class NativeTest1{
     public static void test(Var[] vars){

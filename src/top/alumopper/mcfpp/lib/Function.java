@@ -2,9 +2,9 @@ package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.io.McfppFileReader;
-import top.alumopper.mcfpp.type.Bool;
-import top.alumopper.mcfpp.type.Int;
-import top.alumopper.mcfpp.type.Var;
+import top.alumopper.mcfpp.lang.Bool;
+import top.alumopper.mcfpp.lang.Int;
+import top.alumopper.mcfpp.lang.Var;
 
 import java.util.ArrayList;
 
@@ -104,7 +104,12 @@ public class Function implements ClassMember,CacheContainer {
     /**
      * 函数的标签
      */
-    public String tag;
+    public FunctionTag tag;
+
+    /**
+     * 函数的命名空间
+     */
+    public String namespace;
 
     /**
      * 函数的路径
@@ -190,16 +195,17 @@ public class Function implements ClassMember,CacheContainer {
         this.name = name;
         this.commands = new ArrayList<>();
         this.params = new ArrayList<>();
+        this.namespace = Project.currNamespace;
     }
 
     /**
      * 创建一个函数，它有指定的标签
      * @param name 函数的标识符
-     * @param tag 函数的标签
+     * @param namespace 函数的命名空间
      */
-    public Function(String name, String tag){
+    public Function(String name, String namespace){
         this(name);
-        this.tag = tag;
+        this.namespace = namespace;
     }
 
     /**
@@ -215,7 +221,12 @@ public class Function implements ClassMember,CacheContainer {
      * @return 函数的命名空间id
      */
     public String getNamespaceID(){
-        return Project.root.getName() + ":" + (path.equals("") ? "" : path + "/") + name;
+        StringBuilder re = new StringBuilder(namespace + ":" + (path.equals("") ? "" : path + "/") + name);
+        for (FunctionParam p : params) {
+            re.append("_").append(p.type);
+        }
+        return re.toString();
+
     }
 
     /**
@@ -247,7 +258,7 @@ public class Function implements ClassMember,CacheContainer {
             FunctionParam param1 = new FunctionParam(
                     param.type().getText(),
                     param.Identifier().getText(),
-                    param.STATIC() == null);
+                    param.STATIC() != null);
             params.add(param1);
             if(param1.type.equals("int")){
                 cache.vars.put(param1.identifier,new Int(getNamespaceID()+ "_param_" + param1.identifier,this));
@@ -261,5 +272,39 @@ public class Function implements ClassMember,CacheContainer {
     @Override
     public String getPrefix(){
         return Project.name + "_func_" + getNamespaceID() + "_";
+    }
+
+    public ArrayList<String> getParamTypeList(){
+        ArrayList<String> re = new ArrayList<>();
+        for (FunctionParam p : params) {
+            re.add(p.type);
+        }
+        return re;
+    }
+
+    /**
+     * 判断两个函数是否相同.判据包括:命名空间ID,是否是类成员,父类,标签和参数列表
+     * @param o 要比较的对象
+     * @return 若相同,则返回true
+     */
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Function f){
+            if(!((f.tag != null && f.tag.equals(this.tag) || f.tag == null && this.tag == null)
+                    && f.isClassMember == isClassMember
+                    && f.getNamespaceID().equals(this.getNamespaceID())
+                    && f.parentClass == this.parentClass)){
+                return false;
+            }
+            if(f.params.size() == this.params.size()){
+                for (int i = 0; i < f.params.size(); i++) {
+                    if(!f.params.get(i).type.equals(this.params.get(i).type)){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

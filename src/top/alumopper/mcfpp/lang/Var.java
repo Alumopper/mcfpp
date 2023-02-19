@@ -1,4 +1,4 @@
-package top.alumopper.mcfpp.type;
+package top.alumopper.mcfpp.lang;
 
 import top.alumopper.mcfpp.lib.ClassMember;
 
@@ -24,11 +24,6 @@ public class Var implements ClassMember {
      * 标识符
      */
     public String identifier;
-
-    /**
-     * 类型
-     */
-    public String type;
 
     /**
      * 是否是已知的（固定的）
@@ -60,6 +55,6 @@ public class Var implements ClassMember {
     }
 
     public String getType(){
-        return type;
+        return "var";
     }
 }

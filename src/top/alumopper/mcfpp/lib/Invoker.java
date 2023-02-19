@@ -1,6 +1,6 @@
 package top.alumopper.mcfpp.lib;
 
-import top.alumopper.mcfpp.type.Var;
+import top.alumopper.mcfpp.lang.Var;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

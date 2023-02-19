@@ -29,6 +29,7 @@ public class McfppFileReader extends McfppReader {
      * 编译这个文件
      */
     public void compile() throws IOException {
+        Project.currNamespace = Project.root.getName();
         Project.currFile = new File(path);
         CharStream charStream = CharStreams.fromStream(input);
         mcfppLexer lexer = new mcfppLexer(charStream);

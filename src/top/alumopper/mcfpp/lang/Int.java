@@ -1,10 +1,10 @@
-package top.alumopper.mcfpp.type;
+package top.alumopper.mcfpp.lang;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
 import top.alumopper.mcfpp.lib.CacheContainer;
-import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.Function;
+import top.alumopper.mcfpp.type.SbObject;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -12,10 +12,7 @@ import java.util.UUID;
 /**
  * 代表了mc中的一个整数。实质上是记分板中的一个记分项。
  */
-public class Int extends Number<Integer>{
-
-    public final String type = "int";
-
+public class Int extends Number<Integer> {
     /**
      * 创建一个匿名的动态int
      */
@@ -71,7 +68,7 @@ public class Int extends Number<Integer>{
 
     @Override
     public String getType(){
-        return type;
+        return "int";
     }
 
     @Override

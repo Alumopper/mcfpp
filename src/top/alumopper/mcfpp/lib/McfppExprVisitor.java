@@ -3,10 +3,10 @@ package top.alumopper.mcfpp.lib;
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.exception.TODOException;
-import top.alumopper.mcfpp.type.Bool;
-import top.alumopper.mcfpp.type.Int;
-import top.alumopper.mcfpp.type.MCString;
-import top.alumopper.mcfpp.type.Var;
+import top.alumopper.mcfpp.lang.Bool;
+import top.alumopper.mcfpp.lang.Int;
+import top.alumopper.mcfpp.lang.MCString;
+import top.alumopper.mcfpp.lang.Var;
 
 import java.util.Objects;
 

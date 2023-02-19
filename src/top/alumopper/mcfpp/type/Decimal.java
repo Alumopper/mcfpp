@@ -1,5 +1,8 @@
 package top.alumopper.mcfpp.type;
 
+import top.alumopper.mcfpp.lang.Bool;
+import top.alumopper.mcfpp.lang.Number;
+
 public class Decimal extends Number {
     public int bp;  //小数点前
     public int ap;  //小数点后
@@ -30,5 +33,65 @@ public class Decimal extends Number {
         bp = d.bp;
         ap = d.ap;
         value = d.value;
+    }
+
+    @Override
+    public void assignCommand(Number a) {
+
+    }
+
+    @Override
+    public Number addCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Number minusCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Number multipleCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Number divideCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Number modularCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Bool greaterCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Bool lessCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Bool lessOrEqualCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Bool greaterOrEqualCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Bool equalCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public Bool notEqualCommand(Number a) {
+        return null;
     }
 }

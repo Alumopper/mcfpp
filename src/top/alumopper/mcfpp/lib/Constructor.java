@@ -17,4 +17,21 @@ public class Constructor extends Function {
     public String getPrefix(){
         return Project.name + "_class_" + target.identifier +  "_init_";
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Constructor c){
+            if(c.parentClass.equals(this.parentClass)){
+                if(c.params.size() == this.params.size()){
+                    for (int i = 0; i < c.params.size(); i++) {
+                        if(!c.params.get(i).equals(this.params.get(i))){
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

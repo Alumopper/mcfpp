@@ -1,11 +1,12 @@
-package top.alumopper.mcfpp.type;
+package top.alumopper.mcfpp.lang;
 
+import top.alumopper.mcfpp.lang.Var;
 import top.alumopper.mcfpp.lib.Class;
 
 /**
  * 一个类的实例
  */
-public class ClassObject extends Var{
+public class ClassObject extends Var {
     public Class cls;
 
     public String type;

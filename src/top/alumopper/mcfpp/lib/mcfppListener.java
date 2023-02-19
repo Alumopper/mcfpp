@@ -90,6 +90,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitClassMember(mcfppParser.ClassMemberContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mcfppParser#classFunctionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassFunctionDeclaration(mcfppParser.ClassFunctionDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#classFunctionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassFunctionDeclaration(mcfppParser.ClassFunctionDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mcfppParser#functionDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -99,6 +109,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionDeclaration(mcfppParser.FunctionDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * @param ctx the parse tree
+	 */
+	void enterNamespaceID(mcfppParser.NamespaceIDContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * @param ctx the parse tree
+	 */
+	void exitNamespaceID(mcfppParser.NamespaceIDContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#nativeDeclaration}.
 	 * @param ctx the parse tree
@@ -640,13 +660,13 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitClassName(mcfppParser.ClassNameContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * Enter a parse tree produced by {@link mcfppParser#functionTag}.
 	 * @param ctx the parse tree
 	 */
-	void enterNamespaceID(mcfppParser.NamespaceIDContext ctx);
+	void enterFunctionTag(mcfppParser.FunctionTagContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mcfppParser#namespaceID}.
+	 * Exit a parse tree produced by {@link mcfppParser#functionTag}.
 	 * @param ctx the parse tree
 	 */
-	void exitNamespaceID(mcfppParser.NamespaceIDContext ctx);
+	void exitFunctionTag(mcfppParser.FunctionTagContext ctx);
 }
