@@ -301,6 +301,39 @@ public class McfppImListener extends mcfppBaseListener {
     }
 
     /**
+     * 自加或自减语句
+     * @param ctx the parse tree
+     */
+    @Override
+    public void exitSelfAddOrMinusStatement(mcfppParser.SelfAddOrMinusStatementContext ctx){
+        Function.addCommand("#" + ctx.getText());
+        Var re = Function.currFunction.getVar(ctx.selfAddOrMinusExpression().Identifier().getText());
+        if(re == null){
+            Project.logger.error("Undefined variable:" + ctx.selfAddOrMinusExpression().Identifier().getText() +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            Project.errorCount ++;
+            throw new VariableNotDefineException();
+        }
+        if(ctx.selfAddOrMinusExpression().op.getText().equals("++")){
+            if(re instanceof Int i){
+                if(re.isConcrete){
+                    i.value ++;
+                }else {
+                    Function.addCommand(Commands.SbPlayerAdd(i,1).toString());
+                }
+            }
+        }else {
+            if(re instanceof Int i){
+                if(re.isConcrete){
+                    i.value --;
+                }else {
+                    Function.addCommand(Commands.SbPlayerRemove(i,1).toString());
+                }
+            }
+        }
+    }
+
+    /**
      * 调用一个函数。参考：
      * <a href="https://www.mcbbs.net/thread-1393132-1-1.html">[命令] [数据包] 局部变量、程序控制流程在数据包中的实现 借助汇编语言函数堆栈思想 - mcbbs</a>
      * @param ctx the parse tree

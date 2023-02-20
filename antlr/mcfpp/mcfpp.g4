@@ -32,7 +32,7 @@ classOrFunctionDeclaration
 
 //类声明
 classDeclaration
-    :   'class' className (EXTENDS className)? classBody
+    :   FINAL? 'class' className (EXTENDS className)? classBody
     ;
 
 classBody
@@ -319,7 +319,7 @@ block
     ;
 
 selfAddOrMinusExpression
-    :   Identifier ('++'|'--')
+    :   Identifier op = ('++'|'--')
     ;
 
 expressionList
@@ -368,6 +368,7 @@ STATIC:'static';
 EXTENDS:'extends';
 NATIVE:'native';
 CONCRETE:'concrete';
+FINAL:'final ';
 
 PUBLIC:'public';
 PROTECTED:'protected';

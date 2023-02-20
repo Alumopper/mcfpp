@@ -1,4 +1,4 @@
-class selector{
+final class selector{
     public native func addtag(static entity e)
         -> top.alumopper.mcfpp.lang.Selector.addTag;
 }

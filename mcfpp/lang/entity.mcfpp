@@ -1,4 +1,4 @@
-class entity{
+final class entity{
     public vec3 pos;
     public vec3 rot;
 }
