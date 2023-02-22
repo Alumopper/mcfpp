@@ -8,8 +8,8 @@ import java.util.*;
 /**
  命令总类，提供了大量用于生成命令的方法，避免频繁的新建类（调用命令类的各种极度抽象的构造方法（x
  */
-public class Commands
-{
+public class Commands {
+    /*
     public static Advancement AdvancementGrantEveryThing(Selector target) {
         return AdvancementGrantEveryThing(target, true);
     }
@@ -823,11 +823,6 @@ public class Commands
         
         return data;
     }
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#endregion
-*/
-//C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
-    ///#region datapack
 
     public static Datapack DatapackDisable(String name)
     {
@@ -1483,12 +1478,13 @@ public class Commands
 
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#region function
-
-    public static Function Function(top.alumopper.mcfpp.lib.Function function)
+*/
+    public static String Function(top.alumopper.mcfpp.lib.Function function)
     {
 
-        return new Function(function);
+        return "function " + function.getNamespaceID();
     }
+    /*
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
 
@@ -2637,12 +2633,15 @@ public class Commands
 
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#region say
+
+     */
+    /*
     /**
      /say
 
      @param text 要发送的文本
      */
-
+/*
     public static Say Say(String text)
     {
         return Say(text, true);
@@ -2716,6 +2715,10 @@ public class Commands
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#region scoreboard
 
+
+ */
+
+    /*
     public static Scoreboard SbObjectAdd(SbObject sbObject, String rule, JsonText display)
     {
         return SbObjectAdd(sbObject, rule, display, true);
@@ -2814,57 +2817,57 @@ public class Commands
         return new Scoreboard(displaySlot, objective);
     }
 
-    public static Scoreboard SbPlayerAdd(Int target, int value)
-    {
 
-        return new Scoreboard(Scoreboard.ars.add, target.identifier, target.object, value);
+     */
+    public static String SbPlayerAdd(Int target, int value) {
+
+        return "scoreboard players add " + target.identifier + " " + target.object + " " + value;
     }
 
-    public static Scoreboard SbPlayerEnableTrigger(String target, SbObject trigger)
-    {
+    /*
+        public static Scoreboard SbPlayerEnableTrigger(String target, SbObject trigger)
+        {
 
-        return new Scoreboard(target, trigger);
+            return new Scoreboard(target, trigger);
+        }
+
+        public static Scoreboard SbPlayerGet(String target, SbObject objective)
+        {
+
+            return new Scoreboard(Scoreboard.eg.get, target, objective);
+        }
+
+
+        public static Scoreboard SbPlayerList(String target)
+        {
+
+            return new Scoreboard(target);
+        }
+    */
+    public static String SbPlayerOperation(Int a, String operation, Int b) {
+        return "scoreboard players operation " + a.identifier + " " + a.object + " " + operation + " " + b.identifier + " " + b.object;
     }
 
-    public static Scoreboard SbPlayerGet(String target, SbObject objective)
-    {
+    public static String SbPlayerRemove(Int target, int value) {
 
-        return new Scoreboard(Scoreboard.eg.get, target, objective);
+        return "scoreboard players remove " + target.identifier + " " + target.object + " " + value;
     }
 
+    /*
+        public static Scoreboard SbPlayerReset(String target)
+        {
+            return SbPlayerReset(target, null);
+        }
 
-    public static Scoreboard SbPlayerList(String target)
-    {
-
-        return new Scoreboard(target);
+        public static Scoreboard SbPlayerReset(String target, SbObject objective)
+        {
+            return new Scoreboard(target, objective);
+        }
+    */
+    public static String SbPlayerSet(Int a, int value) {
+        return "scoreboard players set " + a.identifier + " " + a.object + " " + value;
     }
-
-    public static Scoreboard SbPlayerOperation(Int a, String operation, Int b)
-    {
-        return new Scoreboard(a.identifier, a.object, operation, b.identifier, b.object);
-    }
-
-    public static Scoreboard SbPlayerRemove(Int target, int value)
-    {
-
-        return new Scoreboard(Scoreboard.ars.remove, target.identifier, target.object, value);
-    }
-
-    public static Scoreboard SbPlayerReset(String target)
-    {
-        return SbPlayerReset(target, null);
-    }
-
-    public static Scoreboard SbPlayerReset(String target, SbObject objective)
-    {
-        return new Scoreboard(target, objective);
-    }
-
-    public static Scoreboard SbPlayerSet(Int a, int value)
-    {
-
-        return new Scoreboard(Scoreboard.ars.set, a.identifier, a.object, value);
-    }
+    /*
     public static Seed Seed()
     {
         return Seed(true);
@@ -4331,4 +4334,6 @@ public class Commands
     }
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:
     ///#endregion
+}
+*/
 }

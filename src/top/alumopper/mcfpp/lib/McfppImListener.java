@@ -319,7 +319,7 @@ public class McfppImListener extends mcfppBaseListener {
                 if(re.isConcrete){
                     i.value ++;
                 }else {
-                    Function.addCommand(Commands.SbPlayerAdd(i,1).toString());
+                    Function.addCommand(Commands.SbPlayerAdd(i,1));
                 }
             }
         }else {
@@ -327,7 +327,7 @@ public class McfppImListener extends mcfppBaseListener {
                 if(re.isConcrete){
                     i.value --;
                 }else {
-                    Function.addCommand(Commands.SbPlayerRemove(i,1).toString());
+                    Function.addCommand(Commands.SbPlayerRemove(i,1));
                 }
             }
         }
@@ -400,7 +400,7 @@ public class McfppImListener extends mcfppBaseListener {
                     if(curr.params.get(i).type.equals("int")){
                         //参数传递和子函数的参数压栈
                         Function.addCommand("execute store result storage mcfpp:system " + Project.name + ".stack_frame[0]." + curr.params.get(i).identifier + " run "
-                            + Commands.SbPlayerOperation(new Int("_param_" + curr.params.get(i).identifier,curr),"=",pint).toString()
+                            + Commands.SbPlayerOperation(new Int("_param_" + curr.params.get(i).identifier,curr),"=",pint)
                         );
                     }else {
                         Project.logger.error("Can't convert int to " + curr.params.get(i).type + ":" + args.get(i).identifier +
@@ -410,7 +410,7 @@ public class McfppImListener extends mcfppBaseListener {
                 }
             }
             //函数调用的命令
-            Function.addCommand(Commands.Function(curr).toString());
+            Function.addCommand(Commands.Function(curr));
             //static关键字，将值传回
             for (int i = 0; i < curr.params.size(); i++) {
                 if(curr.params.get(i).isStatic){
@@ -466,11 +466,11 @@ public class McfppImListener extends mcfppBaseListener {
                 //函数调用的命令
                 //给子函数开栈
                 Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
-                Function.addCommand(Commands.Function(f).toString());
+                Function.addCommand(Commands.Function(f));
                 Project.logger.warn("The condition is always true. " +
                         " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
             }else if(exp.isConcrete) {
-                Function.addCommand("#" + Commands.Function(f).toString());
+                Function.addCommand("#" + Commands.Function(f));
                 Project.logger.warn("The condition is always false. " +
                         " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
             }else {
@@ -522,7 +522,7 @@ public class McfppImListener extends mcfppBaseListener {
         }else if(lastBool.isConcrete) {
             //给子函数开栈
             Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
-            Function.addCommand(Commands.Function(f).toString());
+            Function.addCommand(Commands.Function(f));
             Project.logger.warn("The condition is always true. " +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
         }else {
@@ -566,7 +566,7 @@ public class McfppImListener extends mcfppBaseListener {
         if(exp.isConcrete && exp.value){
             //给子函数开栈
             Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
-            Function.addCommand(Commands.Function(f).toString());
+            Function.addCommand(Commands.Function(f));
             Project.logger.warn("The condition is always true. " +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
         }else if(exp.isConcrete){
@@ -625,7 +625,7 @@ public class McfppImListener extends mcfppBaseListener {
         Project.global.cache.functions.add(f);
         //给子函数开栈
         Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
-        Function.addCommand(Commands.Function(f).toString());
+        Function.addCommand(Commands.Function(f));
         //调用完毕，将子函数的栈销毁
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
         Function.currFunction = f;  //后续块中的命令解析到递归的函数中
@@ -641,7 +641,7 @@ public class McfppImListener extends mcfppBaseListener {
         if(exp.isConcrete && exp.value){
             //给子函数开栈
             Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
-            Function.addCommand(Commands.Function(Function.currFunction).toString());
+            Function.addCommand(Commands.Function(Function.currFunction));
             Project.logger.warn("The condition is always true. " +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStop().getLine());
         }else if(exp.isConcrete){
@@ -675,7 +675,7 @@ public class McfppImListener extends mcfppBaseListener {
         Function forFunc = new InternalFunction("_for_",Function.currFunction);
         forFunc.parent.add(Function.currFunction);
         Project.global.cache.functions.add(forFunc);
-        Function.addCommand(Commands.Function(forFunc).toString());
+        Function.addCommand(Commands.Function(forFunc));
         Function.currFunction = forFunc;
     }
 
@@ -728,7 +728,7 @@ public class McfppImListener extends mcfppBaseListener {
         Project.global.cache.functions.add(f);
         if(exp.isConcrete && exp.value){
             Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
-            Function.addCommand(Commands.Function(f).toString());
+            Function.addCommand(Commands.Function(f));
             Project.logger.warn("The condition is always true. " +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
         }else if(exp.isConcrete){
