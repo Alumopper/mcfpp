@@ -133,6 +133,24 @@ public class Project {
     }
 
     /**
+     * 解析工程
+     */
+    public static void analyse(){
+        assert files != null;
+        Project.logger.debug("Analysing project...");
+        //解析文件
+        for (String file : files){
+            try{
+                new McfppFileReader(file).analyse();
+            }catch (IOException e){
+                Project.logger.error("Error while analysing file \"" + file + "\"");
+                errorCount++;
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * 编译工程
      */
     public static void compile(){

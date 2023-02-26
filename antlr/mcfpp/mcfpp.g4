@@ -66,7 +66,7 @@ namespaceID
     ;
 
 nativeDeclaration
-    :   accessModifier NATIVE 'func' Identifier '(' parameterList? ')' '->' javaRefer ';'
+    :   accessModifier? NATIVE 'func' Identifier '(' parameterList? ')' '->' javaRefer ';'
     ;
 
 javaRefer
@@ -226,7 +226,7 @@ functionCall
     :   namespaceID arguments
     |   'this' arguments
     |   'super' arguments
-    |   (basicExpression '.') Identifier arguments
+    |   (basicExpression '.')* Identifier arguments
     ;
 
 statement
@@ -339,8 +339,8 @@ value
     ;
 
 className
-    :   (Identifier ':') ClassIdentifier
-    |   (Identifier ':') InsideClass
+    :   (Identifier ':')? ClassIdentifier
+    |   (Identifier ':')? InsideClass
     ;
 
 functionTag

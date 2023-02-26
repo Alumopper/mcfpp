@@ -10,4 +10,12 @@ public interface ClassMember {
         PROTECTED,
         PUBLIC
     }
+
+    void setAccessModifier(AccessModifier accessModifier);
+
+    AccessModifier getAccessModifier();
+
+    void setIsStatic(boolean isStatic);
+
+    boolean getIsStatic();
 }

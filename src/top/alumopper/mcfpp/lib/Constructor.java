@@ -1,16 +1,27 @@
 package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
+import top.alumopper.mcfpp.exception.FunctionDuplicationException;
 
 /**
  * 一个构造函数
  */
 public class Constructor extends Function {
 
+    /**
+     * 此构造函数对应的类。
+     */
     Class target;
-    public Constructor(Class cls) {
-        super("_init_" + cls.identifier.toLowerCase() + "_" + cls.structFunctions.size());
+
+    public Constructor(Class cls) throws FunctionDuplicationException {
+        super("_init_" + cls.identifier.toLowerCase() + "_" + cls.constructors.size(), cls);
+        //检查此类中是否已经重复定义一个相同的构造函数
         this.target = cls;
+        if(cls.constructors.contains(this)){
+            throw new FunctionDuplicationException();
+        }else {
+            cls.constructors.add(this);
+        }
     }
 
     @Override

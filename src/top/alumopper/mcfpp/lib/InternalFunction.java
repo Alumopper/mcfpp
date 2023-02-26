@@ -58,8 +58,8 @@ public class InternalFunction extends Function{
      */
     @Override
     public Var getVar(String id){
-        if(cache.vars.containsKey(id)){
-            Var re = cache.vars.get(id);
+        if(cache.containVar(id)){
+            Var re = cache.getVar(id);
             re.stackIndex = 0;
             return re;
         }

@@ -14,6 +14,11 @@ public class Class implements CacheContainer {
     public String identifier;
 
     /**
+     * 类的命名空间
+     */
+    public String namespace;
+
+    /**
      * 这个类的父类
      */
     public Class parent;
@@ -26,7 +31,7 @@ public class Class implements CacheContainer {
     /**
      * 构造函数
      */
-    public ArrayList<Constructor> structFunctions = new ArrayList<>();
+    public ArrayList<Constructor> constructors = new ArrayList<>();
 
     /**
      * 类的字段初始化函数
@@ -36,7 +41,7 @@ public class Class implements CacheContainer {
     /**
      * 当前编译的类
      */
-    public static Class currClass;
+    public static Class currClass = null;
 
     public Class(String identifier){
         this.identifier = identifier;
@@ -49,5 +54,22 @@ public class Class implements CacheContainer {
         return Project.name + "_class_" + identifier + "_";
     }
 
-
+    /**
+     * 根据参数列表获取一个类的构造函数
+     * @param params 构造函数的参数列表
+     * @return 返回这个类的参数
+     */
+    public Constructor getConstructor(ArrayList<FunctionParam> params){
+        for (Constructor f : constructors) {
+            if(f.params.size() == params.size()){
+                //参数比对
+                for (int i = 0; i < params.size(); i++) {
+                    if(params.get(i).type.equals(f.params.get(i).type)){
+                        return f;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

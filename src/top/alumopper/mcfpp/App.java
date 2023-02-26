@@ -13,8 +13,9 @@ public class App {
             Project.logger.info("Tips: " + UwU.getTip());
             String path = args[0];
             Project.readProject(path);
-            Project.compile();
-            Project.optimization();
+            Project.analyse();
+            //Project.compile();
+            //Project.optimization();
             Project.logger.info("Finished in " + (System.currentTimeMillis()-start) + "ms");
             Cache.printAll();
         }

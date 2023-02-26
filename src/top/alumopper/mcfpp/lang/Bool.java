@@ -1,6 +1,7 @@
 package top.alumopper.mcfpp.lang;
 
 import top.alumopper.mcfpp.Project;
+import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.lib.CacheContainer;
 import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.type.SbObject;
@@ -13,6 +14,7 @@ public class Bool extends Var {
     public boolean value;
 
     public Bool(String id, CacheContainer curr){
+        this.key = id;
         identifier = curr.getPrefix() + "_" + id;
     }
 
@@ -23,6 +25,7 @@ public class Bool extends Var {
     }
 
     public Bool(String id){
+        this.key = id;
         identifier = id;
     }
 
@@ -43,11 +46,21 @@ public class Bool extends Var {
         value = b.value;
         isTemp = b.isTemp;
         isConcrete = b.isConcrete;
+        this.key = b.key;
     }
 
     @Override
     public String getType(){
         return "bool";
+    }
+
+    @Override
+    public void assign(Var b){
+        if(b instanceof Bool init1){
+            this.assignCommand(init1);
+        }else {
+            throw new VariableConverseException();
+        }
     }
 
     public Bool equalCommand(Bool a) {

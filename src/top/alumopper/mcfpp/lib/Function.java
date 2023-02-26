@@ -199,6 +199,20 @@ public class Function implements ClassMember,CacheContainer {
     }
 
     /**
+     * 创建一个函数，并指定它所属的类。
+     * @param name 函数的标识符
+     */
+    public Function(String name, Class cls){
+        this.path = McfppFileReader.currPath;
+        this.name = name;
+        this.commands = new ArrayList<>();
+        this.params = new ArrayList<>();
+        this.namespace = cls.namespace;
+        this.parentClass = cls;
+        this.isClassMember = true;
+    }
+
+    /**
      * 创建一个函数，它有指定的标签
      * @param name 函数的标识符
      * @param namespace 函数的命名空间
@@ -245,7 +259,7 @@ public class Function implements ClassMember,CacheContainer {
      * @return 如果这个变量存在缓存中，则返回这个变量，否则返回null
      */
     public Var getVar(String id){
-        Var re = cache.vars.getOrDefault(id, null);
+        Var re = cache.getVar(id);
         if(re != null){
             re.stackIndex = 0;
         }
@@ -261,10 +275,10 @@ public class Function implements ClassMember,CacheContainer {
                     param.STATIC() != null);
             params.add(param1);
             if(param1.type.equals("int")){
-                cache.vars.put(param1.identifier,new Int(getNamespaceID()+ "_param_" + param1.identifier,this));
+                cache.putVar(param1.identifier,new Int(getNamespaceID()+ "_param_" + param1.identifier,this));
             }
             if(param1.type.equals("bool")){
-                cache.vars.put(param1.identifier,new Bool(getNamespaceID()+ "_param_" + param1.identifier,this));
+                cache.putVar(param1.identifier,new Bool(getNamespaceID()+ "_param_" + param1.identifier,this));
             }
         }
     }
@@ -306,5 +320,25 @@ public class Function implements ClassMember,CacheContainer {
             }
         }
         return false;
+    }
+
+    @Override
+    public void setAccessModifier(AccessModifier accessModifier) {
+        this.accessModifier = accessModifier;
+    }
+
+    @Override
+    public AccessModifier getAccessModifier() {
+        return accessModifier;
+    }
+
+    @Override
+    public void setIsStatic(boolean isStatic) {
+        this.isStatic = isStatic;
+    }
+
+    @Override
+    public boolean getIsStatic() {
+        return isStatic;
     }
 }

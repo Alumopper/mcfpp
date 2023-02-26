@@ -14,7 +14,7 @@ public final class Cache {
     /**
      * 变量缓存
      */
-    public HashMap<String,Var> vars = new HashMap<>();
+    private final HashMap<String,Var> vars = new HashMap<>();
 
     /**
      * 函数缓存
@@ -47,6 +47,47 @@ public final class Cache {
         return null;
     }
 
+    //region Var
+
+    /**
+     * 向此缓存中添加一个新的变量键值对。如果已存在此对象，将不会进行覆盖。
+     * @param key 变量的标识符
+     * @param var 变量的对象
+     * @return 如果缓存中已经存在此对象，则返回false，否则返回true。
+     */
+    public boolean putVar(String key, Var var){
+        if(vars.containsKey(key)){
+            return false;
+        }else {
+            vars.put(key, var);
+            return true;
+        }
+    }
+
+    /**
+     * 从缓存中取出一个变量
+     * @param key 变量的标识符
+     * @return 变量的对象。若不存在，则返回null。
+     */
+    public Var getVar(String key){
+        return vars.getOrDefault(key,null);
+    }
+
+    public Collection<Var> getAllVars(){
+        return vars.values();
+    }
+
+    /**
+     * 缓存中是否包含某个变量
+     * @param id 变量名
+     * @return 如果包含则返回true，否则返回false
+     */
+    public boolean containVar(String id){
+        return vars.containsKey(id);
+    }
+
+    //endregion
+
     /**
      * TODO:DEBUG
      * 打印所有的函数和类
@@ -65,7 +106,7 @@ public final class Cache {
         for (Class s: Project.global.cache.classes.values()){
             System.out.println("class " + s.identifier);
             System.out.println("\tconstructors:");
-            for (Constructor c : s.structFunctions) {
+            for (Constructor c : s.constructors) {
                 if(c instanceof NativeConstructor){
                     System.out.println("\t\tnative " + c.getNamespaceID());
                 }else {
@@ -88,7 +129,7 @@ public final class Cache {
             }
             System.out.println("\tattributes:");
             for (Var v : s.cache.vars.values()){
-                System.out.println("\t\t" + v.accessModifier.name().toLowerCase() + " " + (v.isStatic?"static":"") + " " + v.getType() + " " + v.identifier);
+                System.out.println("\t\t" + v.accessModifier.name().toLowerCase() + " " + (v.isStatic?"static ":"") + v.getType() + " " + v.identifier);
             }
         }
     }

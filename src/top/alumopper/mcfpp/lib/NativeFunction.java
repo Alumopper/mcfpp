@@ -1,5 +1,8 @@
 package top.alumopper.mcfpp.lib;
 
+import top.alumopper.mcfpp.Project;
+import top.alumopper.mcfpp.exception.IllegalFormatException;
+
 import java.util.List;
 
 /**
@@ -21,11 +24,15 @@ public class NativeFunction extends Function implements Native{
      */
     public String javaMethodName;
 
-    public NativeFunction(String name, mcfppParser.JavaReferContext javaMethod) {
+    public NativeFunction(String name, mcfppParser.JavaReferContext javaMethod) throws IllegalFormatException{
         super(name);
         this.javaMethod = javaMethod;
         List<mcfppParser.StringNameContext> strs = javaMethod.stringName();
         this.javaMethodName = strs.get(strs.size()-1).getText();
-        this.javaClassName = javaMethod.getText().substring(0,javaMethod.getText().lastIndexOf(javaMethodName)-1);
+        try {
+            this.javaClassName = javaMethod.getText().substring(0,javaMethod.getText().lastIndexOf(javaMethodName)-1);
+        }catch (StringIndexOutOfBoundsException e){
+            throw new IllegalFormatException(javaMethodName);
+        }
     }
 }

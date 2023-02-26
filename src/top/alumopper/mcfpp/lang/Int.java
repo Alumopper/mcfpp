@@ -2,6 +2,7 @@ package top.alumopper.mcfpp.lang;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
+import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.lib.CacheContainer;
 import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.type.SbObject;
@@ -39,6 +40,7 @@ public class Int extends Number<Integer> {
      */
     public Int(String id,int value){
         super(Function.currFunction.getNamespaceID() + "_" + id);
+        this.key = id;
         this.isConcrete = true;
         this.value = value;
     }
@@ -49,10 +51,12 @@ public class Int extends Number<Integer> {
      */
     public Int(String id, CacheContainer curr){
         super( curr.getPrefix() + id);
+        this.key = id;
     }
 
     public Int(String id){
         super(id);
+        this.key = id;
     }
 
     /**
@@ -64,11 +68,21 @@ public class Int extends Number<Integer> {
         value = b.value;
         this.isConcrete = b.isConcrete;
         this.isTemp = b.isTemp;
+        this.key = b.key;
     }
 
     @Override
     public String getType(){
         return "int";
+    }
+
+    @Override
+    public void assign(Var b) throws VariableConverseException{
+        if(b instanceof Int init1){
+            this.assignCommand(init1);
+        }else {
+            throw new VariableConverseException();
+        }
     }
 
     @Override
