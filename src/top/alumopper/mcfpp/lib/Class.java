@@ -44,9 +44,14 @@ public class Class implements CacheContainer {
     public static Class currClass = null;
 
     public Class(String identifier){
+        this(identifier, Project.currNamespace);
+    }
+
+    public Class(String identifier, String namespace){
         this.identifier = identifier;
         classInit = new Function("_class_preinit_" + identifier);
         cache = new Cache();
+        this.namespace = namespace;
     }
 
     @Override

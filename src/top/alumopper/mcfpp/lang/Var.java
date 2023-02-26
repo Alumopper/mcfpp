@@ -6,7 +6,6 @@ import top.alumopper.mcfpp.lib.CacheContainer;
 import top.alumopper.mcfpp.lib.ClassMember;
 import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.lib.mcfppParser;
-import top.alumopper.mcfpp.type.Selector;
 
 import java.util.UUID;
 

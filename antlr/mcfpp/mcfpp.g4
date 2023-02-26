@@ -226,7 +226,7 @@ functionCall
     :   namespaceID arguments
     |   'this' arguments
     |   'super' arguments
-    |   (basicExpression '.')* Identifier arguments
+    |   (basicExpression '.')? Identifier arguments
     ;
 
 statement

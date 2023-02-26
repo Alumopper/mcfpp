@@ -48,9 +48,9 @@ public class McfppImListener extends mcfppBaseListener {
             //是类的成员函数
             //创建函数对象并解析参数
             mcfppParser.ClassFunctionDeclarationContext qwq = (mcfppParser.ClassFunctionDeclarationContext)ctx.parent;
-            f = new Function(qwq.Identifier().getText());
-            if(((mcfppParser.FunctionDeclarationContext) ctx.parent).parameterList() != null){
-                f.addParams(((mcfppParser.FunctionDeclarationContext) ctx.parent).parameterList());
+            f = new Function(qwq.Identifier().getText(),Class.currClass);
+            if(qwq.parameterList() != null){
+                f.addParams(qwq.parameterList());
             }
             //获取缓存中的对象
             f = Class.currClass.cache.getFunction(f.namespace,f.name,f.getParamTypeList());
@@ -697,36 +697,16 @@ public class McfppImListener extends mcfppBaseListener {
     }
 
     /**
-     * 进入类体前。获取这个类的基本信息
+     * 进入类体。
      * @param ctx the parse tree
      */
     @Override
     public void enterClassBody(mcfppParser.ClassBodyContext ctx){
+        //获取类的对象
         mcfppParser.ClassDeclarationContext parent = (mcfppParser.ClassDeclarationContext)ctx.parent;
         String identifier = parent.className(0).getText();
-        if(Project.global.cache.classes.containsKey(identifier)){
-            //如果这个类已经被声明
-            Class.currClass = Project.global.cache.classes.get(identifier);
-            if(parent.className().size() != 1 && !parent.className().get(1).getText().equals(Class.currClass.parent.identifier)){
-                Project.logger.error("The class has extended " + Class.currClass.identifier +
-                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                Project.errorCount ++;
-            }
-        }else {
-            //如果没有声明过这个类
-            Class cls = new Class(identifier);
-            if(parent.className().size() != 1){
-                if(Project.global.cache.classes.containsKey(parent.className(1).getText())){
-                    cls.parent = Project.global.cache.classes.get(parent.className(1).getText());
-                }else {
-                    Project.logger.error("Undefined class: " + parent.className(1).getText() +
-                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                    Project.errorCount++;
-                }
-            }
-            Project.global.cache.classes.put(identifier,cls);
-            Class.currClass = cls;
-        }
+        //设置作用域
+        Class.currClass = Project.global.cache.classes.get(identifier);
         Function.currFunction = Class.currClass.classInit;
     }
 

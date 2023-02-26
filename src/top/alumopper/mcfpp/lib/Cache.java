@@ -36,6 +36,9 @@ public final class Cache {
     public Function getFunction(String namespace,String key, List<String> argsTypes){
         for (Function f : functions) {
             if(f.namespace.equals(namespace) && f.name.equals(key) && f.params.size() == argsTypes.size()){
+                if(f.params.size() == 0){
+                    return f;
+                }
                 //参数比对
                 for (int i = 0; i < argsTypes.size(); i++) {
                     if(argsTypes.get(i).equals(f.params.get(i).type)){

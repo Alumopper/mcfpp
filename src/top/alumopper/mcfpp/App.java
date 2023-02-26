@@ -14,8 +14,8 @@ public class App {
             String path = args[0];
             Project.readProject(path);
             Project.analyse();
-            //Project.compile();
-            //Project.optimization();
+            Project.compile();
+            Project.optimization();
             Project.logger.info("Finished in " + (System.currentTimeMillis()-start) + "ms");
             Cache.printAll();
         }

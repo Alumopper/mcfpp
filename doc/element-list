@@ -2,5 +2,7 @@ top.alumopper.mcfpp
 top.alumopper.mcfpp.command
 top.alumopper.mcfpp.exception
 top.alumopper.mcfpp.io
+top.alumopper.mcfpp.lang
 top.alumopper.mcfpp.lib
+top.alumopper.mcfpp.test
 top.alumopper.mcfpp.type

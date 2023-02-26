@@ -1,14 +1,10 @@
 package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
-import top.alumopper.mcfpp.exception.FunctionDuplicationException;
-import top.alumopper.mcfpp.exception.IllegalFormatException;
-import top.alumopper.mcfpp.exception.TODOException;
-import top.alumopper.mcfpp.exception.VariableDuplicationException;
+import top.alumopper.mcfpp.exception.*;
 import top.alumopper.mcfpp.lang.Bool;
 import top.alumopper.mcfpp.lang.Int;
 import top.alumopper.mcfpp.lang.Var;
-import top.alumopper.mcfpp.type.Selector;
 
 /**
  * 在编译工程之前，应当首先将所有文件中的资源全部遍历一次并写入缓存。
@@ -91,18 +87,20 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
         //注册类
         String identifier = ctx.className(0).getText();
         if(Project.global.cache.classes.containsKey(identifier)){
-            //TODO 类的分散定义可能是不安全的
-            //如果这个类已经被声明
-            Class.currClass = Project.global.cache.classes.get(identifier);
-            //如果已经被声明的类错误地继承了另一个类
-            if(ctx.className().size() != 1 && !ctx.className().get(1).getText().equals(Class.currClass.parent.identifier)){
-                Project.logger.error("The class has extended " + Class.currClass.identifier +
-                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                Project.errorCount ++;
-            }
+            //重复声明
+            Project.logger.error("The class has extended " + Class.currClass.identifier +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            Project.errorCount ++;
+            throw new ClassDuplicationException();
         }else {
             //如果没有声明过这个类
-            Class cls = new Class(identifier);
+            Class cls;
+            if(ctx.className(0).Identifier() != null){
+                //声明了命名空间
+                cls = new Class(identifier, ctx.className(0).Identifier().getText());
+            }else {
+                cls = new Class(identifier);
+            }
             if(ctx.className().size() != 1){
                 if(Project.global.cache.classes.containsKey(ctx.className(1).getText())){
                     cls.parent = Project.global.cache.classes.get(ctx.className(1).getText());
@@ -316,7 +314,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
             return null;
         }else {
             //是类变量
-            if(Class.currClass.cache.putVar(ctx.Identifier().getText(),var)){
+            if(!Class.currClass.cache.putVar(ctx.Identifier().getText(),var)){
                 Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
                         " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
                 Project.errorCount ++;
