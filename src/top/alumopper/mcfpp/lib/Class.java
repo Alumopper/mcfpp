@@ -29,6 +29,11 @@ public class Class implements CacheContainer {
     public Cache cache;
 
     /**
+     * 静态变量和静态函数
+     */
+    public Cache staticCache;
+
+    /**
      * 构造函数
      */
     public ArrayList<Constructor> constructors = new ArrayList<>();
@@ -51,6 +56,7 @@ public class Class implements CacheContainer {
         this.identifier = identifier;
         classInit = new Function("_class_preinit_" + identifier);
         cache = new Cache();
+        staticCache = new Cache();
         this.namespace = namespace;
     }
 

@@ -1,5 +1,6 @@
 package top.alumopper.mcfpp.lang;
 
+import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.lang.Var;
 import top.alumopper.mcfpp.lib.Class;
 
@@ -19,5 +20,15 @@ public class ClassObject extends Var {
     @Override
     public String getType(){
         return type;
+    }
+
+    @Override
+    public void assign(Var b) throws VariableConverseException {
+
+    }
+
+    @Override
+    public Var cast(String type) {
+        return null;
     }
 }

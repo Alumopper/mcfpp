@@ -86,6 +86,11 @@ public class Int extends Number<Integer> {
     }
 
     @Override
+    public Var cast(String type) {
+        return null;
+    }
+
+    @Override
     public void assignCommand(Number<Integer> a){
         //t = a
         if(a.isConcrete){

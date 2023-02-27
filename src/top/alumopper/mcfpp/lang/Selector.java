@@ -28,6 +28,11 @@ public class Selector extends Var {
         }
     }
 
+    @Override
+    public Var cast(String type){
+        return null;
+    }
+
     public void addTag(Var[] args, Class cls){
         System.out.println("addTag");
     }

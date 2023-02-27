@@ -215,9 +215,20 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
             }
         }
         else {
-            //TODO
-            throw new TODOException("");
+            //类型强制转换
+            return visit(ctx.castExpression());
         }
+    }
+
+    /**
+     * 计算一个强制转换表达式。
+     * @param ctx the parse tree
+     * @return 表达式的值
+     */
+    @Override
+    public Var visitCastExpression(mcfppParser.CastExpressionContext ctx){
+        Var a = visit(ctx.unaryExpression());
+        return a.cast(ctx.type().getText());
     }
 
     /**

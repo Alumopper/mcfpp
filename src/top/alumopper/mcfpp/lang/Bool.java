@@ -63,6 +63,11 @@ public class Bool extends Var {
         }
     }
 
+    @Override
+    public Var cast(String type) {
+        return null;
+    }
+
     public Bool equalCommand(Bool a) {
         //re = t == a
         Bool re;

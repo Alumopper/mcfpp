@@ -96,7 +96,7 @@ public class McfppImListener extends mcfppBaseListener {
             var = Project.global.cache.getVar(ctx.Identifier().getText());
         }else {
             //函数变量，生成
-            var = Var.varBuild(ctx, Function.currFunction);
+            var = Var.build(ctx, Function.currFunction);
         }
         assert var != null;
         //变量注册

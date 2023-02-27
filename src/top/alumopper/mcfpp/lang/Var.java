@@ -4,7 +4,6 @@ import top.alumopper.mcfpp.exception.TODOException;
 import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.lib.CacheContainer;
 import top.alumopper.mcfpp.lib.ClassMember;
-import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.lib.mcfppParser;
 
 import java.util.UUID;
@@ -24,7 +23,7 @@ import java.util.UUID;
  *     mcfpp本身的语法并不支持匿名变量。
  * </p>
  */
-public class Var implements ClassMember {
+public abstract class Var implements ClassMember {
     /**
      * 标识符
      */
@@ -76,7 +75,13 @@ public class Var implements ClassMember {
      * 将b中的值赋值给此变量
      * @param b 变量的对象
      */
-    public void assign(Var b) throws VariableConverseException {}
+    public abstract void assign(Var b) throws VariableConverseException;
+
+    /**
+     * 将这个变量强制转换为一个类型
+     * @param type 要转换到的目标类型
+     */
+    public abstract Var cast(String type);
 
     @Override
     public void setAccessModifier(AccessModifier accessModifier) {
@@ -98,7 +103,14 @@ public class Var implements ClassMember {
         return isStatic;
     }
 
-    public static Var varBuild(mcfppParser.FieldDeclarationContext ctx, CacheContainer container){
+
+    /**
+     * 解析变量上下文，构造上下文声明的变量
+     * @param ctx 变量声明的上下文
+     * @param container 变量所在缓存
+     * @return 声明的变量
+     */
+    public static Var build(mcfppParser.FieldDeclarationContext ctx, CacheContainer container){
         Var var = null;
         if(ctx.type().className() == null){
             //普通类型

@@ -2,8 +2,6 @@ package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.exception.*;
-import top.alumopper.mcfpp.lang.Bool;
-import top.alumopper.mcfpp.lang.Int;
 import top.alumopper.mcfpp.lang.Var;
 
 /**
@@ -135,8 +133,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     @Override
     public Object visitClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx){
         ClassMember m = (ClassMember) visit(ctx.classMember());
-        //访问修饰符，静态修饰符
-        //判断访问修饰符和静态标识符
+        //访问修饰符
         if(ctx.accessModifier() != null){
             m.setAccessModifier(ClassMember.AccessModifier.valueOf(ctx.accessModifier().getText().toUpperCase()));
         }
@@ -293,7 +290,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     @Override
     public Object visitFieldDeclaration(mcfppParser.FieldDeclarationContext ctx){
         //变量生成
-        Var var = null;
+        Var var;
         CacheContainer curr;
         //变量注册
         if(Class.currClass == null){
@@ -301,7 +298,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
         }else{
             curr = Class.currClass;
         }
-        var = Var.varBuild(ctx,curr);
+        var = Var.build(ctx,curr);
         assert var != null;
         //变量注册或字段返回
         if(Class.currClass == null){
