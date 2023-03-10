@@ -24,11 +24,6 @@ public class Constructor extends Function {
         super("_init_" + cls.identifier.toLowerCase() + "_" + cls.constructors.size(), cls, false);
         //检查此类中是否已经重复定义一个相同的构造函数
         this.target = cls;
-        if(cls.constructors.contains(this)){
-            throw new FunctionDuplicationException();
-        }else {
-            cls.constructors.add(this);
-        }
     }
 
     /**

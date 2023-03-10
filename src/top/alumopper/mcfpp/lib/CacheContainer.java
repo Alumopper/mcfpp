@@ -1,7 +1,7 @@
 package top.alumopper.mcfpp.lib;
 
 /**
- * 表示可存放变量
+ * 实现此接口的类需要是一个缓存的容器。它将会为编译时变量的名字生成提供前缀。
  */
 public interface CacheContainer {
     /**

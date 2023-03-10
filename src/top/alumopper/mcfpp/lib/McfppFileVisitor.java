@@ -138,7 +138,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
         }
         //如果没有构造函数，自动添加默认的空构造函数
         if(Class.currClass.constructors.size() == 0){
-            new Constructor(Class.currClass);
+            Class.currClass.addConstructor(new Constructor(Class.currClass));
         }
         Class.currClass = null;
         return null;
@@ -213,6 +213,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
         Constructor f = null;
         try {
             f = new Constructor(Class.currClass);
+            Class.currClass.addConstructor(f);
         }catch (FunctionDuplicationException e){
             Project.logger.error("Already defined function: " + ctx.className().getText() + "(" + ctx.parameterList().getText() + ")" +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());

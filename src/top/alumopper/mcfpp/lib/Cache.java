@@ -11,8 +11,15 @@ import top.alumopper.mcfpp.lang.Var;
  * 缓存应该是一个链式的结构，主要分为如下几种情况：<br>
  * 类的静态变量 ---> 类的成员变量 --> 函数 ---> 匿名内部函数<br>
  * 类的静态变量 ---> 静态函数 ---> 匿名内部函数<br>
- * 函数 ---> 匿名内部函数
- * 寻找变量的时候，应当从当前的作用域开始寻找
+ * 函数 ---> 匿名内部函数<br>
+ * 寻找变量的时候，应当从当前的作用域开始寻找。<br>
+ * <p>
+ * 变量和类都分别储存在一张哈希表中，键名即它在声明的时候的名字，而值则代表了它的对象。
+ * 值得注意的是，变量声明时的名字虽然和最终编译出的名字有关，但不相同。
+ * </p>
+ * <p>
+ * 函数储存在一个列表中
+ * </p>
  */
 public final class Cache {
 
@@ -40,8 +47,6 @@ public final class Cache {
      * 这个缓存在哪一个容器中
      */
     public CacheContainer container;
-
-    public Cache(){}
 
     /**
      * 创建一个缓存，并指定它的父级
@@ -118,8 +123,8 @@ public final class Cache {
     }
 
     /**
-     * 获取此缓存中的全部变量
-     * @return 变量的对象，若不存在，则返回null
+     * 获取此缓存中的全部变量。不会从父缓存搜索。
+     * @return 一个包含了此缓存全部变量的集合。
      */
     public Collection<Var> getAllVars(){
         return vars.values();
@@ -181,13 +186,13 @@ public final class Cache {
         }
     }
 
-    public static Object getKey(Map<?,?> map, Object value){
-        List<Object> keyList = new ArrayList<>();
-        for(Object key: map.keySet()){
-            if(map.get(key).equals(value)){
-                keyList.add(key);
-            }
-        }
-        return keyList.get(0);
-    }
+    //public static Object getKey(Map<?,?> map, Object value){
+    //    List<Object> keyList = new ArrayList<>();
+    //    for(Object key: map.keySet()){
+    //        if(map.get(key).equals(value)){
+    //            keyList.add(key);
+    //        }
+    //    }
+    //    return keyList.get(0);
+    //}
 }

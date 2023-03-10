@@ -8,10 +8,13 @@ import top.alumopper.mcfpp.lib.*;
 import java.io.*;
 
 /**
- * 用于读取mcfpp代码。
+ * 用于读取和分析mcfpp代码。
  */
 public class McfppFileReader extends McfppReader {
 
+    /**
+     * 当前McfppFileReader读取的文件的相对路径
+     */
     public static String currPath;
 
     /**

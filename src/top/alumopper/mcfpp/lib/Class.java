@@ -1,6 +1,7 @@
 package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
+import top.alumopper.mcfpp.exception.FunctionDuplicationException;
 import top.alumopper.mcfpp.lang.ClassObject;
 import top.alumopper.mcfpp.lang.Int;
 import top.alumopper.mcfpp.lang.Var;
@@ -11,7 +12,10 @@ import java.util.HashMap;
 
 /**
  * 一个类。
- * 类的理论部分参见：<a href="https://alumopper.top/%e5%9c%a8mcfunction%e4%b8%ad%e5%ae%9e%e7%8e%b0%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1/">在mcfunction中实现面向对象</a>和<a href="https://alumopper.top/mcfpp%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1-%e7%b1%bb%e7%9a%84%e5%88%9b%e5%bb%ba%e5%92%8c%e9%94%80%e6%af%81/">mcfpp面向对象——类的创建和销毁</a>
+ * 类的理论部分参见：
+ * <a href="https://alumopper.top/%e5%9c%a8mcfunction%e4%b8%ad%e5%ae%9e%e7%8e%b0%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1/">在mcfunction中实现面向对象</a>
+ * 和<a href="https://alumopper.top/mcfpp%e9%9d%a2%e5%90%91%e5%af%b9%e8%b1%a1-%e7%b1%bb%e7%9a%84%e5%88%9b%e5%bb%ba%e5%92%8c%e9%94%80%e6%af%81/">mcfpp面向对象——类的创建和销毁</a>
+ * <p>类编译后的名字和声明时的名字是一致的。除了某些编译器硬编码的特殊的类以外，mcfpp中的类总是以大写字母开头。</p>
  */
 public class Class implements CacheContainer {
     /**
@@ -35,6 +39,11 @@ public class Class implements CacheContainer {
     public Cache cache;
 
     /**
+     * 静态变量和静态函数
+     */
+    public Cache staticCache;
+
+    /**
      * 记录这个类所有实例地址的记分板
      */
     public SbObject addressSbObject;
@@ -43,11 +52,6 @@ public class Class implements CacheContainer {
      * 成员变量对应的初始化计算表达式
      */
     public HashMap<Var, mcfppParser.ExpressionContext> varInitExpression;
-
-    /**
-     * 静态变量和静态函数
-     */
-    public Cache staticCache;
 
     /**
      * 静态变量对应的初始化计算表达式
@@ -75,14 +79,23 @@ public class Class implements CacheContainer {
     public Function classPreStaticInit;
 
     /**
-     * 当前编译的类
+     * 当前编译器正在编译的类
      */
     public static Class currClass = null;
 
+    /**
+     * 生成一个类。它拥有指定的标识符和默认的命名空间
+     * @param identifier 类的标识符
+     */
     public Class(String identifier){
         this(identifier, Project.currNamespace);
     }
 
+    /**
+     * 生成一个类，它拥有指定的标识符和命名空间
+     * @param identifier 类的标识符
+     * @param namespace 类的命名空间
+     */
     public Class(String identifier, String namespace){
         this.identifier = identifier;
         classPreInit = new Function("_class_preinit_" + identifier, this, false);
@@ -93,27 +106,6 @@ public class Class implements CacheContainer {
         //init函数的初始化置入，即地址分配，原preinit函数合并于此
         classPreInit.commands.add("scoreboard players operation @s " + addressSbObject.name + "= $index " + addressSbObject.name);
         classPreInit.commands.add("scoreboard players add $index " + addressSbObject.name + " 1");
-    }
-
-    /**
-     * 类的初始化加载，进行静态成员变量的初始化
-     */
-    public void load(){
-
-    }
-
-    /**
-     * 类创建时，对类成员的初始化计算
-     */
-    public void init(){
-
-    }
-
-    /**
-     * 清除这个类占据的资源
-     */
-    public void depose(){
-
     }
 
     @Override
@@ -165,6 +157,18 @@ public class Class implements CacheContainer {
             Class.currClass.staticCache.functions.add(f);
         }else if(classMember instanceof Var v) {
             Class.currClass.staticCache.putVar(v.key,v);
+        }
+    }
+
+    /**
+     * 向这个类中添加一个构造函数
+     * @param constructor 构造函数
+     */
+    public void addConstructor(Constructor constructor){
+        if(constructors.contains(constructor)){
+            throw new FunctionDuplicationException();
+        }else {
+            constructors.add(constructor);
         }
     }
 
