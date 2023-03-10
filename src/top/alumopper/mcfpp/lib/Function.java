@@ -368,7 +368,7 @@ public class Function implements ClassMember,CacheContainer {
 
     @Override
     public String getPrefix(){
-        return Project.name + "_func_" + getNamespaceID() + "_";
+        return Project.currNamespace + "_func_" + name + "_";
     }
 
     /**

@@ -14,6 +14,7 @@ import java.util.UUID;
  * 代表了mc中的一个整数。实质上是记分板中的一个记分项。
  */
 public class Int extends Number<Integer> {
+
     /**
      * 创建一个匿名的动态int
      */
@@ -48,12 +49,17 @@ public class Int extends Number<Integer> {
     /**
      * 创建一个int
      * @param id 值
+     * @param curr 这边变量被储存在的缓存。用于命名。
      */
     public Int(String id, CacheContainer curr){
         super( curr.getPrefix() + id);
         this.key = id;
     }
 
+    /**
+     * 创建一个int值。它的key和identifier相同。
+     * @param id identifier
+     */
     public Int(String id){
         super(id);
         this.key = id;

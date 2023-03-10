@@ -89,8 +89,9 @@ public abstract class Project {
         try{
             logger.debug("Reading project from file \"" + path + "\"");
             BufferedReader reader = new BufferedReader(new FileReader(path));
-            root = new File(path).getParentFile();
-            name = root.getName();
+            File qwq = new File(path);
+            root = qwq.getParentFile();
+            name = qwq.getName().substring(0,qwq.getName().lastIndexOf('.'));
             StringBuilder json = new StringBuilder();
             String line;
             while((line = reader.readLine()) != null){

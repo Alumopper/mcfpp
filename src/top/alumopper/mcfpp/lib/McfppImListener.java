@@ -68,7 +68,7 @@ public class McfppImListener extends mcfppBaseListener {
             //不在类中
             Function.currFunction = Project.global.globalInit;
         }else {
-            Function.currFunction = Class.currClass.classInit;
+            Function.currFunction = Class.currClass.classPreInit;
         }
     }
 
@@ -108,7 +108,7 @@ public class McfppImListener extends mcfppBaseListener {
                 Project.errorCount ++;
                 throw new VariableDuplicationException();
             }
-            Function.addCommand("#" + ctx.type().getText() + " " + ctx.Identifier() + (ctx.expression() != null?" = " + ctx.expression():""));
+            Function.addCommand("#" + ctx.type().getText() + " " + ctx.Identifier().getText() + (ctx.expression() != null?" = " + ctx.expression().getText():""));
         }
         //变量初始化
         if(ctx.expression() != null){
@@ -656,7 +656,7 @@ public class McfppImListener extends mcfppBaseListener {
         String identifier = parent.className(0).getText();
         //设置作用域
         Class.currClass = Project.global.cache.classes.get(identifier);
-        Function.currFunction = Class.currClass.classInit;
+        Function.currFunction = Class.currClass.classPreInit;
     }
 
     /**

@@ -29,7 +29,7 @@ public class McfppFileReader extends McfppReader {
      * 解析这个文件
      */
     public void analyse() throws IOException{
-        Project.currNamespace = Project.root.getName();
+        Project.currNamespace = Project.name;
         Project.currFile = new File(path);
         CharStream charStream = CharStreams.fromStream(input);
         CommonTokenStream tokens = new CommonTokenStream(new mcfppLexer(charStream));
@@ -40,7 +40,7 @@ public class McfppFileReader extends McfppReader {
      * 编译这个文件
      */
     public void compile() throws IOException {
-        Project.currNamespace = Project.root.getName();
+        Project.currNamespace = Project.name;
         Project.currFile = new File(path);
         CharStream charStream = CharStreams.fromStream(input);
         mcfppLexer lexer = new mcfppLexer(charStream);

@@ -26,7 +26,9 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     @Override
     public Object visitCompilationUnit(mcfppParser.CompilationUnitContext ctx){
         //命名空间
-        Project.currNamespace = ctx.namespaceDeclaration().Identifier().getText();
+        if(ctx.namespaceDeclaration() != null){
+            Project.currNamespace = ctx.namespaceDeclaration().Identifier().getText();
+        }
         //文件结构，类和函数
         for (mcfppParser.TypeDeclarationContext t : ctx.typeDeclaration()) {
             visit(t);
@@ -332,7 +334,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
         }
         //变量的初始化
         if(ctx.expression() != null){
-            Function.currFunction = Class.currClass.classInit;
+            Function.currFunction = Class.currClass.classPreInit;
             Function.addCommand("#" + ctx.getText());
             Var init = new McfppExprVisitor().visit(ctx.expression());
             try{

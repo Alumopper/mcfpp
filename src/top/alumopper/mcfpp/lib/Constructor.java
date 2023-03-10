@@ -4,7 +4,6 @@ import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.command.Commands;
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.exception.FunctionDuplicationException;
-import top.alumopper.mcfpp.exception.TODOException;
 import top.alumopper.mcfpp.lang.ClassObject;
 import top.alumopper.mcfpp.lang.Int;
 import top.alumopper.mcfpp.lang.Var;
@@ -67,8 +66,8 @@ public class Constructor extends Function {
         //函数调用的命令
         //不应当立即调用它自己的函数，应当先调用init，再调用constructor
         Function.addCommand("execute as @e[tag=" + obj.getTag() + ",limit=1] at @s run " +
-                Commands.Function(this.parentClass.classInit));
-        Function.addCommand("execute as @e[tag= " + obj.getTag() + ",limit=1] at @s run " +
+                Commands.Function(this.parentClass.classPreInit));
+        Function.addCommand("execute as @e[tag=" + obj.getTag() + ",limit=1] at @s run " +
                 Commands.Function(this));
         //调用完毕，将子函数的栈销毁
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");

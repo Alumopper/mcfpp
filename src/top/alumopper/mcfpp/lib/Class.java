@@ -1,7 +1,6 @@
 package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
-import top.alumopper.mcfpp.command.Commands;
 import top.alumopper.mcfpp.lang.ClassObject;
 import top.alumopper.mcfpp.lang.Int;
 import top.alumopper.mcfpp.lang.Var;
@@ -68,12 +67,12 @@ public class Class implements CacheContainer {
     /**
      * 类的字段初始化函数
      */
-    public Function classInit;
+    public Function classPreInit;
 
     /**
      * 类的静态字段的初始化函数
      */
-    public Function classStaticInit;
+    public Function classPreStaticInit;
 
     /**
      * 当前编译的类
@@ -86,14 +85,14 @@ public class Class implements CacheContainer {
 
     public Class(String identifier, String namespace){
         this.identifier = identifier;
-        classInit = new Function("_class_preinit_" + identifier, this, false);
+        classPreInit = new Function("_class_preinit_" + identifier, this, false);
         staticCache = new Cache(Project.global.cache,this);
         cache = new Cache(staticCache,this);
         this.namespace = namespace;
         this.addressSbObject = new SbObject(namespace + "_class_" + identifier + "_index");
         //init函数的初始化置入，即地址分配，原preinit函数合并于此
-        classInit.commands.add("scoreboard players operation @s " + addressSbObject.name + "= $index " + addressSbObject.name);
-        classInit.commands.add("scoreboard players add $index " + addressSbObject.name + " 1");
+        classPreInit.commands.add("scoreboard players operation @s " + addressSbObject.name + "= $index " + addressSbObject.name);
+        classPreInit.commands.add("scoreboard players add $index " + addressSbObject.name + " 1");
     }
 
     /**
