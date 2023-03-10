@@ -8,13 +8,18 @@ import top.alumopper.mcfpp.lang.Var;
 /**
  * 一个缓存。在编译过程中，编译器读取到的变量，函数等会以键值对的方式储存在其中。键为函数的id或者变量的
  * 标识符，而值则是这个函数或者变量的对象。
+ * 缓存应该是一个链式的结构，主要分为如下几种情况：<br>
+ * 类的静态变量 ---> 类的成员变量 --> 函数 ---> 匿名内部函数<br>
+ * 类的静态变量 ---> 静态函数 ---> 匿名内部函数<br>
+ * 函数 ---> 匿名内部函数
+ * 寻找变量的时候，应当从当前的作用域开始寻找
  */
 public final class Cache {
 
     /**
      * 变量缓存
      */
-    private final HashMap<String,Var> vars = new HashMap<>();
+    private HashMap<String,Var> vars = new HashMap<>();
 
     /**
      * 函数缓存
@@ -25,6 +30,42 @@ public final class Cache {
      * 类缓存
      */
     public HashMap<String, Class> classes = new HashMap<>();
+
+    /**
+     * 父级缓存。函数的父级缓存可能是类，也可能是全局。类的父级缓存总是全局，而全局则没有父级缓存
+     */
+    public Cache parent;
+
+    /**
+     * 这个缓存在哪一个容器中
+     */
+    public CacheContainer container;
+
+    public Cache(){}
+
+    /**
+     * 创建一个缓存，并指定它的父级
+     * @param parent 父级缓存。若没有则设置为null
+     * @param cacheContainer 此缓存所在的容器
+     */
+    public Cache(Cache parent, CacheContainer cacheContainer){
+        this.parent = parent;
+        this.container = cacheContainer;
+    }
+
+    /**
+     * 复制一个缓存。
+     * @param cache 原来的缓存
+     */
+    public Cache(Cache cache){
+        this.parent = cache.parent;
+        //变量复制
+        for (String key: cache.vars.keySet()) {
+            Var var = cache.vars.get(key);
+            this.vars.put(key, (Var) var.clone());
+        }
+        this.functions.addAll(cache.functions);
+    }
 
     /**
      * 根据所给的函数名和参数获取一个函数
@@ -68,7 +109,7 @@ public final class Cache {
     }
 
     /**
-     * 从缓存中取出一个变量
+     * 从缓存中取出一个变量。如果此缓存中没有，则从父缓存中寻找。
      * @param key 变量的标识符
      * @return 变量的对象。若不存在，则返回null。
      */
@@ -76,6 +117,10 @@ public final class Cache {
         return vars.getOrDefault(key,null);
     }
 
+    /**
+     * 获取此缓存中的全部变量
+     * @return 变量的对象，若不存在，则返回null
+     */
     public Collection<Var> getAllVars(){
         return vars.values();
     }
@@ -88,7 +133,6 @@ public final class Cache {
     public boolean containVar(String id){
         return vars.containsKey(id);
     }
-
     //endregion
 
     /**

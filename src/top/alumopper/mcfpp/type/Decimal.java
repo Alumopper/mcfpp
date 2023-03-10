@@ -1,7 +1,9 @@
 package top.alumopper.mcfpp.type;
 
+import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.lang.Bool;
 import top.alumopper.mcfpp.lang.Number;
+import top.alumopper.mcfpp.lang.Var;
 
 public class Decimal extends Number {
     public int bp;  //小数点前
@@ -92,6 +94,21 @@ public class Decimal extends Number {
 
     @Override
     public Bool notEqualCommand(Number a) {
+        return null;
+    }
+
+    @Override
+    public void assign(Var b) throws VariableConverseException {
+
+    }
+
+    @Override
+    public Var cast(String type) {
+        return null;
+    }
+
+    @Override
+    public Object clone() {
         return null;
     }
 }

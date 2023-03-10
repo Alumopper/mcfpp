@@ -1,8 +1,13 @@
 package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
+import top.alumopper.mcfpp.command.Commands;
+import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
+import top.alumopper.mcfpp.exception.TODOException;
+import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.io.McfppFileReader;
 import top.alumopper.mcfpp.lang.Bool;
+import top.alumopper.mcfpp.lang.ClassObject;
 import top.alumopper.mcfpp.lang.Int;
 import top.alumopper.mcfpp.lang.Var;
 
@@ -129,7 +134,7 @@ public class Function implements ClassMember,CacheContainer {
     /**
      * 函数编译时的缓存
      */
-    public Cache cache = new Cache();
+    public Cache cache;
 
     /**
      * 这个函数调用的函数
@@ -196,13 +201,14 @@ public class Function implements ClassMember,CacheContainer {
         this.commands = new ArrayList<>();
         this.params = new ArrayList<>();
         this.namespace = Project.currNamespace;
+        this.cache = new Cache(null, this);
     }
 
     /**
      * 创建一个函数，并指定它所属的类。
      * @param name 函数的标识符
      */
-    public Function(String name, Class cls){
+    public Function(String name, Class cls, boolean isStatic){
         this.path = McfppFileReader.currPath;
         this.name = name;
         this.commands = new ArrayList<>();
@@ -210,6 +216,11 @@ public class Function implements ClassMember,CacheContainer {
         this.namespace = cls.namespace;
         this.parentClass = cls;
         this.isClassMember = true;
+        if(isStatic){
+            this.cache = new Cache(cls.cache,this);
+        }else {
+            this.cache = new Cache(cls.staticCache, this);
+        }
     }
 
     /**
@@ -283,17 +294,81 @@ public class Function implements ClassMember,CacheContainer {
         }
     }
 
-    @Override
-    public String getPrefix(){
-        return Project.name + "_func_" + getNamespaceID() + "_";
-    }
-
     public ArrayList<String> getParamTypeList(){
         ArrayList<String> re = new ArrayList<>();
         for (FunctionParam p : params) {
             re.add(p.type);
         }
         return re;
+    }
+
+    /**
+     * 调用这个函数
+     * @param args 函数的参数
+     */
+    public void invoke(ArrayList<Var> args, int lineNo){
+        //给函数开栈
+        Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
+        //参数传递
+        for (int i = 0; i < params.size(); i++) {
+            switch (params.get(i).type){
+                case "int" ->{
+                    Int tg = (Int) args.get(i).cast(params.get(i).type);
+                    if(tg == null){
+                        Project.logger.error("Can't convert int to " + params.get(i).type + ":" + args.get(i).identifier +
+                                " at " + Project.currFile.getName() + " line: " + lineNo);
+                        Project.errorCount ++;
+                        throw new ArgumentNotMatchException("");
+                    }
+                    //参数传递和子函数的参数压栈
+                    Function.addCommand("execute store result storage mcfpp:system " + Project.name + ".stack_frame[0]." + params.get(i).identifier + " run "
+                            + Commands.SbPlayerOperation(new Int("_param_" + params.get(i).identifier, this),"=",tg)
+                    );
+                }
+            }
+        }
+        //函数调用的命令
+        Function.addCommand(Commands.Function(this));
+        //static关键字，将值传回
+        for (int i = 0; i < params.size(); i++) {
+            if(params.get(i).isStatic){
+                //如果是static参数
+                if(args.get(i) instanceof Int pint){
+                    if(params.get(i).type.equals("int")){
+                        //如果是int取出到记分板
+                        Function.addCommand("execute store result score " + pint.identifier + " " + pint.object + " run "
+                                + "data get storage mcfpp:system " + Project.name + ".stack_frame[0]." + params.get(i).identifier
+                        );
+                    }
+                }
+            }
+        }
+        //调用完毕，将子函数的栈销毁
+        Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
+        //取出栈内的值到记分板
+        for (Var var : Function.currFunction.cache.getAllVars()) {
+            if(var instanceof Int int1){
+                //如果是int取出到记分板
+                Function.addCommand("execute store result score " + int1.identifier + " " + int1.object + " run "
+                        + "data get storage mcfpp:system " + Project.name + ".stack_frame[0]." + var.key
+                );
+            }
+        }
+    }
+
+    /**
+     * 调用这个函数。此函数是一个类的成员
+     * @param args 函数的参数
+     * @param lineNo 调用此函数的上下文的行数，用于错误日志
+     * @param cls 调用函数的实例
+     */
+    public void invoke(ArrayList<Var> args, int lineNo, ClassObject cls){
+        throw new TODOException("");
+    }
+
+    @Override
+    public String getPrefix(){
+        return Project.name + "_func_" + getNamespaceID() + "_";
     }
 
     /**
@@ -340,5 +415,13 @@ public class Function implements ClassMember,CacheContainer {
     @Override
     public boolean getIsStatic() {
         return isStatic;
+    }
+
+    @Override
+    public Class Class() {
+        if(isClassMember){
+            return parentClass;
+        }
+        return null;
     }
 }

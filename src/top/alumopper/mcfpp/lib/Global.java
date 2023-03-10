@@ -21,10 +21,11 @@ public class Global implements CacheContainer {
      */
     public ArrayList<FunctionTag> functionTags = new ArrayList<>();
 
-    public Global(){
+    public Global init(){
+        cache = new Cache(null,this);
         globalInit = new Function("_global_init");
         Function.currFunction = globalInit;
-        cache = new Cache();
+        return this;
     }
 
     @Override

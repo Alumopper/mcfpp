@@ -91,6 +91,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStaticClassMemberDeclaration(mcfppParser.StaticClassMemberDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStaticClassMemberDeclaration(mcfppParser.StaticClassMemberDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -1,13 +1,13 @@
 package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
+import top.alumopper.mcfpp.command.Commands;
 import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
+import top.alumopper.mcfpp.exception.FunctionNotDefineException;
 import top.alumopper.mcfpp.exception.TODOException;
-import top.alumopper.mcfpp.lang.Bool;
-import top.alumopper.mcfpp.lang.Int;
-import top.alumopper.mcfpp.lang.MCString;
-import top.alumopper.mcfpp.lang.Var;
+import top.alumopper.mcfpp.lang.*;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -242,9 +242,46 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         if(ctx.primary() != null){
             return visit(ctx.primary());
         }else {
-            //TODO
-            throw new TODOException("");
+            //Var With Selector
+            return visit(ctx.varWithSelector());
         }
+    }
+
+    @Override
+    public Var visitVarWithSelector(mcfppParser.VarWithSelectorContext ctx){
+        CanSelectMember curr = null;
+        if(ctx.var() != null){
+            //Var
+            curr = (CanSelectMember) Function.currFunction.getVar(ctx.getText());
+            if(curr == null && Function.currFunction.Class() != null){
+                curr = (CanSelectMember) Function.currFunction.Class().getMemberVar(ctx.getText());
+            }
+            if(curr == null){
+                Project.logger.error("Undefined variable:" + ctx.var().getText() +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+            }
+        }else {
+            //ClassName
+            Class qwq = Project.global.cache.classes.getOrDefault(ctx.className().getText(),null);
+            if(qwq == null){
+                Project.logger.error("Undefined class:" + ctx.className().getText() +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+            }
+        }
+        Var member = null;
+        //开始选择
+        for (int i = 0; i < ctx.selector().size(); i++, curr = (CanSelectMember) member) {
+            assert curr != null;
+            member = curr.getVarMember(ctx.selector(i).getText());
+            if(member == null){
+                Project.logger.error("Undefined member " + ctx.selector(i).getText() + " in class " + curr.Class().identifier +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+            }
+        }
+        return member;
     }
 
     /**
@@ -282,6 +319,9 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
                 //没有数组选取
                 String qwq = ctx.Identifier().getText();
                 Var re = Function.currFunction.getVar(qwq);
+                if(re == null && Function.currFunction.Class() != null){
+                    re = Function.currFunction.Class().getMemberVar(ctx.getText());
+                }
                 if(re == null){
                     Project.logger.error("Undefined variable:" + qwq +
                             " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
@@ -292,11 +332,46 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
                 //TODO 是数组调用
                 throw new TODOException("");
             }
-        }else if(ctx.expression() != null){
+        }else if(ctx.expression() != null) {
             return visit(ctx.expression());
+        }else if(ctx.constructorCall() != null){
+            return visit(ctx.constructorCall());
         }else {
             //TODO
             throw new TODOException("");
         }
+    }
+
+    @Override
+    public Var visitConstructorCall(mcfppParser.ConstructorCallContext ctx){
+        Class cls = Project.global.cache.classes.getOrDefault(ctx.className().getText(),null);
+        if(cls == null){
+            Project.logger.error("Undefined class:" + ctx.className().getText() +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            Project.errorCount ++;
+        }
+        //获取参数列表
+        //参数获取
+        ArrayList<Var> args = new ArrayList<>();
+        McfppExprVisitor exprVisitor = new McfppExprVisitor();
+        if(ctx.arguments().expressionList() != null){
+            for (mcfppParser.ExpressionContext expr : ctx.arguments().expressionList().expression()) {
+                args.add(exprVisitor.visit(expr));
+            }
+        }
+        //构造函数获取
+        assert cls != null;
+        Constructor constructor = cls.getConstructor(FunctionParam.getVarTypes(args));
+        if(constructor == null){
+            Project.logger.error("No constructor like: " + FunctionParam.getVarTypes(args) + " defined in class " + ctx.className().getText() +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            Project.errorCount ++;
+            throw new FunctionNotDefineException();
+        }
+        //调用构造函数
+        ClassObject obj = cls.newInstance();
+        constructor.invoke(args,ctx.getStart().getLine(),obj);
+        //调用函数
+        return obj;
     }
 }

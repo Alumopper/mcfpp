@@ -43,12 +43,12 @@ public class McfppImListener extends mcfppBaseListener {
                 temp.addParams(constructor.parameterList());
             }
             //获取缓存中的对象
-            f = Class.currClass.getConstructor(temp.params);
+            f = Class.currClass.getConstructor(FunctionParam.toStringList(temp.params));
         }else {
             //是类的成员函数
             //创建函数对象并解析参数
             mcfppParser.ClassFunctionDeclarationContext qwq = (mcfppParser.ClassFunctionDeclarationContext)ctx.parent;
-            f = new Function(qwq.Identifier().getText(),Class.currClass);
+            f = new Function(qwq.Identifier().getText(),Class.currClass, false);
             if(qwq.parameterList() != null){
                 f.addParams(qwq.parameterList());
             }
@@ -90,17 +90,15 @@ public class McfppImListener extends mcfppBaseListener {
         //变量生成
         Var var;
         if(ctx.parent instanceof mcfppParser.ClassMemberContext) {
-            //类字段或者全局变量，取出
+            //类字段，取出
             var = Class.currClass.cache.getVar(ctx.Identifier().getText());
-        }else if(ctx.parent instanceof mcfppParser.CompilationUnitContext){
-            var = Project.global.cache.getVar(ctx.Identifier().getText());
         }else {
             //函数变量，生成
             var = Var.build(ctx, Function.currFunction);
         }
         assert var != null;
         //变量注册
-        //类和全局变量的注册在扫描文件的阶段已经完成
+        //类的注册在扫描文件的阶段已经完成
         if(!(ctx.parent instanceof mcfppParser.CompilationUnitContext)
          && !(ctx.parent instanceof mcfppParser.ClassMemberContext)){
             //函数变量
@@ -186,18 +184,18 @@ public class McfppImListener extends mcfppBaseListener {
     @Override
     public void exitFunctionCall(mcfppParser.FunctionCallContext ctx){
         Function.addCommand("#" + ctx.getText());
-        //函数对象获取
-        Function curr = new McfppFuncVisitor().visit(ctx);
-        if(curr == null){
-            Project.logger.error("Function " + ctx.getText() + " not defined " +
-                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-            throw new FunctionNotDefineException();
-        }
         //参数获取
         ArrayList<Var> args = new ArrayList<>();
         McfppExprVisitor exprVisitor = new McfppExprVisitor();
         for (mcfppParser.ExpressionContext expr : ctx.arguments().expressionList().expression()) {
             args.add(exprVisitor.visit(expr));
+        }
+        //函数对象获取
+        Function curr = new McfppFuncVisitor().getFunction(ctx,FunctionParam.getVarTypes(args));
+        if(curr == null){
+            Project.logger.error("Function " + ctx.getText() + " not defined " +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            throw new FunctionNotDefineException();
         }
         if(curr instanceof NativeFunction nativeCurr){
             //是native方法
@@ -232,59 +230,10 @@ public class McfppImListener extends mcfppBaseListener {
             }
             return;
         }
-        //给子函数开栈
-        Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
-        //函数调用
-        if(curr.isClassMember){
-            //TODO
-            throw new TODOException("");
-        }else {
-            //参数传递
-            for (int i = 0; i < curr.params.size(); i++) {
-                if(args.get(i) instanceof Int pint){
-                    if(curr.params.get(i).type.equals("int")){
-                        //参数传递和子函数的参数压栈
-                        Function.addCommand("execute store result storage mcfpp:system " + Project.name + ".stack_frame[0]." + curr.params.get(i).identifier + " run "
-                            + Commands.SbPlayerOperation(new Int("_param_" + curr.params.get(i).identifier,curr),"=",pint)
-                        );
-                    }else {
-                        Project.logger.error("Can't convert int to " + curr.params.get(i).type + ":" + args.get(i).identifier +
-                                " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                        Project.errorCount ++;
-                    }
-                }
-            }
-            //函数调用的命令
-            Function.addCommand(Commands.Function(curr));
-            //static关键字，将值传回
-            for (int i = 0; i < curr.params.size(); i++) {
-                if(curr.params.get(i).isStatic){
-                    //如果是static参数
-                    if(args.get(i) instanceof Int pint){
-                        if(curr.params.get(i).type.equals("int")){
-                            //如果是int取出到记分板
-                            Function.addCommand("execute store result score " + pint.identifier + " " + pint.object + " run "
-                                    + "data get storage mcfpp:system " + Project.name + ".stack_frame[0]." + curr.params.get(i).identifier
-                            );
-                        }
-                    }
-                }
-            }
-            //调用完毕，将子函数的栈销毁
-            Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
-            //取出栈内的值到记分板
-            for (Var var : Function.currFunction.cache.getAllVars()) {
-                if(var instanceof Int int1){
-                    //如果是int取出到记分板
-                    Function.addCommand("execute store result score " + int1.identifier + " " + int1.object + " run "
-                        + "data get storage mcfpp:system " + Project.name + ".stack_frame[0]." + var.key
-                    );
-                }
-            }
-            //函数树
-            Function.currFunction.child.add(curr);
-            curr.parent.add(Function.currFunction);
-        }
+        curr.invoke(args,ctx.getStart().getLine());
+        //函数树
+        Function.currFunction.child.add(curr);
+        curr.parent.add(Function.currFunction);
     }
 
     Bool lastBool;  //if语句的条件

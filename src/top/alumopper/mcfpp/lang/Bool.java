@@ -65,6 +65,9 @@ public class Bool extends Var {
 
     @Override
     public Var cast(String type) {
+        if(type.equals(getType())){
+            return this;
+        }
         return null;
     }
 
@@ -195,5 +198,10 @@ public class Bool extends Var {
                     " run scoreboard players operation " + this.identifier + " " + SbObject.MCS_boolean + " = " + a.identifier + " " + SbObject.MCS_boolean
             );
         }
+    }
+
+    @Override
+    public Bool clone(){
+        return new Bool(this);
     }
 }

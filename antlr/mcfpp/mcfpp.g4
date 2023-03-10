@@ -7,9 +7,7 @@ package top.alumopper.mcfpp.lib;
 //一个mcfpp文件
 compilationUnit
     :   namespaceDeclaration?
-        (   typeDeclaration
-        |   fieldDeclaration ';'
-        )*
+        typeDeclaration *
         EOF
     ;
 
@@ -32,15 +30,19 @@ classOrFunctionDeclaration
 
 //类声明
 classDeclaration
-    :   FINAL? 'class' className (EXTENDS className)? classBody
+    :   STATIC? FINAL? 'class' className (EXTENDS className)? classBody
     ;
 
 classBody
-    :   '{' classMemberDeclaration* '}'
+    :   '{' (classMemberDeclaration|staticClassMemberDeclaration)* '}'
+    ;
+
+staticClassMemberDeclaration
+    :   accessModifier? STATIC classMember
     ;
 
 classMemberDeclaration
-    :   accessModifier? (STATIC)? classMember
+    :   accessModifier? classMember
     ;
 
 //类成员
@@ -179,7 +181,6 @@ unaryExpression
 basicExpression
     :   primary
     |   varWithSelector
-    |   className
     ;
 
 //强制类型转换表达式
@@ -195,13 +196,14 @@ primary
 
 varWithSelector
     : var selector*
+    | className selector+
     ;
 
 var
     :   '(' expression ')'
     |   Identifier identifierSuffix*
-    |   'this'
-    |   'super'
+    |   THIS
+    |   SUPER
     |   constructorCall
     |   TargetSelector
     ;
@@ -226,7 +228,7 @@ functionCall
     :   namespaceID arguments
     |   'this' arguments
     |   'super' arguments
-    |   (basicExpression '.')? Identifier arguments
+    |   basicExpression arguments
     ;
 
 statement

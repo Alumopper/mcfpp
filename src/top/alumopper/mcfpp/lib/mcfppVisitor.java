@@ -49,6 +49,12 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassBody(mcfppParser.ClassBodyContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link mcfppParser#staticClassMemberDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStaticClassMemberDeclaration(mcfppParser.StaticClassMemberDeclarationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link mcfppParser#classMemberDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

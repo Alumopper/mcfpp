@@ -1,5 +1,6 @@
 package top.alumopper.mcfpp;
 
+import top.alumopper.mcfpp.lang.Int;
 import top.alumopper.mcfpp.lib.Cache;
 import top.alumopper.mcfpp.lib.UwU;
 
@@ -12,6 +13,7 @@ public class App {
             long start = System.currentTimeMillis();
             Project.logger.info("Tips: " + UwU.getTip());
             String path = args[0];
+            Project.init();
             Project.readProject(path);
             Project.analyse();
             Project.compile();

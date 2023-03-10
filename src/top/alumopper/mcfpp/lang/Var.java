@@ -1,8 +1,10 @@
 package top.alumopper.mcfpp.lang;
 
+import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.exception.TODOException;
 import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.lib.CacheContainer;
+import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.ClassMember;
 import top.alumopper.mcfpp.lib.mcfppParser;
 
@@ -23,7 +25,7 @@ import java.util.UUID;
  *     mcfpp本身的语法并不支持匿名变量。
  * </p>
  */
-public abstract class Var implements ClassMember {
+public abstract class Var implements ClassMember, Cloneable {
     /**
      * 标识符
      */
@@ -103,6 +105,13 @@ public abstract class Var implements ClassMember {
         return isStatic;
     }
 
+    @Override
+    public Class Class() {
+        return null;
+    }
+
+    @Override
+    public abstract Object clone();
 
     /**
      * 解析变量上下文，构造上下文声明的变量
@@ -125,8 +134,17 @@ public abstract class Var implements ClassMember {
                 case "string" -> var = null;
             }
         }else {
-            //TODO
-            throw new TODOException("");
+            //自定义的类的类型
+            String cls = ctx.type().className().getText();
+            //取出类
+            Class type = Project.global.cache.classes.getOrDefault(cls,null);
+            if(type == null){
+                Project.logger.error("Undefined class:" + cls +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+            }
+            assert type != null;
+            var = new ClassPointer(type,container,ctx.Identifier().getText());
         }
         return var;
     }

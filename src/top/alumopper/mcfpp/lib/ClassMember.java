@@ -18,4 +18,6 @@ public interface ClassMember {
     void setIsStatic(boolean isStatic);
 
     boolean getIsStatic();
+
+    Class Class();
 }

@@ -87,6 +87,9 @@ public class Int extends Number<Integer> {
 
     @Override
     public Var cast(String type) {
+        if(type.equals(getType())){
+            return this;
+        }
         return null;
     }
 
@@ -375,4 +378,8 @@ public class Int extends Number<Integer> {
         return re;
     }
 
+    @Override
+    public Int clone(){
+        return new Int(this);
+    }
 }

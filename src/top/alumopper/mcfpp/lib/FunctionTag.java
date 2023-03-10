@@ -1,5 +1,7 @@
 package top.alumopper.mcfpp.lib;
 
+import top.alumopper.mcfpp.Project;
+
 /**
  * 一个函数的标签
  */
@@ -32,7 +34,7 @@ public class FunctionTag {
         }else {
             this.namespace = namespace;
         }
-        this.functions = new Cache();
+        this.functions = new Cache(Project.global.cache);
     }
 
     @Override

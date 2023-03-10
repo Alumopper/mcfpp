@@ -70,6 +70,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitClassBody(mcfppParser.ClassBodyContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mcfppParser#staticClassMemberDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterStaticClassMemberDeclaration(mcfppParser.StaticClassMemberDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#staticClassMemberDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitStaticClassMemberDeclaration(mcfppParser.StaticClassMemberDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mcfppParser#classMemberDeclaration}.
 	 * @param ctx the parse tree
 	 */

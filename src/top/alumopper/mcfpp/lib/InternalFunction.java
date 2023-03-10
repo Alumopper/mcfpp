@@ -13,10 +13,10 @@ import java.util.UUID;
  * <p>
  *     匿名内部函数和普通的命令函数有一个细小的区别。为了方便起见，我们还是先看一小段代码
  * {@snippet :
- *      int i = 0;
- *      if(qwq){
- *         i ++;
- *      }
+ * int i = 0;
+ * if(qwq){
+ *    i ++;
+ * }
  * }
  *      如果我们仍然简单采用直接调用函数的方式，将if后面的{@code i++}单独放在一个函数中，
  *      我们便会发现编译器抛出了一个异常，表示这个匿名函数中没有定义变量i。但是显然，无论是
@@ -36,7 +36,8 @@ public class InternalFunction extends Function{
      * @param parent 这个函数的调用者，即父函数
      */
     public InternalFunction(String prefix,Function parent) {
-        super(prefix + UUID.randomUUID().toString());
+        super(prefix + UUID.randomUUID());
+        cache.parent = parent.cache;
         setParentFunction(parent);
         this.isClassMember = false;
     }
@@ -68,5 +69,10 @@ public class InternalFunction extends Function{
             re.stackIndex ++;
         }
         return re;
+    }
+
+    @Override
+    public Class Class(){
+        return parent.get(0).Class();
     }
 }

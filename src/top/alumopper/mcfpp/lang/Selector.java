@@ -33,6 +33,11 @@ public class Selector extends Var {
         return null;
     }
 
+    @Override
+    public Object clone() {
+        return null;
+    }
+
     public void addTag(Var[] args, Class cls){
         System.out.println("addTag");
     }

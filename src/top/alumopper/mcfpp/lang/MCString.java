@@ -32,4 +32,9 @@ public class MCString extends Var {
     public Var cast(String type) {
         return null;
     }
+
+    @Override
+    public Object clone() {
+        return null;
+    }
 }

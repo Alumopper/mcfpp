@@ -15,9 +15,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
      *     <code>
      * compilationUnit
      *     :   namespaceDeclaration?
-     *         (   typeDeclaration
-     *         |   fieldDeclaration ';'
-     *         )*
+     *         typeDeclaration *
      *         EOF
      *     ;
      *     </code>
@@ -29,12 +27,9 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     public Object visitCompilationUnit(mcfppParser.CompilationUnitContext ctx){
         //命名空间
         Project.currNamespace = ctx.namespaceDeclaration().Identifier().getText();
-        //文件结构
+        //文件结构，类和函数
         for (mcfppParser.TypeDeclarationContext t : ctx.typeDeclaration()) {
             visit(t);
-        }
-        for (mcfppParser.FieldDeclarationContext f : ctx.fieldDeclaration()) {
-            visit(f);
         }
         return null;
     }
@@ -110,17 +105,57 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
             }
             Project.global.cache.classes.put(identifier,cls);
             Class.currClass = cls;
+            cls.isStaticClass = ctx.STATIC() != null;
         }
         //解析类中的成员
+        //先静态
+        //先解析函数
+        for(mcfppParser.StaticClassMemberDeclarationContext c : ctx.classBody().staticClassMemberDeclaration()){
+            if(c.classMember().fieldDeclaration() == null){
+                visit(c);
+            }
+        }
+        //再解析变量
+        for(mcfppParser.StaticClassMemberDeclarationContext c : ctx.classBody().staticClassMemberDeclaration()){
+            if(c.classMember().fieldDeclaration() != null){
+                visit(c);
+            }
+        }
+        //后成员
+        //先解析函数和构造函数
         for (mcfppParser.ClassMemberDeclarationContext c : ctx.classBody().classMemberDeclaration()) {
-            visit(c);
+            if(c.classMember().fieldDeclaration() == null){
+                visit(c);
+            }
+        }
+        //再解析变量
+        for (mcfppParser.ClassMemberDeclarationContext c : ctx.classBody().classMemberDeclaration()) {
+            if(c.classMember().fieldDeclaration() != null){
+                visit(c);
+            }
+        }
+        //如果没有构造函数，自动添加默认的空构造函数
+        if(Class.currClass.constructors.size() == 0){
+            new Constructor(Class.currClass);
         }
         Class.currClass = null;
         return null;
     }
 
+    @Override
+    public Object visitStaticClassMemberDeclaration(mcfppParser.StaticClassMemberDeclarationContext ctx){
+        ClassMember m = (ClassMember) visit(ctx.classMember());
+        Class.currClass.addMember((ClassMember) visit(ctx.classMember()));
+        //访问修饰符
+        if(ctx.accessModifier() != null){
+            m.setAccessModifier(ClassMember.AccessModifier.valueOf(ctx.accessModifier().getText().toUpperCase()));
+        }
+        m.setIsStatic(true);
+        return null;
+    }
+
     /**
-     * 类字段的声明
+     * 类成员的声明。由于函数声明可以后置，因此需要先查明函数声明情况再进行变量的注册以及初始化。
      * <pre>
      * {@code
      * classMemberDeclaration
@@ -133,12 +168,10 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     @Override
     public Object visitClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx){
         ClassMember m = (ClassMember) visit(ctx.classMember());
+        Class.currClass.addMember((ClassMember) visit(ctx.classMember()));
         //访问修饰符
         if(ctx.accessModifier() != null){
             m.setAccessModifier(ClassMember.AccessModifier.valueOf(ctx.accessModifier().getText().toUpperCase()));
-        }
-        if(ctx.STATIC() != null){
-            m.setIsStatic(true);
         }
         return null;
     }
@@ -151,15 +184,13 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     @Override
     public Object visitClassFunctionDeclaration(mcfppParser.ClassFunctionDeclarationContext ctx){
         //创建函数对象
-        Function f = new Function(ctx.Identifier().getText(), Class.currClass);
+        Function f = new Function(ctx.Identifier().getText(), Class.currClass, ctx.parent instanceof mcfppParser.StaticClassMemberDeclarationContext);
         //解析参数
         if(ctx.parameterList() != null){
             f.addParams(ctx.parameterList());
         }
         //注册函数
-        if(!Class.currClass.cache.functions.contains(f)){
-            Class.currClass.cache.functions.add(f);
-        }else {
+        if(Class.currClass.cache.functions.contains(f) || Class.currClass.staticCache.functions.contains(f)){
             Project.logger.error("Already defined function:" + ctx.Identifier().getText() + "in class " + Class.currClass.identifier+
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
             Project.errorCount ++;
@@ -283,41 +314,38 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     }
 
     /**
-     * 全局变量或类字段的声明
+     * 类字段的声明
      * @param ctx the parse tree
      * @return null
      */
     @Override
     public Object visitFieldDeclaration(mcfppParser.FieldDeclarationContext ctx){
         //变量生成
-        Var var;
-        CacheContainer curr;
-        //变量注册
-        if(Class.currClass == null){
-            curr = Project.global;
-        }else{
-            curr = Class.currClass;
-        }
-        var = Var.build(ctx,curr);
+        Var var = Var.build(ctx,Class.currClass);
         assert var != null;
-        //变量注册或字段返回
-        if(Class.currClass == null){
-            if(!Project.global.cache.putVar(ctx.Identifier().getText(),var)){
-                Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
-                        " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
-                Project.errorCount ++;
-                throw new VariableDuplicationException();
-            }
-            return null;
-        }else {
-            //是类变量
-            if(!Class.currClass.cache.putVar(ctx.Identifier().getText(),var)){
-                Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
-                        " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
-                Project.errorCount ++;
-                throw new VariableDuplicationException();
-            }
-            return var;
+        //只有可能是类变量
+        if(Class.currClass.cache.containVar(ctx.Identifier().getText()) || Class.currClass.staticCache.containVar(ctx.Identifier().getText())){
+            Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
+                    " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
+            Project.errorCount ++;
+            throw new VariableDuplicationException();
         }
+        //变量的初始化
+        if(ctx.expression() != null){
+            Function.currFunction = Class.currClass.classInit;
+            Function.addCommand("#" + ctx.getText());
+            Var init = new McfppExprVisitor().visit(ctx.expression());
+            try{
+                var.assign(init);
+            }catch (VariableConverseException e){
+                Project.logger.error("Cannot convert " + init.getClass() + " to " + var.getClass() +
+                        " at " + Class.currClass.identifier + " line:" + ctx.getStart().getLine());
+                Project.errorCount ++;
+                Function.currFunction = null;
+                throw new VariableConverseException();
+            }
+            Function.currFunction = null;
+        }
+        return var;
     }
 }

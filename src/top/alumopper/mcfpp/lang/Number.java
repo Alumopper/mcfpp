@@ -29,6 +29,11 @@ public abstract class Number<T> extends Var {
         object = SbObject.MCS_default;
     }
 
+    public Number<T> setObj(SbObject sbObject){
+        this.object = sbObject;
+        return this;
+    }
+
     /**
      * 赋值
      * @param a 值来源
