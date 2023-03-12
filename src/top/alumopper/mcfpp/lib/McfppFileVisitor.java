@@ -147,12 +147,12 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     @Override
     public Object visitStaticClassMemberDeclaration(mcfppParser.StaticClassMemberDeclarationContext ctx){
         ClassMember m = (ClassMember) visit(ctx.classMember());
-        Class.currClass.addMember((ClassMember) visit(ctx.classMember()));
         //访问修饰符
         if(ctx.accessModifier() != null){
             m.setAccessModifier(ClassMember.AccessModifier.valueOf(ctx.accessModifier().getText().toUpperCase()));
         }
         m.setIsStatic(true);
+        Class.currClass.addMember(m);
         return null;
     }
 
@@ -170,12 +170,27 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     @Override
     public Object visitClassMemberDeclaration(mcfppParser.ClassMemberDeclarationContext ctx){
         ClassMember m = (ClassMember) visit(ctx.classMember());
-        Class.currClass.addMember((ClassMember) visit(ctx.classMember()));
         //访问修饰符
         if(ctx.accessModifier() != null){
             m.setAccessModifier(ClassMember.AccessModifier.valueOf(ctx.accessModifier().getText().toUpperCase()));
         }
+        Class.currClass.addMember(m);
         return null;
+    }
+
+    @Override
+    public Object visitClassMember(mcfppParser.ClassMemberContext ctx){
+        if(ctx.nativeDeclaration() != null){
+            return visit(ctx.nativeDeclaration());
+        }else if(ctx.classFunctionDeclaration() != null) {
+            return visit(ctx.classFunctionDeclaration());
+        }else if(ctx.fieldDeclaration() != null){
+            return visit(ctx.fieldDeclaration());
+        }else if(ctx.constructorDeclaration() != null){
+            return visit(ctx.constructorDeclaration());
+        }else{
+            return visit(ctx.nativeConstructorDeclaration());
+        }
     }
 
     /**

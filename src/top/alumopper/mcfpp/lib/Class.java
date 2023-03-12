@@ -153,6 +153,14 @@ public class Class implements CacheContainer {
      * @param classMember 要添加的成员
      */
     public void addMember(ClassMember classMember){
+        if(classMember.getIsStatic()){
+            if(classMember instanceof Function f){
+                Class.currClass.cache.functions.add(f);
+            }else if(classMember instanceof Var v) {
+                Class.currClass.cache.putVar(v.key,v);
+            }
+            return;
+        }
         if(classMember instanceof Function f){
             Class.currClass.staticCache.functions.add(f);
         }else if(classMember instanceof Var v) {
