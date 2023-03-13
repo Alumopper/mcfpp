@@ -36,7 +36,7 @@ public class Constructor extends Function {
     public void invoke(ArrayList<Var> args, int lineNo, ClassObject obj){
         //对象创建
         Function.addCommand("execute in minecraft:overworld " +
-                "run summon marker 0 0 0 {Tags:[" + obj.getTag() + "]}"
+                "run summon marker 0 0 0 {Tags:[" + obj.getTag() + ",mcfpp_classPointer_just],data:{pointers:[]}}"
         );
         //给函数开栈
         Function.addCommand("data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
@@ -60,9 +60,9 @@ public class Constructor extends Function {
         }
         //函数调用的命令
         //不应当立即调用它自己的函数，应当先调用init，再调用constructor
-        Function.addCommand("execute as @e[tag=" + obj.getTag() + ",limit=1] at @s run " +
+        Function.addCommand("execute as @e[tag=" + obj.getTag() + ",tag=mcfpp_classPointer_just,limit=1] at @s run " +
                 Commands.Function(this.parentClass.classPreInit));
-        Function.addCommand("execute as @e[tag=" + obj.getTag() + ",limit=1] at @s run " +
+        Function.addCommand("execute as @e[tag=" + obj.getTag() + ",tag=mcfpp_classPointer_just,limit=1] at @s run " +
                 Commands.Function(this));
         //调用完毕，将子函数的栈销毁
         Function.addCommand("data remove storage mcfpp:system " + Project.name + ".stack_frame[0]");
@@ -75,6 +75,10 @@ public class Constructor extends Function {
                 );
             }
         }
+        //临时指针的创建
+        Function.addCommand("scoreboard players operation " + obj.initPointer.address.identifier + " " + obj.initPointer.address.object.name + " = @e[tag=" + obj.getTag() + ",tag=mcfpp_classPointer_just,limit=1] " + obj.address.object.name);
+        //去除临时标签
+        Function.addCommand("tag remove @e[tag=" + obj.getTag() + ",tag=mcfpp_classPointer_just,limit=1] mcfpp_classPointer_just");
     }
 
     @Override

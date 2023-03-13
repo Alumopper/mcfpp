@@ -22,11 +22,23 @@ public class ClassPointer extends Var{
 
     private ClassObject obj;
 
-    public ClassPointer(Class type, CacheContainer container, String text) {
+    /**
+     * 指针的地址
+     */
+    public Int address;
+
+    /**
+     * 创建一个指针
+     * @param type
+     * @param container
+     * @param identifier
+     */
+    public ClassPointer(Class type, CacheContainer container, String identifier) {
         this.cls = type;
         this.type = cls.identifier;
         this.key = identifier;
         this.identifier = container.getPrefix() + identifier;
+        this.address = new Int( Function.currFunction.namespace + "_class_" + type.identifier + "_pointer_" + identifier);
     }
 
     /**
@@ -40,12 +52,21 @@ public class ClassPointer extends Var{
             if(!target.cls.canCastTo(this.cls)){
                 throw new VariableConverseException();
             }
-            if(this.obj == null){
-                this.obj = target;
-                Function.addCommand("execute as @e[tag=" + obj.cls.namespace + "_class_" + obj.cls + "_pointer");
-            }else {
-                this.obj = target;
+            if(this.obj != null){
+                //原实体中的实例减少一个指针
+                Function.addCommand("execute " +
+                        "as @e[tag=" + obj.cls.namespace + "_class_" + obj.cls.identifier + "_pointer] " +
+                        "if score @s " + obj.address.object.name + " = " + address.identifier + " " + address.object.name + " " +
+                        "run data remove entity @s data.pointers[0]");
             }
+            this.obj = target;
+            //地址储存
+            this.address.assign(target.address);
+            //实例中的指针列表
+            Function.addCommand("execute " +
+                    "as @e[tag=" + obj.cls.namespace + "_class_" + obj.cls.identifier + "_pointer] " +
+                    "if score @s " + target.address.object.name + " = " + address.identifier + " " + address.object.name + " " +
+                    "run data modify entity @s data.pointers append value 0");
         }
     }
 

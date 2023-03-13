@@ -7,6 +7,7 @@ import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.Function;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 一个类的实例
@@ -32,10 +33,17 @@ public class ClassObject extends Var implements CanSelectMember {
      */
     public Cache cache;
 
+    /**
+     * 初始化类的时候自动生成的临时指针
+     */
+    public ClassPointer initPointer;
+
     public ClassObject(Class cls){
         super();
         this.cls = cls;
         this.type = cls.identifier;
+        this.initPointer = new ClassPointer(cls, cls, UUID.randomUUID().toString());
+        this.initPointer.address = new Int();
     }
 
     public ClassObject(Class cls, CacheContainer container, String identifier){
@@ -43,6 +51,8 @@ public class ClassObject extends Var implements CanSelectMember {
         this.type = cls.identifier;
         this.key = identifier;
         this.identifier = container.getPrefix() + identifier;
+        this.initPointer = new ClassPointer(cls, cls, UUID.randomUUID().toString());
+        this.initPointer.address = new Int();
     }
 
     /**

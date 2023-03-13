@@ -1,6 +1,7 @@
 func qwq(){
     int i = i;
     UwU q = new UwU();
+    q = 4;
 }
 
 class UwU{

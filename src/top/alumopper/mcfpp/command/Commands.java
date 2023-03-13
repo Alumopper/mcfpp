@@ -1486,7 +1486,7 @@ public class Commands {
     public static String Function(top.alumopper.mcfpp.lib.Function function)
     {
 
-        return "function " + function.getNamespaceID();
+        return "function " + function.getNamespaceID().toLowerCase();
     }
     /*
 //C# TO JAVA CONVERTER TODO TASK: There is no preprocessor in Java:

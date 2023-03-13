@@ -98,12 +98,14 @@ public class Class implements CacheContainer {
      */
     public Class(String identifier, String namespace){
         this.identifier = identifier;
+        this.namespace = namespace;
         classPreInit = new Function("_class_preinit_" + identifier, this, false);
         staticCache = new Cache(Project.global.cache,this);
         cache = new Cache(staticCache,this);
-        this.namespace = namespace;
+        cache.functions.add(classPreInit);
+        staticCache.functions.add(classPreStaticInit);
         this.addressSbObject = new SbObject(namespace + "_class_" + identifier + "_index");
-        //init函数的初始化置入，即地址分配，原preinit函数合并于此
+        //init函数的初始化置入，即地址分配，原preinit函数合并于此。同时生成新的临时指针
         classPreInit.commands.add("scoreboard players operation @s " + addressSbObject.name + "= $index " + addressSbObject.name);
         classPreInit.commands.add("scoreboard players add $index " + addressSbObject.name + " 1");
     }
@@ -153,7 +155,8 @@ public class Class implements CacheContainer {
      * @param classMember 要添加的成员
      */
     public void addMember(ClassMember classMember){
-        if(classMember.getIsStatic()){
+        //非静态成员
+        if(!classMember.getIsStatic()){
             if(classMember instanceof Function f){
                 Class.currClass.cache.functions.add(f);
             }else if(classMember instanceof Var v) {
@@ -161,7 +164,8 @@ public class Class implements CacheContainer {
             }
             return;
         }
-        if(classMember instanceof Function f){
+        //静态成员
+        if(classMember instanceof Function f) {
             Class.currClass.staticCache.functions.add(f);
         }else if(classMember instanceof Var v) {
             Class.currClass.staticCache.putVar(v.key,v);
