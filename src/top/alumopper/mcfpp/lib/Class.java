@@ -106,7 +106,7 @@ public class Class implements CacheContainer {
         staticCache.functions.add(classPreStaticInit);
         this.addressSbObject = new SbObject(namespace + "_class_" + identifier + "_index");
         //init函数的初始化置入，即地址分配，原preinit函数合并于此。同时生成新的临时指针
-        classPreInit.commands.add("scoreboard players operation @s " + addressSbObject.name + "= $index " + addressSbObject.name);
+        classPreInit.commands.add("scoreboard players operation @s " + addressSbObject.name + " = $index " + addressSbObject.name);
         classPreInit.commands.add("scoreboard players add $index " + addressSbObject.name + " 1");
     }
 

@@ -1,8 +1,10 @@
 package top.alumopper.mcfpp.lib;
 
-import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.exception.IllegalFormatException;
+import top.alumopper.mcfpp.lang.ClassObject;
+import top.alumopper.mcfpp.lang.Var;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,5 +36,15 @@ public class NativeFunction extends Function implements Native{
         }catch (StringIndexOutOfBoundsException e){
             throw new IllegalFormatException(javaMethodName);
         }
+    }
+
+    @Override
+    public void invoke(ArrayList<Var> args, int lineNo) {
+        super.invoke(args, lineNo);
+    }
+
+    @Override
+    public void invoke(ArrayList<Var> args, int lineNo, ClassObject cls) {
+        super.invoke(args, lineNo, cls);
     }
 }

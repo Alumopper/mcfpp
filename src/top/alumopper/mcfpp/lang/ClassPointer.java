@@ -29,16 +29,16 @@ public class ClassPointer extends Var{
 
     /**
      * 创建一个指针
-     * @param type
-     * @param container
-     * @param identifier
+     * @param type 指针的类型
+     * @param container 容器，生成前缀用
+     * @param identifier 标识符
      */
     public ClassPointer(Class type, CacheContainer container, String identifier) {
         this.cls = type;
         this.type = cls.identifier;
         this.key = identifier;
         this.identifier = container.getPrefix() + identifier;
-        this.address = new Int( Function.currFunction.namespace + "_class_" + type.identifier + "_pointer_" + identifier);
+        this.address = (Int) new Int( Function.currFunction.namespace + "_class_" + type.identifier + "_pointer_" + identifier).setObj(type.addressSbObject);
     }
 
     /**
@@ -66,6 +66,26 @@ public class ClassPointer extends Var{
             Function.addCommand("execute " +
                     "as @e[tag=" + obj.cls.namespace + "_class_" + obj.cls.identifier + "_pointer] " +
                     "if score @s " + target.address.object.name + " = " + address.identifier + " " + address.object.name + " " +
+                    "run data modify entity @s data.pointers append value 0");
+        }
+        if(b instanceof ClassPointer pointer){
+            if(!pointer.cls.canCastTo(this.cls)){
+                throw new VariableConverseException();
+            }
+            if(this.obj != null){
+                //原实体中的实例减少一个指针
+                Function.addCommand("execute " +
+                        "as @e[tag=" + obj.cls.namespace + "_class_" + obj.cls.identifier + "_pointer] " +
+                        "if score @s " + obj.address.object.name + " = " + address.identifier + " " + address.object.name + " " +
+                        "run data remove entity @s data.pointers[0]");
+            }
+            this.obj = pointer.obj;
+            //地址储存
+            this.address.assign(pointer.address);
+            //实例中的指针列表
+            Function.addCommand("execute " +
+                    "as @e[tag=" + obj.cls.namespace + "_class_" + obj.cls.identifier + "_pointer] " +
+                    "if score @s " + pointer.address.object.name + " = " + address.identifier + " " + address.object.name + " " +
                     "run data modify entity @s data.pointers append value 0");
         }
     }
