@@ -181,7 +181,7 @@ public final class Cache {
             }
             System.out.println("\tattributes:");
             for (Var v : s.cache.vars.values()){
-                System.out.println("\t\t" + v.accessModifier.name().toLowerCase() + " " + (v.isStatic?"static ":"") + v.getType() + " " + v.identifier);
+                System.out.println("\t\t" + v.accessModifier.name().toLowerCase() + " " + (v.isStatic?"static ":"") + v.getType() + " " + v.key);
             }
         }
     }

@@ -6,4 +6,9 @@ func qwq(){
 
 class UwU{
     int i;
+
+    public UwU(){
+        int p;
+        i = p;
+    }
 }

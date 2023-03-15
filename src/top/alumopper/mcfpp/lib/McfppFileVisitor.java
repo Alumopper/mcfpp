@@ -174,7 +174,9 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
         if(ctx.accessModifier() != null){
             m.setAccessModifier(ClassMember.AccessModifier.valueOf(ctx.accessModifier().getText().toUpperCase()));
         }
-        Class.currClass.addMember(m);
+        if(!(m instanceof Constructor)){
+            Class.currClass.addMember(m);
+        }
         return null;
     }
 

@@ -5,10 +5,12 @@ import top.alumopper.mcfpp.lib.CacheContainer;
 import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.Function;
 
+import java.util.List;
+
 /**
  * 一个类的实例的指针.它指向了一个类的对象
  */
-public class ClassPointer extends Var{
+public class ClassPointer extends Var implements CanSelectMember{
 
     /**
      * 指针的类型
@@ -97,6 +99,16 @@ public class ClassPointer extends Var{
 
     @Override
     public Object clone() {
+        return null;
+    }
+
+    @Override
+    public Var getVarMember(String key) {
+        return null;
+    }
+
+    @Override
+    public Function getFunctionMember(String key, List<String> params) {
         return null;
     }
 }

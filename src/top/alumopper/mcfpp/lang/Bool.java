@@ -9,9 +9,11 @@ import top.alumopper.mcfpp.type.SbObject;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Bool extends Var {
+public class Bool extends Var implements OnScoreboard {
 
     public boolean value;
+
+    public SbObject boolObject = SbObject.MCS_boolean;
 
     public Bool(String id, CacheContainer curr){
         this.key = id;
@@ -81,12 +83,12 @@ public class Bool extends Var {
         }else if(a.isConcrete){
             //execute store success score qwq qwq if score qwq qwq = owo owo
             re = new Bool();
-            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                    + " if score " + this.identifier + " " + SbObject.MCS_boolean + " matches " + (a.value?1:0));
+            Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                    + " if score " + this.identifier + " " + this.boolObject + " matches " + (a.value?1:0));
         }else {
             re = new Bool();
-            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                    + " if score " + this.identifier + " " + SbObject.MCS_boolean + " = " + a.identifier + " " + SbObject.MCS_boolean);
+            Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                    + " if score " + this.identifier + " " + this.boolObject + " = " + a.identifier + " " + a.boolObject);
         }
         return re;
     }
@@ -101,12 +103,12 @@ public class Bool extends Var {
         }else if(a.isConcrete){
             //execute store success score qwq qwq if score qwq qwq = owo owo
             re = new Bool();
-            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                    + " unless score " + this.identifier + " " + SbObject.MCS_boolean + " matches " + (a.value?1:0));
+            Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                    + " unless score " + this.identifier + " " + this.boolObject + " matches " + (a.value?1:0));
         }else {
             re = new Bool();
-            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                    + " unless score " + this.identifier + " " + SbObject.MCS_boolean + " = " + a.identifier + " " + SbObject.MCS_boolean);
+            Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                    + " unless score " + this.identifier + " " + this.boolObject + " = " + a.identifier + " " + a.boolObject);
         }
         return re;
     }
@@ -122,13 +124,13 @@ public class Bool extends Var {
             }
         }else {
             if(this.isTemp){
-                Function.addCommand("execute store success score " + this.identifier + " " + SbObject.MCS_boolean
-                        + " if score " + this.identifier + " " + SbObject.MCS_boolean + " matches " + 0);
+                Function.addCommand("execute store success score " + this.identifier + " " + this.boolObject
+                        + " if score " + this.identifier + " " + this.boolObject + " matches " + 0);
                 re = this;
             }else {
                 re = new Bool();
-                Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                        + " if score " + this.identifier + " " + SbObject.MCS_boolean + " matches " + 0);
+                Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                        + " if score " + this.identifier + " " + this.boolObject + " matches " + 0);
             }
         }
         return re;
@@ -145,17 +147,17 @@ public class Bool extends Var {
                 re = new Bool(true);
             }else {
                 re = new Bool();
-                Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                        + " if score " + this.identifier + " " + SbObject.MCS_boolean + " matches " + 1);
+                Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                        + " if score " + this.identifier + " " + this.boolObject + " matches " + 1);
             }
         }else {
             re = new Bool();
-            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                    + " if score " + this.identifier + " " + SbObject.MCS_boolean + " matches " + 1);
+            Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                    + " if score " + this.identifier + " " + this.boolObject + " matches " + 1);
             Function.addCommand("execute" +
-                    " if score " + re.identifier + " " + SbObject.MCS_boolean + " matches " + 0 +
-                    " store success score " + re.identifier + " " + SbObject.MCS_boolean +
-                    " if score " + a.identifier + " " + SbObject.MCS_boolean + " matches " + 1);
+                    " if score " + re.identifier + " " + re.boolObject + " matches " + 0 +
+                    " store success score " + re.identifier + " " + re.boolObject +
+                    " if score " + a.identifier + " " + a.boolObject + " matches " + 1);
         }
         return re;
     }
@@ -171,17 +173,17 @@ public class Bool extends Var {
                 re = new Bool(false);
             }else {
                 re = new Bool();
-                Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                        + " if score " + this.identifier + " " + SbObject.MCS_boolean + " matches " + 1);
+                Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                        + " if score " + this.identifier + " " + this.boolObject + " matches " + 1);
             }
         }else {
             re = new Bool();
-            Function.addCommand("execute store success score " + re.identifier + " " + SbObject.MCS_boolean
-                    + " if score " + this.identifier + " " + SbObject.MCS_boolean + " matches " + 1);
+            Function.addCommand("execute store success score " + re.identifier + " " + re.boolObject
+                    + " if score " + this.identifier + " " + this.boolObject + " matches " + 1);
             Function.addCommand("execute" +
-                    " if score " + re.identifier + " " + SbObject.MCS_boolean + " matches " + 1 +
-                    " store success score " + re.identifier + " " + SbObject.MCS_boolean +
-                    " if score " + a.identifier + " " + SbObject.MCS_boolean + " matches " + 1);
+                    " if score " + re.identifier + " " + re.boolObject + " matches " + 1 +
+                    " store success score " + re.identifier + " " + re.boolObject +
+                    " if score " + a.identifier + " " + a.boolObject + " matches " + 1);
         }
         return re;
     }
@@ -194,8 +196,8 @@ public class Bool extends Var {
             this.isConcrete = false;
             //变量进栈
             Function.addCommand("execute" +
-                    " store result storage mcfpp:system " + Project.name + ".stack_frame[" + stackIndex + "]." + this.identifier.replace(":","_") +
-                    " run scoreboard players operation " + this.identifier + " " + SbObject.MCS_boolean + " = " + a.identifier + " " + SbObject.MCS_boolean
+                    " store result storage mcfpp:system " + Project.name + ".stack_frame[" + stackIndex + "]." + this.key +
+                    " run scoreboard players operation " + this.identifier + " " + this.boolObject + " = " + a.identifier + " " + a.boolObject
             );
         }
     }
@@ -203,5 +205,11 @@ public class Bool extends Var {
     @Override
     public Bool clone(){
         return new Bool(this);
+    }
+
+    @Override
+    public Bool setObj(SbObject sbObject) {
+        this.boolObject = sbObject;
+        return this;
     }
 }

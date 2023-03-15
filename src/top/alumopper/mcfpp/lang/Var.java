@@ -7,6 +7,7 @@ import top.alumopper.mcfpp.lib.CacheContainer;
 import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.ClassMember;
 import top.alumopper.mcfpp.lib.mcfppParser;
+import top.alumopper.mcfpp.type.SbObject;
 
 import java.util.UUID;
 
@@ -145,6 +146,51 @@ public abstract class Var implements ClassMember, Cloneable {
             }
             assert type != null;
             var = new ClassPointer(type,container,ctx.Identifier().getText());
+        }
+        return var;
+    }
+
+    /**
+     * 解析变量声明上下文，构造上下文声明的变量，作为类的成员
+     * @param ctx 变量声明上下文
+     * @param cls 成员所在的类
+     * @return 这个变量
+     */
+    public static Var build(mcfppParser.FieldDeclarationContext ctx, Class cls){
+        Var var = null;
+        if(ctx.type().className() == null){
+            //普通类型
+            switch (ctx.type().getText()){
+                case "int" -> {
+                    var = new Int("@s").setObj(new SbObject(cls.namespace + "_class_" + cls.identifier + "_int_" + ctx.Identifier()));
+                    var.key = ctx.Identifier().getText();
+                }
+                case "bool" -> {
+                    var = new Bool("@s").setObj(new SbObject(cls.namespace + "_class_" + cls.identifier + "_bool_" + ctx.Identifier()));
+                    var.key = ctx.Identifier().getText();
+                }
+            }
+        }else if(ctx.type().className().InsideClass() != null){
+            switch (ctx.type().className().InsideClass().getText()){
+                case "selector" -> var = new Selector(ctx.Identifier().getText());
+                case "entity" -> var = null;
+                case "string" -> var = null;
+            }
+        }else {
+            //自定义的类的类型
+            String clsType = ctx.type().className().getText();
+            //取出类
+            Class type = Project.global.cache.classes.getOrDefault(clsType,null);
+            if(type == null){
+                Project.logger.error("Undefined class:" + clsType +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.errorCount ++;
+            }
+            assert type != null;
+            ClassPointer classPointer = new ClassPointer(type,cls,ctx.Identifier().getText());
+            classPointer.address = (Int) new Int("@s").setObj(new SbObject(cls.namespace + "_class_" + cls.identifier + "_" + clsType + "_" + ctx.Identifier()));
+            classPointer.identifier = ctx.Identifier().getText();
+            var = classPointer;
         }
         return var;
     }

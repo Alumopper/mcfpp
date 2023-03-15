@@ -6,7 +6,7 @@ import top.alumopper.mcfpp.type.SbObject;
  * 代表了mcfpp中的一个数字类型。数字类型都是以记分板为基础的。
  * 泛型T代表了这个数字类型中包装的类型
  */
-public abstract class Number<T> extends Var {
+public abstract class Number<T> extends Var implements OnScoreboard {
 
     public T value;
 
@@ -29,6 +29,7 @@ public abstract class Number<T> extends Var {
         object = SbObject.MCS_default;
     }
 
+    @Override
     public Number<T> setObj(SbObject sbObject){
         this.object = sbObject;
         return this;

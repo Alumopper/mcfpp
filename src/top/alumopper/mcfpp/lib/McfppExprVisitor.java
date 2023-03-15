@@ -252,9 +252,9 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         CanSelectMember curr = null;
         if(ctx.var() != null){
             //Var
-            curr = (CanSelectMember) Function.currFunction.getVar(ctx.getText());
+            curr = (ClassPointer) Function.currFunction.getVar(ctx.getText());
             if(curr == null && Function.currFunction.Class() != null){
-                curr = (CanSelectMember) Function.currFunction.Class().getMemberVar(ctx.getText());
+                curr = (ClassPointer) Function.currFunction.Class().getMemberVar(ctx.getText());
             }
             if(curr == null){
                 Project.logger.error("Undefined variable:" + ctx.var().getText() +
@@ -269,6 +269,7 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
                         " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
                 Project.errorCount ++;
             }
+            curr = new ClassType(qwq);
         }
         Var member = null;
         //开始选择

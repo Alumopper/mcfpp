@@ -90,26 +90,21 @@ public class McfppImListener extends mcfppBaseListener {
         //变量生成
         Var var;
         if(ctx.parent instanceof mcfppParser.ClassMemberContext) {
-            //类字段，取出
-            var = Class.currClass.cache.getVar(ctx.Identifier().getText());
+            return;
         }else {
             //函数变量，生成
             var = Var.build(ctx, Function.currFunction);
         }
         assert var != null;
         //变量注册
-        //类的注册在扫描文件的阶段已经完成
-        if(!(ctx.parent instanceof mcfppParser.CompilationUnitContext)
-         && !(ctx.parent instanceof mcfppParser.ClassMemberContext)){
-            //函数变量
-            if(!Function.currFunction.cache.putVar(ctx.Identifier().getText(), var)){
-                Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
-                        " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
-                Project.errorCount ++;
-                throw new VariableDuplicationException();
-            }
-            Function.addCommand("#" + ctx.type().getText() + " " + ctx.Identifier().getText() + (ctx.expression() != null?" = " + ctx.expression().getText():""));
+        //一定是函数变量
+        if(!Function.currFunction.cache.putVar(ctx.Identifier().getText(), var)){
+            Project.logger.error("Duplicate defined variable name:" + ctx.Identifier().getText() +
+                    " at " + Project.currFile.getName() + " line:" + ctx.getStart().getLine());
+            Project.errorCount ++;
+            throw new VariableDuplicationException();
         }
+        Function.addCommand("#" + ctx.type().getText() + " " + ctx.Identifier().getText() + (ctx.expression() != null?" = " + ctx.expression().getText():""));
         //变量初始化
         if(ctx.expression() != null){
             Var init = new McfppExprVisitor().visit(ctx.expression());
