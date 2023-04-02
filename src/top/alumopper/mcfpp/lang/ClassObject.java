@@ -34,7 +34,7 @@ public class ClassObject extends Var implements CanSelectMember {
     public Cache cache;
 
     /**
-     * 初始化类的时候自动生成的临时指针
+     * 初始化类实例的时候自动生成的临时指针
      */
     public ClassPointer initPointer;
 

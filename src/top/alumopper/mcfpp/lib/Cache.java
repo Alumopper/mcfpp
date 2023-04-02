@@ -152,7 +152,7 @@ public final class Cache {
     public static void printAll(){
         for (Function s: Project.global.cache.functions) {
             if(s instanceof NativeFunction){
-                System.out.println("native " + s.getNamespaceID());
+                System.out.println("native " + s.getNamespaceID() + " -> " + ((NativeFunction) s).javaReferContext.getText());
             }else {
                 System.out.println(s.getNamespaceID());
                 for (String c : s.commands) {
@@ -161,6 +161,10 @@ public final class Cache {
             }
         }
         for (Class s: Project.global.cache.classes.values()){
+            if(s instanceof NativeClass){
+                System.out.println("native class " + s.namespace + ":" + s.identifier + " -> " + ((NativeClass) s).cls.toString());
+                continue;
+            }
             System.out.println("class " + s.identifier);
             System.out.println("\tconstructors:");
             for (Constructor c : s.constructors) {

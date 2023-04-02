@@ -2,9 +2,8 @@ package top.alumopper.mcfpp.lib;
 
 import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.exception.*;
+import top.alumopper.mcfpp.lang.INativeClass;
 import top.alumopper.mcfpp.lang.Var;
-
-import java.util.List;
 
 /**
  * 在编译工程之前，应当首先将所有文件中的资源全部遍历一次并写入缓存。
@@ -79,7 +78,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
     /**
      * native类的声明
      * @param ctx the parse tree
-     * @return
+     * @return null
      */
     public Object visitNativeClassDeclaration(mcfppParser.NativeClassDeclarationContext ctx){
         //注册类
@@ -92,8 +91,21 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
             throw new ClassDuplicationException();
         }else {
             //获取它指向的java类
-            List<mcfppParser.StringNameContext> clsPath = ctx.javaRefer().stringName();
-            return 0;
+            java.lang.Class<INativeClass> cls;
+            try {
+                cls = (java.lang.Class<INativeClass>) java.lang.Class.forName(ctx.javaRefer().getText());
+            } catch (ClassNotFoundException | ClassCastException e) {
+                throw new RuntimeException(e);
+            }
+            NativeClass ncls = null;
+            if(ctx.className().Identifier() != null){
+                //声明了命名空间
+                ncls = new NativeClass(identifier, ctx.className().Identifier().getText(), cls);
+            }else {
+                ncls = new NativeClass(identifier, cls);
+            }
+            Project.global.cache.classes.put(identifier,ncls);
+            return null;
         }
     }
 

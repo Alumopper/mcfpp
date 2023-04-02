@@ -110,6 +110,8 @@ public class Class implements CacheContainer {
         classPreInit.commands.add("scoreboard players add $index " + addressSbObject.name + " 1");
     }
 
+    public Class(){}
+
     @Override
     public String getPrefix(){
         return Project.name + "_class_" + identifier + "_";

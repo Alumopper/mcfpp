@@ -35,7 +35,7 @@ classDeclaration
     ;
 
 nativeClassDeclaration
-    :   NATIVE 'class' className '->' javaRefer
+    :   NATIVE 'class' className '->' javaRefer ';'
     ;
 
 

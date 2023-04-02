@@ -7,6 +7,7 @@ import top.alumopper.mcfpp.exception.FunctionNotDefineException;
 import top.alumopper.mcfpp.exception.TODOException;
 import top.alumopper.mcfpp.lang.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -358,6 +359,18 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         if(ctx.arguments().expressionList() != null){
             for (mcfppParser.ExpressionContext expr : ctx.arguments().expressionList().expression()) {
                 args.add(exprVisitor.visit(expr));
+            }
+        }
+        //如果是native类
+        if(cls instanceof NativeClass ncls){
+            //创建新实例并返回
+            try {
+                return ncls.newInstance(args);
+            } catch (InvocationTargetException|InstantiationException|IllegalAccessException|NoSuchMethodException e) {
+                Project.logger.error("Catch Exception when instantiate native class: " + ncls.cls +
+                        " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+                Project.logger.error(e.getMessage() + " " + e.getCause() + "\n");
+                throw new RuntimeException(e);
             }
         }
         //构造函数获取
