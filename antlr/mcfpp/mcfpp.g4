@@ -25,13 +25,19 @@ typeDeclaration
 classOrFunctionDeclaration
     :   classDeclaration
     |   functionDeclaration
-    |   nativeDeclaration
+    |   nativeFuncDeclaration
+    |   nativeClassDeclaration
     ;
 
 //类声明
 classDeclaration
     :   STATIC? FINAL? 'class' className (EXTENDS className)? classBody
     ;
+
+nativeClassDeclaration
+    :   NATIVE 'class' className '->' javaRefer
+    ;
+
 
 classBody
     :   '{' (classMemberDeclaration|staticClassMemberDeclaration)* '}'
@@ -50,7 +56,7 @@ classMember
     :   classFunctionDeclaration
     |   fieldDeclaration ';'
     |   constructorDeclaration
-    |   nativeDeclaration
+    |   nativeFuncDeclaration
     |   nativeConstructorDeclaration
     ;
 
@@ -67,7 +73,7 @@ namespaceID
     : (Identifier ':')? Identifier
     ;
 
-nativeDeclaration
+nativeFuncDeclaration
     :   accessModifier? NATIVE 'func' Identifier '(' parameterList? ')' '->' javaRefer ';'
     ;
 

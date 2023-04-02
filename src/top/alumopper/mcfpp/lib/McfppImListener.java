@@ -198,30 +198,7 @@ public class McfppImListener extends mcfppBaseListener {
                 //TODO
                 throw new TODOException("");
             }else {
-                try {
-                    Var[] vars = new Var[args.size()];
-                    Invoker.nativeInvoke(args.toArray(vars),nativeCurr.javaClassName,nativeCurr.javaMethodName);
-                } catch (ClassNotFoundException e) {
-                    Project.errorCount++;
-                    Project.logger.error("Cannot find java class: " + nativeCurr.javaClassName +
-                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                    throw new RuntimeException(e);
-                } catch (NoSuchMethodException e) {
-                    Project.errorCount++;
-                    Project.logger.error("Cannot find java method " + nativeCurr.javaMethodName + " in class " + nativeCurr.javaClassName +
-                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                    throw new RuntimeException(e);
-                } catch (InvocationTargetException e) {
-                    Project.errorCount++;
-                    Project.logger.error("Run into exception when invoke java method: " + nativeCurr.javaMethod.getText() +
-                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                    throw new RuntimeException(e);
-                } catch (IllegalAccessException e) {
-                    Project.errorCount++;
-                    Project.logger.error("Cannot access java method " + nativeCurr.javaMethodName + " in class " + nativeCurr.javaClassName +
-                            " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
-                    throw new RuntimeException(e);
-                }
+                nativeCurr.invoke(args,ctx.getStart().getLine());
             }
             return;
         }

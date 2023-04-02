@@ -43,6 +43,12 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassDeclaration(mcfppParser.ClassDeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link mcfppParser#nativeClassDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNativeClassDeclaration(mcfppParser.NativeClassDeclarationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link mcfppParser#classBody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -85,11 +91,11 @@ public interface mcfppVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNamespaceID(mcfppParser.NamespaceIDContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link mcfppParser#nativeDeclaration}.
+	 * Visit a parse tree produced by {@link mcfppParser#nativeFuncDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNativeDeclaration(mcfppParser.NativeDeclarationContext ctx);
+	T visitNativeFuncDeclaration(mcfppParser.NativeFuncDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link mcfppParser#javaRefer}.
 	 * @param ctx the parse tree

@@ -85,11 +85,16 @@ public final class Cache {
                 if(f.params.size() == 0){
                     return f;
                 }
+                boolean hasFoundFunc = true;
                 //参数比对
                 for (int i = 0; i < argsTypes.size(); i++) {
-                    if(argsTypes.get(i).equals(f.params.get(i).type)){
-                        return f;
+                    if (!argsTypes.get(i).equals(f.params.get(i).type)) {
+                        hasFoundFunc = false;
+                        break;
                     }
+                }
+                if(hasFoundFunc){
+                    return f;
                 }
             }
         }

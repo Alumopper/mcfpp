@@ -60,6 +60,16 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitClassDeclaration(mcfppParser.ClassDeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mcfppParser#nativeClassDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterNativeClassDeclaration(mcfppParser.NativeClassDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mcfppParser#nativeClassDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitNativeClassDeclaration(mcfppParser.NativeClassDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mcfppParser#classBody}.
 	 * @param ctx the parse tree
 	 */
@@ -130,15 +140,15 @@ public interface mcfppListener extends ParseTreeListener {
 	 */
 	void exitNamespaceID(mcfppParser.NamespaceIDContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mcfppParser#nativeDeclaration}.
+	 * Enter a parse tree produced by {@link mcfppParser#nativeFuncDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterNativeDeclaration(mcfppParser.NativeDeclarationContext ctx);
+	void enterNativeFuncDeclaration(mcfppParser.NativeFuncDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mcfppParser#nativeDeclaration}.
+	 * Exit a parse tree produced by {@link mcfppParser#nativeFuncDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitNativeDeclaration(mcfppParser.NativeDeclarationContext ctx);
+	void exitNativeFuncDeclaration(mcfppParser.NativeFuncDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mcfppParser#javaRefer}.
 	 * @param ctx the parse tree

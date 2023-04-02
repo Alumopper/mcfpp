@@ -22,7 +22,10 @@ public class ClassPointer extends Var implements CanSelectMember{
      */
     String type;
 
-    private ClassObject obj;
+    /**
+     * 指针指向的类的实例
+     */
+    public ClassObject obj;
 
     /**
      * 指针的地址

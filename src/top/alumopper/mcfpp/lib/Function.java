@@ -6,10 +6,7 @@ import top.alumopper.mcfpp.exception.ArgumentNotMatchException;
 import top.alumopper.mcfpp.exception.TODOException;
 import top.alumopper.mcfpp.exception.VariableConverseException;
 import top.alumopper.mcfpp.io.McfppFileReader;
-import top.alumopper.mcfpp.lang.Bool;
-import top.alumopper.mcfpp.lang.ClassObject;
-import top.alumopper.mcfpp.lang.Int;
-import top.alumopper.mcfpp.lang.Var;
+import top.alumopper.mcfpp.lang.*;
 
 import java.util.ArrayList;
 
@@ -362,7 +359,7 @@ public class Function implements ClassMember,CacheContainer {
      * @param lineNo 调用此函数的上下文的行数，用于错误日志
      * @param cls 调用函数的实例
      */
-    public void invoke(ArrayList<Var> args, int lineNo, ClassObject cls){
+    public void invoke(ArrayList<Var> args, int lineNo, ClassPointer cls){
         throw new TODOException("");
     }
 

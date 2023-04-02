@@ -79,6 +79,18 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterNativeClassDeclaration(mcfppParser.NativeClassDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNativeClassDeclaration(mcfppParser.NativeClassDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterClassBody(mcfppParser.ClassBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -163,13 +175,13 @@ public class mcfppBaseListener implements mcfppListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNativeDeclaration(mcfppParser.NativeDeclarationContext ctx) { }
+	@Override public void enterNativeFuncDeclaration(mcfppParser.NativeFuncDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNativeDeclaration(mcfppParser.NativeDeclarationContext ctx) { }
+	@Override public void exitNativeFuncDeclaration(mcfppParser.NativeFuncDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

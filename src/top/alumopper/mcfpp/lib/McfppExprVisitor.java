@@ -371,7 +371,7 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
         }
         //调用构造函数
         ClassObject obj = cls.newInstance();
-        constructor.invoke(args,ctx.getStart().getLine(),obj);
+        constructor.invoke(args,ctx.getStart().getLine(),obj.initPointer);
         //调用函数
         return obj;
     }

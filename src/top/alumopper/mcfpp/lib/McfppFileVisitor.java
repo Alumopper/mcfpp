@@ -4,6 +4,8 @@ import top.alumopper.mcfpp.Project;
 import top.alumopper.mcfpp.exception.*;
 import top.alumopper.mcfpp.lang.Var;
 
+import java.util.List;
+
 /**
  * 在编译工程之前，应当首先将所有文件中的资源全部遍历一次并写入缓存。
  */
@@ -66,10 +68,33 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
             visit(ctx.classDeclaration());
         }else if(ctx.functionDeclaration() != null){
             visit(ctx.functionDeclaration());
+        }else if(ctx.nativeFuncDeclaration() != null) {
+            visit(ctx.nativeFuncDeclaration());
         }else {
-            visit(ctx.nativeDeclaration());
+            visit(ctx.nativeClassDeclaration());
         }
         return null;
+    }
+
+    /**
+     * native类的声明
+     * @param ctx the parse tree
+     * @return
+     */
+    public Object visitNativeClassDeclaration(mcfppParser.NativeClassDeclarationContext ctx){
+        //注册类
+        String identifier = ctx.className().getText();
+        if(Project.global.cache.classes.containsKey(identifier)){
+            //重复声明
+            Project.logger.error("The class has extended " + Class.currClass.identifier +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            Project.errorCount ++;
+            throw new ClassDuplicationException();
+        }else {
+            //获取它指向的java类
+            List<mcfppParser.StringNameContext> clsPath = ctx.javaRefer().stringName();
+            return 0;
+        }
     }
 
     /**
@@ -182,8 +207,8 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
 
     @Override
     public Object visitClassMember(mcfppParser.ClassMemberContext ctx){
-        if(ctx.nativeDeclaration() != null){
-            return visit(ctx.nativeDeclaration());
+        if(ctx.nativeFuncDeclaration() != null){
+            return visit(ctx.nativeFuncDeclaration());
         }else if(ctx.classFunctionDeclaration() != null) {
             return visit(ctx.classFunctionDeclaration());
         }else if(ctx.fieldDeclaration() != null){
@@ -303,12 +328,20 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
      * @return 如果是全局，返回null，否则返回这个函数对象
      */
     @Override
-    public Object visitNativeDeclaration(mcfppParser.NativeDeclarationContext ctx){
+    public Object visitNativeFuncDeclaration(mcfppParser.NativeFuncDeclarationContext ctx){
         NativeFunction nf;
         try{
             nf = new NativeFunction(ctx.Identifier().getText(),ctx.javaRefer());
         }catch (IllegalFormatException e){
             Project.logger.error("Illegal Java Method Name:" + e.getMessage() +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            return null;
+        } catch (ClassNotFoundException e) {
+            Project.logger.error("Cannot find java class:" + e.getMessage() +
+                    " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
+            return null;
+        } catch (NoSuchMethodException e) {
+            Project.logger.error("No such method:" + e.getMessage() +
                     " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
             return null;
         }
@@ -326,6 +359,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
                 Project.errorCount ++;
                 Function.currFunction = Function.nullFunction;
             }
+            return nf;
         }
         //是类成员
         nf.isClassMember = true;

@@ -44,6 +44,7 @@ public class ClassObject extends Var implements CanSelectMember {
         this.type = cls.identifier;
         this.initPointer = new ClassPointer(cls, cls, UUID.randomUUID().toString());
         this.initPointer.address = (Int) new Int().setObj(cls.addressSbObject);
+        this.initPointer.obj = this;
     }
 
     public ClassObject(Class cls, CacheContainer container, String identifier){
@@ -53,6 +54,7 @@ public class ClassObject extends Var implements CanSelectMember {
         this.identifier = container.getPrefix() + identifier;
         this.initPointer = new ClassPointer(cls, cls, UUID.randomUUID().toString());
         this.initPointer.address = (Int) new Int().setObj(cls.addressSbObject);
+        this.initPointer.obj = this;
     }
 
     /**
