@@ -58,6 +58,12 @@ public abstract class Var implements ClassMember, Cloneable {
     public boolean isStatic = false;
 
     /**
+     * 这个变量是否是常量
+     */
+    public ConstStatus isConst = ConstStatus.NOT_CONST;
+    public enum ConstStatus{NOT_CONST, NULL, ASSIGNED}
+
+    /**
      * 访问修饰符
      */
     public AccessModifier accessModifier = AccessModifier.PRIVATE;
@@ -191,6 +197,11 @@ public abstract class Var implements ClassMember, Cloneable {
             classPointer.address = (Int) new Int("@s").setObj(new SbObject(cls.namespace + "_class_" + cls.identifier + "_" + clsType + "_" + ctx.Identifier()));
             classPointer.identifier = ctx.Identifier().getText();
             var = classPointer;
+        }
+        //是否是常量
+        if(ctx.CONST() != null){
+            var.isConst = ConstStatus.NULL;
+            var.isConcrete = true;
         }
         return var;
     }

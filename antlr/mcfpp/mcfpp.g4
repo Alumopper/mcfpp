@@ -66,7 +66,7 @@ classFunctionDeclaration
 
 //函数声明
 functionDeclaration
-    :    functionTag? 'func' namespaceID '(' parameterList? ')' '{' functionBody '}'
+    :    INLINE? functionTag? 'func' namespaceID '(' parameterList? ')' '{' functionBody '}'
     ;
 
 namespaceID
@@ -110,8 +110,8 @@ constructorCall
 
 //变量声明
 fieldDeclaration
-    :   type Identifier
-    |   type Identifier '=' expression
+    :   CONST? type Identifier
+    |   CONST? type Identifier '=' expression
     ;
 
 //参数列表
@@ -131,7 +131,7 @@ expression
 
 //能作为语句的表达式
 statementExpression
-    :   varWithSelector '=' expression
+    :   basicExpression '=' expression
     ;
 
 //条件表达式
@@ -381,6 +381,9 @@ FINAL:'final ';
 PUBLIC:'public';
 PROTECTED:'protected';
 PRIVATE:'private';
+
+CONST:'const';
+INLINE:'inline';
 
 InsideClass
     :   'entity'

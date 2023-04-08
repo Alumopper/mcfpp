@@ -398,6 +398,7 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
         }
         //变量的初始化
         if(ctx.expression() != null){
+            var.isConst = Var.ConstStatus.ASSIGNED;
             Function.currFunction = Class.currClass.classPreInit;
             Function.addCommand("#" + ctx.getText());
             Var init = new McfppExprVisitor().visit(ctx.expression());

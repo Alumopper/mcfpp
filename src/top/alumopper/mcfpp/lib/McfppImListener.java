@@ -126,7 +126,15 @@ public class McfppImListener extends mcfppBaseListener {
     @Override
     public void exitStatementExpression(mcfppParser.StatementExpressionContext ctx){
         Function.addCommand("#" + ctx.getText());
-        Var left = new McfppExprVisitor().visit(ctx.varWithSelector());
+        Var left = new McfppExprVisitor().visit(ctx.basicExpression());
+        if(left.isConst == Var.ConstStatus.ASSIGNED){
+            Project.logger.error("Cannot assign a constant repeatedly: " + left.key +
+                    " at " + Function.currFunction.GetID() + " line:" + ctx.getStart().getLine());
+            Project.errorCount ++;
+            throw new ConstChangeException();
+        }else if(left.isConst == Var.ConstStatus.NULL){
+            left.isConst = Var.ConstStatus.ASSIGNED;
+        }
         Var right = new McfppExprVisitor().visit(ctx.expression());
         try{
             left.assign(right);
