@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * 代表了mcfpp中声明的一个native类
  */
-public class NativeClass extends Class{
+public class NativeClass extends Class implements Native{
 
     public java.lang.Class<INativeClass> cls;
 

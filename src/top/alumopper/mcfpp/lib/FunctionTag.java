@@ -1,5 +1,8 @@
 package top.alumopper.mcfpp.lib;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import top.alumopper.mcfpp.Project;
 
 /**
@@ -20,7 +23,7 @@ public class FunctionTag {
     /**
      * 这个标签含有那些函数
      */
-    public Cache functions;
+    public Cache cache;
 
     public static final String MINECRAFT = "minecraft";
 
@@ -34,7 +37,21 @@ public class FunctionTag {
         }else {
             this.namespace = namespace;
         }
-        this.functions = new Cache(Project.global.cache);
+        this.cache = new Cache(Project.global.cache);
+    }
+
+    public String getNamespaceID(){
+        return namespace + ":" + tag;
+    }
+
+    public String getTagJSON(){
+        JSONObject json = new JSONObject();
+        JSONArray values = new JSONArray();
+        for (Function f : cache.functions) {
+            values.add(f.getNamespaceID());
+        }
+        json.put("values",values);
+        return json.toString(SerializerFeature.PrettyFormat);
     }
 
     @Override

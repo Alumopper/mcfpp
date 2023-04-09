@@ -313,7 +313,13 @@ public class McfppFileVisitor extends mcfppBaseVisitor<Object>{
             }else {
                 functionTag = new FunctionTag(ctx.functionTag().namespaceID().Identifier(0).getText(),ctx.functionTag().namespaceID().Identifier(1).getText());
             }
-            f.tag = functionTag;
+            if(Project.global.functionTags.containsKey(functionTag.getNamespaceID())){
+                f.tag = Project.global.functionTags.get(functionTag.getNamespaceID());
+            }else {
+                Project.global.functionTags.put(functionTag.getNamespaceID(),functionTag);
+                f.tag = functionTag;
+            }
+            f.tag.cache.functions.add(f);
         }
         //不是类的成员
         f.isClassMember = false;

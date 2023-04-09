@@ -114,11 +114,6 @@ public class Function implements ClassMember,CacheContainer {
     public String namespace;
 
     /**
-     * 函数的路径
-     */
-    public String path;
-
-    /**
      *  参数列表
      */
     public ArrayList<FunctionParam> params;
@@ -193,7 +188,6 @@ public class Function implements ClassMember,CacheContainer {
      * @param name 函数的标识符
      */
     public Function(String name){
-        this.path = McfppFileReader.currPath;
         this.name = name;
         this.commands = new ArrayList<>();
         this.params = new ArrayList<>();
@@ -206,7 +200,6 @@ public class Function implements ClassMember,CacheContainer {
      * @param name 函数的标识符
      */
     public Function(String name, Class cls, boolean isStatic){
-        this.path = McfppFileReader.currPath;
         this.name = name;
         this.commands = new ArrayList<>();
         this.params = new ArrayList<>();
@@ -235,7 +228,7 @@ public class Function implements ClassMember,CacheContainer {
      * @return 函数id
      */
     public String GetID(){
-        return path + "/" + name;
+        return name;
     }
 
     /**
@@ -243,7 +236,7 @@ public class Function implements ClassMember,CacheContainer {
      * @return 函数的命名空间id
      */
     public String getNamespaceID(){
-        StringBuilder re = new StringBuilder(namespace + ":" + (path.equals("") ? "" : path + "/") + name);
+        StringBuilder re = new StringBuilder(namespace + ":" + name);
         for (FunctionParam p : params) {
             re.append("_").append(p.type);
         }
@@ -361,6 +354,14 @@ public class Function implements ClassMember,CacheContainer {
      */
     public void invoke(ArrayList<Var> args, int lineNo, ClassPointer cls){
         throw new TODOException("");
+    }
+
+    public String getCmdStr(){
+        StringBuilder qwq = new StringBuilder();
+        for (String s : commands) {
+            qwq.append(s).append("\n");
+        }
+        return qwq.toString();
     }
 
     @Override

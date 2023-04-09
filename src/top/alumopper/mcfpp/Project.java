@@ -5,16 +5,15 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import top.alumopper.mcfpp.lib.Cache;
+import top.alumopper.mcfpp.lib.Class;
 import top.alumopper.mcfpp.lib.Function;
 import top.alumopper.mcfpp.io.McfppFileReader;
 import top.alumopper.mcfpp.lib.Global;
 import top.alumopper.mcfpp.lib.Native;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 一个工程。工程文件包含了这个mcfpp工程编译需要的所有信息。编译器将会以这个文件为入口开始编译。
@@ -44,7 +43,12 @@ public abstract class Project {
     /**
      * 工程对应的mc版本
      */
-    static String version;
+    public static String version;
+
+    /**
+     * 数据包的描述。原始Json文本 TODO
+     */
+    public static String description;
 
     /**
      *  工程包含的所有引用
@@ -75,6 +79,7 @@ public abstract class Project {
      * 全局缓存
      */
     public static Global global = new Global();
+
 
     public static void init(){
         global.init();
@@ -123,6 +128,13 @@ public abstract class Project {
                 }
             }
             version = jsonObject.getString("version");
+            if(version == null){
+                version = "1.20";
+            }
+            description = jsonObject.getString("description");
+            if(description == null){
+                description = "A datapack compiled by MCFPP";
+            }
             includes = new ArrayList<>();
             JSONArray includesJson = jsonObject.getJSONArray("includes");
             if(includesJson != null){
@@ -186,7 +198,7 @@ public abstract class Project {
                 //找到了入口函数
                 hasEntrance = true;
                 f.commands.add(0,"data modify storage mcfpp:system " + Project.name + ".stack_frame prepend value {}");
-                Project.logger.debug("Find entrance function:" + f.tag + " " + f.name);
+                Project.logger.debug("Find entrance function:" + (f.tag==null?"":f.tag) + " " + f.name);
             }
         }
         if(!hasEntrance){
@@ -194,6 +206,29 @@ public abstract class Project {
             Project.warningCount ++;
         }
         logger.info("Complete compiling project " + root.getName() + " with [" + errorCount + "] error and [" + warningCount + "] warning");
+    }
+
+    /**
+     * 生成库索引
+     * 在和工程信息json文件的同一个目录下生成一个.mclib文件
+     */
+    public static void genIndex(){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(root.getAbsolutePath() + "/.mclib"));
+            writer.write("[function]\n");
+            for (Function f : Project.global.cache.functions) {
+                writer.write(f.getNamespaceID() + "\n");
+            }
+            writer.write("[class]\n");
+            for (Class c : Project.global.cache.classes.values()) {
+                writer.write(c.namespace + ":" + c.identifier + "\n");
+            }
+            writer.write("[end]\n");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -221,27 +256,29 @@ public abstract class Project {
             }
         }
     }
+
+    /**
+     * 获取数据包版本
+     * @param version 版本字符串
+     * @return 版本编号
+     */
+    public static int getVersion(String version){
+        switch (version){
+            case "1.20" -> {return 13;}
+            case "1.19.4" -> {return 12;}
+            case "23w03a" -> {return 11;}
+            case "1.19.3", "1.19.2", "1.19.1", "1.19" -> {return 10;}
+            case "1.18.2" -> {return 9;}
+            case "1.18.1", "1.18" -> {return 8;}
+            case "1.17.1", "1.17" -> {return 7;}
+            case "1.16.5", "1.16.4", "1.16.3", "1.16.2" -> {return 6;}
+            case "1.16.1" ," 1.16", "1.15.2", "1.15.1", "1.15" -> {return 5;}
+            case "1.14.4", "1.14.3", "1.14.2", "1.14.1", "1.14", "1.13.2", "1.13.1", "1.13" -> {return 4;}
+            case "17w43a" -> {return 3;}
+            default -> {
+                Project.logger.warn("Unknown version: \"" + version + "\". Using 1.20 (13)");
+                return 13;
+            }
+        }
+    }
 }
-/*
- *                    _ooOoo_
- *                   o8888888o
- *                   88" . "88
- *                   (| -_- |)
- *                    O\ = /O
- *                ____/`---'\____
- *              .   ' \\| |// `.
- *               / \\||| : |||// \
- *             / _||||| -:- |||||- \
- *               | | \\\ - /// | |
- *             | \_| ''\---/'' | |
- *              \ .-\__ `-` ___/-. /
- *           ___`. .' /--.--\ `. . __
- *        ."" '< `.___\_<|>_/___.' >'"".
- *       | | : `- \`.;`\ _ /`;.`/ - ` : | |
- *         \ \ `-. \_ __\ /__ _/ .-` / /
- * ======`-.____`-.___\_____/___.-`____.-'======
- *                    `=---='
- *
- * .............................................
- *          佛祖保佑             永无BUG
- */
