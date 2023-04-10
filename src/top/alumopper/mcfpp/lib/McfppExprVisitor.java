@@ -317,13 +317,17 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
     @Override
     public Var visitVar(mcfppParser.VarContext ctx){
         if(ctx.Identifier() != null) {
+            // Identifier identifierSuffix*
             if (ctx.identifierSuffix() == null || ctx.identifierSuffix().size() == 0) {
                 //没有数组选取
                 String qwq = ctx.Identifier().getText();
                 Var re = Function.currFunction.getVar(qwq);
+                //TODO 从类的成员中选取。待定特性。
+                /*
                 if(re == null && Function.currFunction.Class() != null){
                     re = Function.currFunction.Class().getMemberVar(ctx.getText());
                 }
+                */
                 if(re == null){
                     Project.logger.error("Undefined variable:" + qwq +
                             " at " + Project.currFile.getName() + " line: " + ctx.getStart().getLine());
@@ -335,8 +339,10 @@ public class McfppExprVisitor extends mcfppBaseVisitor<Var>{
                 throw new TODOException("");
             }
         }else if(ctx.expression() != null) {
+            // '(' expression ')'
             return visit(ctx.expression());
         }else if(ctx.constructorCall() != null){
+            // constructorCall
             return visit(ctx.constructorCall());
         }else {
             //TODO
