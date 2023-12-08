@@ -1,6 +1,6 @@
-**本项目仓库已搬迁至[MCFPP Project](https://github.com/MinecraftFunctionPlusPlus/MCFPP)，并已经用Kotlin语言重写。项目跟进请前往新的仓库。**
+# **🚧本项目仓库已搬迁至[MCFPP Project](https://github.com/MinecraftFunctionPlusPlus/MCFPP)，并已经用Kotlin语言重写。项目跟进请前往新的仓库。🚧**
 
-**This project has been moved to [MCFPP Project](https://github.com/MinecraftFunctionPlusPlus/MCFPP) and rewriten in Kotlin. Please go to new repository to follow our project.**
+# **🚧This project has been moved to [MCFPP Project](https://github.com/MinecraftFunctionPlusPlus/MCFPP) and rewriten in Kotlin. Please go to new repository to follow our project.🚧**
 
 # 介绍 Introduce
 
